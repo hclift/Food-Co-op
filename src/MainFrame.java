@@ -97,10 +97,10 @@ public class MainFrame extends JFrame {
 	public MainFrame(Controller c, Model m){
 		controller = c;
 		model = m;
-		setBounds(100, 30, 1200, 675);
+		setBounds(100, 30, 1024, 768);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(false);
-		setVisible(true);
+		//setResizable(false);
+		//setVisible(true);
 		setTitle("Main Menu");
 		Font buttonFont = new Font("Calibri", Font.BOLD, 12);
 		Font f2 = new Font("Calibri", Font.PLAIN, 14);
