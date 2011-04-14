@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Model 
 {
-	private ArrayList<Member> lastLookupMemberResults = new ArrayList<Member>();
+	private ArrayList<Member> results = new ArrayList<Member>();
 	
 	public ArrayList<Member> lookupMember(String firstName, 
 			String lastName) throws Exception
@@ -15,16 +15,16 @@ public class Model
 	public void setLastLookupMemberResults (ArrayList<Member> results)
 	{
 		//	Clear the last results.. if there are any.
-		lastLookupMemberResults.clear();
+		results.clear();
 		
 		for (int i = 0; i < results.size(); i++)
 		{
-			lastLookupMemberResults.add(results.get(i));
+			results.add(results.get(i));
 		}
 	}
 	
 	public Member getMember (int index)
 	{
-		return lastLookupMemberResults.get(index);
+		return results.get(index);
 	}
 }
