@@ -12,14 +12,14 @@ public class Model
 		return DatabaseAbstraction.lookupMember(firstName, lastName);
 	}
 	
-	public void setLastLookupMemberResults (ArrayList<Member> results)
+	public void setLastLookupMemberResults (ArrayList<Member> results2)
 	{
 		//	Clear the last results.. if there are any.
 		results.clear();
 		
-		for (int i = 0; i < results.size(); i++)
+		for (int i = 0; i < results2.size(); i++)
 		{
-			results.add(results.get(i));
+			results.add(results2.get(i));
 		}
 	}
 	
