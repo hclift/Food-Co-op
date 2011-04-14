@@ -1,7 +1,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,7 +23,7 @@ public class DatabaseAbstraction
 			connection.setAutoCommit(true);
 			return connection;
 		} 
-		throw (Exception e)
+		catch (Exception e)
 		{
 			System.out.println(e);
 			return null;
@@ -75,7 +74,7 @@ public class DatabaseAbstraction
 			ps.close();
 			connection.close();
 		} 
-		throw (Exception e)
+		catch (Exception e)
 		{
 			System.out.println(e);
 		}
@@ -127,7 +126,7 @@ public class DatabaseAbstraction
 			ps.close();
 			connection.close();
 		} 
-		throw (Exception e)
+		catch (Exception e)
 		{
 			System.out.println(e);
 		}		
@@ -167,7 +166,7 @@ public class DatabaseAbstraction
 			ps.close();
 			connection.close();
 		} 
-		throw (Exception e)
+		catch (Exception e)
 		{
 			System.out.println(e);
 		}		
@@ -221,7 +220,7 @@ public class DatabaseAbstraction
 			ps.close();
 			connection.close();
 		} 
-		throw (Exception e)
+		catch (Exception e)
 		{
 			System.out.println(e);
 		}		
@@ -250,7 +249,7 @@ public class DatabaseAbstraction
 			ps.close();
 			connection.close();
 		} 
-		throw (Exception e)
+		catch (Exception e)
 		{
 			System.out.println(e);
 		}		
@@ -277,7 +276,7 @@ public class DatabaseAbstraction
 			ps.close();
 			connection.close();
 		} 
-		throw (Exception e)
+		catch (Exception e)
 		{
 			System.out.println(e);
 		}		
@@ -299,17 +298,17 @@ public class DatabaseAbstraction
 			PreparedStatement ps = connection.prepareStatement(
 				"INSERT INTO shifts values(?, ?, ?, ?, ?) ");
 			ps.setNull(1, java.sql.Types.INTEGER);
-			ps.setInt(2, mgetID());
-			ps.setInt(3, startTime);
+			ps.setInt(2, m.getId());
+			ps.setLong(3, (long) startTime.getTime());
 			ps.setInt(4, numberOfMinutes);
-			ps.setInt(5, workType);
+			ps.setInt(5, m.getMembershipTypeInt());
 			ResultSet rs = ps.executeQuery();
 			
 			rs.close();
 			ps.close();
 			connection.close();
 		} 
-		throw (Exception e)
+		catch (Exception e)
 		{
 			System.out.println(e);
 		}		
@@ -343,7 +342,7 @@ public class DatabaseAbstraction
 			
 			*/
 		} 
-		throw (Exception e)
+		catch (Exception e)
 		{
 			System.out.println(e);
 		}		

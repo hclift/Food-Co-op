@@ -27,4 +27,17 @@ public class DatabaseAbstractionTest{
 			}
 		}		
 	} 
+	
+	@Test
+	public void testAddMember() {
+		//fail("Not yet implemented");
+		DatabaseAbstraction.addMember("abc", "efg", "a@aol.com", 0, 0, 3, 1);
+		
+		ArrayList<Member> testList = DatabaseAbstraction.lookupMember("abc","efg");
+		for(Member m: testList){
+			assertEquals("abc", m.getFirstName());
+			assertEquals("efg", m.getLastName());				
+		}
+			
+	} 
 }
