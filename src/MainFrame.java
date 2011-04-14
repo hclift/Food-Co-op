@@ -443,7 +443,9 @@ public class MainFrame extends JFrame {
 				}
 			
 			}else if(e.getSource().equals(viewMemberButton)){
-				str = "View member method to go here.";
+				Member m = controller.getMember(generalLookup.getSelectedIndex());
+				str = m.getEmailAddress();
+				//str = "View member method to go here.";
 				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
 			
 			}else if(e.getSource().equals(updateMemberButton)){

@@ -33,6 +33,29 @@ public class Controller
 			mainFrame.displayException(e.getMessage());
 		}
 		
+		model.setLastLookupMemberResults(searchResult);
 		return searchResult;
 	}
+	
+	public ArrayList<Member> viewMember(String firstName, String lastName)
+	{
+		ArrayList<Member> searchResult = new ArrayList<Member>();
+		
+		try
+		{
+			searchResult = model.lookupMember(firstName,lastName);
+		} 
+		catch(Exception e)
+		{
+			mainFrame.displayException(e.getMessage());
+		}
+		
+		return searchResult;
+	}
+	
+	public Member getMember (int index)
+	{
+		return model.getMember(index);
+	}
+	
 }
