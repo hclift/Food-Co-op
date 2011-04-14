@@ -34,9 +34,13 @@ public class DatabaseAbstractionTest{
 		DatabaseAbstraction.addMember("abc", "efg", "a@aol.com", 0, 0, 3, 1);
 		
 		ArrayList<Member> testList = DatabaseAbstraction.lookupMember("abc","efg");
-		for(Member m: testList){
-			assertEquals("abc", m.getFirstName());
-			assertEquals("efg", m.getLastName());				
+		if (testList.size() > 0) {
+			for (Member m : testList) {
+				assertEquals("abc", m.getFirstName());
+				assertEquals("efg", m.getLastName());
+			}
+		}else{
+			fail("Failed to add Member");
 		}
 			
 	} 

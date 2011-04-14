@@ -110,7 +110,7 @@ public class DatabaseAbstraction
 		{
 			Connection connection = connectToDatabase();
 			PreparedStatement ps = connection.prepareStatement(
-				"INSERT INTO members VALUES(?,?,?,?,?,?,?,?,?,?)");
+				"INSERT INTO members VALUES(?,?,?,?,?,?,?,?,?)");
 			ps.setNull(1, java.sql.Types.INTEGER);
 			ps.setString(2, first_name);
 			ps.setString(3, last_name);
@@ -120,9 +120,9 @@ public class DatabaseAbstraction
 			ps.setInt(7, membership_type);
 			ps.setInt(8, year_in_school);
 			ps.setInt(9, is_active);
-			ResultSet rs = ps.executeQuery();
+			ps.executeUpdate();
 			
-			rs.close();
+			//rs.close();
 			ps.close();
 			connection.close();
 		} 
