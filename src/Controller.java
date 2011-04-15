@@ -6,10 +6,18 @@ public class Controller
 	private Model model;
 	private MainFrame mainFrame;
 
+	/**
+	 * @author Ashley Chin
+	 * @version 4/14/11
+	 * 
+	 * Explicit Value Constructor.
+	 * @param model
+	 */
 	public Controller (Model model)
 	{
 		this.model = model;
 		mainFrame = new MainFrame(this, model);
+		model.setControllerReference(this);
 	}
 	
 	/**
@@ -82,4 +90,50 @@ public class Controller
 		
 		return signedIntoStore;
 	}
+	
+	/**
+	 * @author Ashley Chin
+	 * @version 4/14/11
+	 * 
+	 * Calls model's signOutOfStore() method, so it will eventually be passed to the view.
+	 * @param designated index of the member in the array list
+	 * @return modified array list of currently working members in the store
+	 */
+	public ArrayList<Member> signOutOfStore(int index)
+    {
+        return model.signOutOfStore(index);
+    }
+    
+	/**
+	 * @author Ashley Chin
+	 * @version 4/14/11
+	 * 
+	 * Calls model's signOutOfKitchen() method, so it will eventually be passed to the view.
+	 * @param designated index of the member in the array list
+	 * @return modified array list of currently working members in the kitchen
+	 */
+    public ArrayList<Member> signOutOfKitchen(int index)
+    {
+        return model.signOutOfKitchen(index);
+    }
+    
+    /**
+     * @author Ashley Chin
+     * @version 4/14/11
+     * 
+     * Calls view's reconcileShiftLength() method, so it will eventually be passed to the model.
+     * @param shift length in minutes
+     * @return shift length
+     */
+    public int reconcileShiftLength(int shiftLength)
+    {
+        return mainFrame.reconcileShiftLength(shiftLength);
+        /*----------------------------------------------------------------
+        * Update-member User Interface reference?  Need this method in the View somehow
+        *
+        *-----------------------------------------------------------------
+        */
+        
+    }
+	
 }
