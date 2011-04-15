@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Model 
 {
-	private ArrayList<Member> results = new ArrayList<Member>();
+	private ArrayList<Member> matches = new ArrayList<Member>();
 	
 	public ArrayList<Member> lookupMember(String firstName, 
 			String lastName) throws Exception
@@ -12,19 +12,19 @@ public class Model
 		return DatabaseAbstraction.lookupMember(firstName, lastName);
 	}
 	
-	public void setLastLookupMemberResults (ArrayList<Member> results2)
+	public void setLastLookupMemberResults (ArrayList<Member> results)
 	{
 		//	Clear the last results.. if there are any.
-		results.clear();
+		matches.clear();
 		
-		for (int i = 0; i < results2.size(); i++)
+		for (int i = 0; i < results.size(); i++)
 		{
-			results.add(results2.get(i));
+			matches.add(results.get(i));
 		}
 	}
 	
 	public Member getMember (int index)
 	{
-		return results.get(index);
+		return matches.get(index);
 	}
 }
