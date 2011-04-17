@@ -7,7 +7,8 @@ import java.util.ArrayList;
 /*
  * This class provides the model portion of the MVC framework.
  */
-public class Model {
+public class Model 
+{
 	/*
 	 * This method provides functionality for looking up members based on name.
 	 * It services requests from the view. It does this by calling the
@@ -22,7 +23,8 @@ public class Model {
 	 * given.
 	 */
 	public ArrayList<Member> lookupMember(String firstName, String lastName)
-			throws Exception {
+			throws Exception 
+	{
 		return DatabaseAbstraction.lookupMember(firstName, lastName);
 	}
 }
