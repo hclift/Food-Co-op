@@ -1,3 +1,4 @@
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -7,6 +8,7 @@ public class Member {
 	private String lastName;
 	private String email;
 	private Date lastSignupDate;
+	private Time lastSignIn;
 	private int membershipLength;
 	private int membershipType;
 	private int yearInSchool;
@@ -56,6 +58,16 @@ public class Member {
 		return id;
 	}
 	
+	
+	
+	public Time getLastSignIn() {
+		return lastSignIn;
+	}
+
+	public void setLastSignIn(Time lastSignIn) {
+		this.lastSignIn = lastSignIn;
+	}
+
 	public String getEmailAddress()
 	{
 		return email;

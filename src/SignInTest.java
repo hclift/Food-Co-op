@@ -2,10 +2,13 @@
 import org.junit.Before;
 
 
-public class SignInTest {
+public class SignInTest 
+{
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() throws Exception 
+	{
+		
 	}
 
 }
