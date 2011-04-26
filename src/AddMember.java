@@ -22,8 +22,8 @@ private JCheckBox recieveEmailCheckBox;
 
 
 	public AddMember(){
-		mainFrame = new JFrame("View Member");
-		mainFrame.setBounds(275, 150, 450, 310);
+		mainFrame = new JFrame("Add Member");
+		mainFrame.setBounds(275, 150, 450, 265);
 		//mainFrame.setFocusableWindowState(false);
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		mainFrame.setResizable(false);
