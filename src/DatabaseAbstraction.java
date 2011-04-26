@@ -60,7 +60,6 @@ public class DatabaseAbstraction
 					rs.getInt("membership_length"),
 					rs.getInt("membership_type"),
 					rs.getInt("year_in_school"),
-					(rs.getInt("receive_email") != 0),
 					(rs.getInt("is_active") != 0)
 				);
 				memberList.add(m);

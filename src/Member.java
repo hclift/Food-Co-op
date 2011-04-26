@@ -12,7 +12,6 @@ public class Member {
 	private int membershipLength;
 	private int membershipType;
 	private int yearInSchool;
-	private boolean receiveEmail;
 	private boolean isActive;
 	private static final String[] MEMBERSHIP_LENGTHS = { "Semester", "Year" };
 	private static final String[] MEMBERSHIP_TYPES = {
@@ -24,18 +23,17 @@ public class Member {
 	
 	public Member(int id, String firstName, String lastName, String email,
 			Date last_signup_date, int membership_length, int membership_type,
-			int year_in_school, boolean recieve_email, boolean is_active) {
+			int year_in_school, boolean is_active) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
-		this.lastSignupDate = last_signup_date;
+		this.setLastSignupDate(last_signup_date);
 		this.membershipLength = membership_length;
 		this.membershipType = membership_type;
 		this.yearInSchool = year_in_school;
-		this.receiveEmail = recieve_email;
-		this.isActive = is_active;
+		this.setActive(is_active);
 	}
 
 	public String getFirstName() {
@@ -80,4 +78,81 @@ public class Member {
 	public String getMembershipLength() {
 		return MEMBERSHIP_LENGTHS[membershipLength];
 	}
+	
+	
+	public int getMembershipLengthInt() {
+		String memLength = MEMBERSHIP_LENGTHS[membershipLength];
+		int status = 0;
+		if(memLength.equals("Semester")){
+			status = 0;
+		}else if(memLength.equals("Year")){
+			status = 1;
+		}
+		
+		return status;
+	}
+	
+	
+	public int getYearInSchool() {
+		return yearInSchool;
+	}
+
+	public void setYearInSchool(int yearInSchool) {
+		this.yearInSchool = yearInSchool;
+	}
+
+	
+	
+	public int getMembershipTypeInt() {
+		/*
+		"Ordinary",
+		"Working",
+		"Core",
+		"Coordinator"
+		 */
+		String memType = MEMBERSHIP_LENGTHS[membershipLength];
+		int status = 0;
+		
+		if(memType.equals("Ordinary")){
+			status = 0;
+		}else if(memType.equals("Working")){
+			status = 1;
+		}else if(memType.equals("Core")){
+			status = 2;
+		}else if(memType.equals("Coordinator")){
+			status = 3;
+		}
+		
+		return status;
+	}
+
+	/**
+	 * @param lastSignupDate the lastSignupDate to set
+	 */
+	public void setLastSignupDate(Date lastSignupDate) {
+		this.lastSignupDate = lastSignupDate;
+	}
+
+	/**
+	 * @return the lastSignupDate
+	 */
+	public Date getLastSignupDate() {
+		return lastSignupDate;
+	}
+
+	/**
+	 * @param isActive the isActive to set
+	 */
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	/**
+	 * @return the isActive
+	 */
+	public boolean isActive() {
+		return isActive;
+	}
+	
+	
 }
