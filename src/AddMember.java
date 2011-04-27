@@ -58,8 +58,8 @@ private JComboBox currentYearBox, membershipTypeBox;
 		membershipTypeLabel = new JLabel("Membership Type: ");
 		membershipTypeLabel.setBounds(200, 100, 150, 20);
 		
-		expirationLabel = new JLabel("Expiration Date: ");
-		expirationLabel.setBounds(5, 140, 120, 20);
+		//expirationLabel = new JLabel("Expiration Date: ");
+		//expirationLabel.setBounds(5, 140, 120, 20);
 		
 		discountsLabel = new JLabel("Discounts Available: ");
 		discountsLabel.setBounds(5, 180, 150, 20);
@@ -92,16 +92,17 @@ private JComboBox currentYearBox, membershipTypeBox;
 		
 		membershipTypeBox = new JComboBox();
 		membershipTypeBox.setBounds(310, 100, 120, 25);
-		membershipTypeBox.addItem("Volunteer");
-		membershipTypeBox.addItem("Non-Volunteer");
+		membershipTypeBox.addItem("Ordinary");
+		membershipTypeBox.addItem("Working Member");
+		membershipTypeBox.addItem("Core Member");
 		membershipTypeBox.addItem("Coordinator");
 		
-		
+		/*
 		expirationTextField = new JTextField();
 		expirationTextField.setBounds(100, 140, 70, 25);
 		expirationTextField.setEditable(false);
 		expirationTextField.setText("12/12/2011");
-		
+		*/
 		membershipDurationLabel = new JLabel("Member Duration: ");
 		membershipDurationLabel.setBounds(205, 140, 120, 20);
 		
@@ -132,8 +133,8 @@ private JComboBox currentYearBox, membershipTypeBox;
 		mainPanel.add(currentYearBox);
 		mainPanel.add(membershipTypeLabel);
 		mainPanel.add(membershipTypeBox);
-		mainPanel.add(expirationLabel);
-		mainPanel.add(expirationTextField);
+		//mainPanel.add(expirationLabel);
+		//mainPanel.add(expirationTextField);
 		mainPanel.add(addSemYearComboBox);
 		mainPanel.add(membershipDurationLabel);
 		mainPanel.add(cancelButton);

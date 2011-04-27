@@ -62,20 +62,19 @@ private JComboBox addSemYearComboBox, discIOUComboBox, currentYearBox, membershi
 		expirationLabel.setBounds(5, 140, 120, 20);
 		
 		discIOUComboBox = new JComboBox();
-		discIOUComboBox.setBounds(40, 180, 130, 25 );
-		discIOUComboBox.addItem("Add Discount");
-		discIOUComboBox.addItem("Use Discount");
-		discIOUComboBox.addItem("Add to IOU");
-		discIOUComboBox.addItem("Sub from IOU");
+		discIOUComboBox.setBounds(5, 180, 180, 25 );
+		discIOUComboBox.addItem("Apply Discount");
+		discIOUComboBox.addItem("Add to IOU amount");
+		discIOUComboBox.addItem("Subtract from IOU amount");
 		
 		JLabel ds = new JLabel("$");
-		ds.setBounds(180, 179, 10, 25);
+		ds.setBounds(190, 179, 10, 25);
 		
 		discIOUTextField = new JTextField();
-		discIOUTextField.setBounds(195, 181, 80, 25);
+		discIOUTextField.setBounds(205, 181, 80, 25);
 		
 		updateDiscIOUButton = new JButton("Update Values");
-		updateDiscIOUButton.setBounds(285, 180, 120, 25);
+		updateDiscIOUButton.setBounds(295, 180, 120, 25);
 		
 		firstNameTextField = new JTextField();
 		firstNameTextField.setBounds(80, 5, 350, 25);
@@ -95,14 +94,15 @@ private JComboBox addSemYearComboBox, discIOUComboBox, currentYearBox, membershi
 		
 		membershipTypeBox = new JComboBox();
 		membershipTypeBox.setBounds(310, 100, 120, 25);
-		membershipTypeBox.addItem("Volunteer");
-		membershipTypeBox.addItem("Non-Volunteer");
+		membershipTypeBox.addItem("Ordinary");
+		membershipTypeBox.addItem("Working Member");
+		membershipTypeBox.addItem("Core Member");
 		membershipTypeBox.addItem("Coordinator");
 		
 		expirationTextField = new JTextField();
 		expirationTextField.setBounds(100, 140, 70, 25);
 		expirationTextField.setEditable(false);
-		expirationTextField.setText("12/12/2011");
+		//expirationTextField.setText("12/12/2011");
 		
 		membershipDurationLabel = new JLabel("Member Duration: ");
 		membershipDurationLabel.setBounds(205, 140, 120, 20);
