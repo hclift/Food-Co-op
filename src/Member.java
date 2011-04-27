@@ -1,3 +1,4 @@
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -7,6 +8,7 @@ public class Member {
 	private String lastName;
 	private String email;
 	private Date lastSignupDate;
+	private Time lastSignIn;
 	private int availableDiscounts;
 	private int membershipLength;
 	private int membershipType;
@@ -126,6 +128,20 @@ public class Member {
 
 	public void setMembershipType(int membershipType) {
 		this.membershipType = membershipType;
+	}
+	
+	/**
+	 * @param lastSignupDate the lastSignupDate to set
+	 */
+	public void setLastSignupDate(Date lastSignupDate) {
+		this.lastSignupDate = lastSignupDate;
+	}
+
+	/**
+	 * @return the lastSignupDate
+	 */
+	public Date getLastSignupDate() {
+		return lastSignupDate;
 	}
 	
 }
