@@ -1,5 +1,5 @@
 import java.sql.Connection;
-import java.sql.Date;
+import java.util.GregorianCalendar;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -57,7 +57,8 @@ public class DatabaseAbstraction
 					rs.getString("first_name"),
 					rs.getString("last_name"),
 					rs.getString("email_address"),
-					new Date((long)rs.getInt("last_signup_date")),
+					new GregorianCalendar(),
+					new GregorianCalendar(),
 					rs.getInt("membership_length"),
 					rs.getInt("membership_type"),
 					rs.getInt("year_in_school"), rs.getInt("available_discounts"), rs.getDouble("iou_amount"),
@@ -94,7 +95,7 @@ public class DatabaseAbstraction
 		"membership_type = ?, " +
 		"year_in_school = ?, " +
 		"is_active = ? " +
-		"recieve_email = ? " +
+		"receive_email = ? " +
 		"WHERE id = ?"
 	);
 	ps.setString(1, m.getFirstName());

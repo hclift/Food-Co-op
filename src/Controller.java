@@ -1,5 +1,5 @@
 
-import java.sql.Date;
+import java.util.GregorianCalendar;
 import java.util.ArrayList;
 
 public class Controller
@@ -38,7 +38,7 @@ public class Controller
 	}
 	
 	public boolean updateMember(Member member, String firstName, String lastName, String emailAddress, int yearInSchool, int membershipType, 
-			Date expirationDate, int availableDiscounts, double iouAmount, boolean recieveEmail, boolean status)
+			GregorianCalendar expirationDate, int availableDiscounts, double iouAmount, boolean recieveEmail, boolean status)
 	{
 		
 		

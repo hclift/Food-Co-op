@@ -2,6 +2,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import javax.swing.*;
 
@@ -16,7 +18,7 @@ private JLabel firstNameLabel, lastNameLabel, emailLabel, yearLabel,
 private JTextField firstNameTextField, lastNameTextField, 
 	emailTextField, expirationTextField, discountsTextField, IOUTextField;
 
-private JButton addIOUButton, applyDiscountButton, saveButton, cancelButton;
+private JButton addIOUButton, applyDiscountButton, saveButton, cancelButton, addSemesterButton, addYearButton, subtractIOUButton;
 
 private JComboBox currentYearBox, membershipTypeBox;
 private JCheckBox recieveEmailCheckBox;
@@ -26,6 +28,7 @@ private Controller controller;
 private Member member;
 double tempIOU;
 int	   tempAvailDiscounts;
+GregorianCalendar   tempExpirationDate;
 
 
 	public UpdateMemberFrame(Controller controller, Member member){
@@ -33,8 +36,9 @@ int	   tempAvailDiscounts;
 		this.controller = controller;
 		tempIOU = member.getIouAmount();
 		tempAvailDiscounts = (int)tempIOU;
+		tempExpirationDate = new GregorianCalendar(member.getExpirationDate().get(Calendar.YEAR), member.getExpirationDate().get(Calendar.MONTH), member.getExpirationDate().get(Calendar.DAY_OF_MONTH));
 		mainFrame = new JFrame("Update Member");
-		mainFrame.setBounds(375, 200, 450, 310);
+		mainFrame.setBounds(475, 300, 550, 410);
 		//mainFrame.setFocusableWindowState(false);
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		//mainFrame.setResizable(false);
@@ -144,8 +148,16 @@ int	   tempAvailDiscounts;
 		addIOUButton.setBounds(178, 140, 120, 25);
 		addIOUButton.addActionListener(new OKCancelButtonListener());
 		
+		addSemesterButton = new JButton("Add Semester");
+		addSemesterButton.setBounds(350, 270, 120, 30);
+		addSemesterButton.addActionListener(new OKCancelButtonListener());
+		
+		addYearButton = new JButton("Add Year");
+		addYearButton.setBounds(220, 270, 120, 30);
+		addYearButton.addActionListener(new OKCancelButtonListener());
+		
 		applyDiscountButton = new JButton("Apply Discount");
-		applyDiscountButton.setBounds(305, 140, 120, 25);
+		applyDiscountButton.setBounds(305, 140, 160, 25);
 		applyDiscountButton.addActionListener(new OKCancelButtonListener());
 		if(member.getMembershipType() == 0 || member.getIouAmount() < 1)
 			applyDiscountButton.setVisible(false);
@@ -153,6 +165,10 @@ int	   tempAvailDiscounts;
 		saveButton = new JButton("SAVE");
 		saveButton.setBounds(250, 230, 80, 30);
 		saveButton.addActionListener(new OKCancelButtonListener());
+		
+		subtractIOUButton = new JButton("Subtract IOU");
+		subtractIOUButton.setBounds(100, 240, 80, 30);
+		subtractIOUButton.addActionListener(new OKCancelButtonListener());
 		
 		cancelButton = new JButton("Cancel");
 		cancelButton.setBounds(340, 230, 80, 30);
@@ -178,9 +194,12 @@ int	   tempAvailDiscounts;
 		mainPanel.add(IOUTextField);
 		mainPanel.add(recieveEmailCheckBox);
 		mainPanel.add(recieveEmailLabel);
+		mainPanel.add(subtractIOUButton);
 		mainPanel.add(saveButton);
 		mainPanel.add(cancelButton);
 		mainPanel.add(activeMemberCheckBox);
+		mainPanel.add(addSemesterButton);
+		mainPanel.add(addYearButton);
 		mainPanel.setVisible(true);
 		mainFrame.add(mainPanel, BorderLayout.CENTER);
 		
@@ -198,7 +217,7 @@ int	   tempAvailDiscounts;
 				if(result == 0)
 					mainFrame.dispose();
 			}else if(e.getSource().equals(saveButton)){
-				boolean result = controller.updateMember(member, firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), currentYearBox.getSelectedIndex(), membershipTypeBox.getSelectedIndex(), null, tempAvailDiscounts, tempIOU , recieveEmailCheckBox.isSelected(), activeMemberCheckBox.isSelected());
+				boolean result = controller.updateMember(member, firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), currentYearBox.getSelectedIndex(), membershipTypeBox.getSelectedIndex(), tempExpirationDate, tempAvailDiscounts, tempIOU , recieveEmailCheckBox.isSelected(), activeMemberCheckBox.isSelected());
 				
 				if(result)
 					mainFrame.dispose();
@@ -258,6 +277,70 @@ int	   tempAvailDiscounts;
 					applyDiscountButton.setVisible(false);
 				else
 					applyDiscountButton.setVisible(true);
+			}
+			else if(e.getSource().equals(addSemesterButton))
+			{
+				
+				GregorianCalendar currentTime = new GregorianCalendar();
+				if(currentTime.get(Calendar.YEAR) >= tempExpirationDate.get(Calendar.YEAR) && 
+						currentTime.get(Calendar.MONTH) >= tempExpirationDate.get(Calendar.MONTH) && 
+						currentTime.get(Calendar.DAY_OF_MONTH) > tempExpirationDate.get(Calendar.DAY_OF_MONTH))
+					tempExpirationDate = currentTime;
+			
+				tempExpirationDate.set(Calendar.MONTH, tempExpirationDate.get(Calendar.MONTH)+5);
+				
+				String str = "" + tempExpirationDate.get(Calendar.MONTH) + "    " + tempExpirationDate.get(Calendar.YEAR);
+				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
+					
+				
+			}
+			else if(e.getSource().equals(addYearButton))
+			{
+				GregorianCalendar currentTime = new GregorianCalendar();
+				
+				if(currentTime.get(Calendar.YEAR) >= tempExpirationDate.get(Calendar.YEAR) && 
+						currentTime.get(Calendar.MONTH) >= tempExpirationDate.get(Calendar.MONTH) && 
+						currentTime.get(Calendar.DAY_OF_MONTH) > tempExpirationDate.get(Calendar.DAY_OF_MONTH))
+					tempExpirationDate = currentTime;
+			
+				
+				tempExpirationDate.set(Calendar.YEAR, tempExpirationDate.get(Calendar.YEAR)+1);
+				
+
+				String str = "" + tempExpirationDate.get(Calendar.MONTH) + "    " + tempExpirationDate.get(Calendar.YEAR);
+				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
+				
+			}
+			else if(e.getSource().equals(subtractIOUButton))
+			{
+				double adjustment = 0;
+				boolean accept = false;
+				
+				while(!accept)
+				{
+					try
+					{
+					 adjustment = Double.parseDouble(JOptionPane.showInputDialog(null, "Adjustment to be made" , "Subtract" , JOptionPane.OK_OPTION));
+					 accept = true;
+					}
+					catch(Exception exception)
+					{
+						String str = "Do not enter characters";
+						JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
+						
+						accept = false;
+						
+					}
+				}
+				
+				tempIOU = controller.subtractFromIou(currentYearBox.getSelectedIndex(), membershipTypeBox.getSelectedIndex(), tempIOU , adjustment);
+				tempAvailDiscounts = (int)tempIOU;
+				int twoplaces = (int) (tempIOU * 100);
+				tempIOU = ((double)twoplaces)/100;
+				IOUTextField.setText(""+tempIOU);
+				discountsTextField.setText(""+tempAvailDiscounts);
+				if(tempIOU < 1 || membershipTypeBox.getSelectedIndex() == 0)
+					applyDiscountButton.setVisible(false);
 			}
 			else{
 			

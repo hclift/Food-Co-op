@@ -14,7 +14,7 @@ public class MemberTest {
 		testMember = DatabaseAbstraction.lookupMember("John", "Smith").get(0);
 	}
 
-	@Test
+	/*@Test
 	public void testMemberIntStringStringStringDateIntIntIntBooleanBoolean() {
 		Member tmp = new Member(2, "Foo", "Bar", "fbar@example.com",
 				new Date(1234567890), 1, 3,1,2, 1, false, true
@@ -25,7 +25,7 @@ public class MemberTest {
 		assertEquals("Year", tmp.getMembershipLength());
 		assertEquals("Coordinator", tmp.getMembershipType());
 	}
-
+*/
 	@Test
 	public void testGetFirstName() {
 		assertEquals("John", testMember.getFirstName());

@@ -1,4 +1,4 @@
-import java.sql.Date;
+import java.util.GregorianCalendar;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -17,7 +17,7 @@ public class Model
 		return DatabaseAbstraction.lookupMember(firstName, lastName);
 	}
 	public boolean updateMember(Member member, String firstName, String lastName, String emailAddress, int yearInSchool, int membershipType, 
-			Date expirationDate, int availableDiscounts, double iouAmount,boolean receiveEmail, boolean status)
+			GregorianCalendar expirationDate, int availableDiscounts, double iouAmount,boolean receiveEmail, boolean status)
 	{
 		
 		member.setFirstName(firstName);
@@ -26,6 +26,7 @@ public class Model
 		member.setYearInSchool(yearInSchool);
 		member.setMembershipType(membershipType);
 		member.setAvailableDiscounts(availableDiscounts);
+		member.setExpirationDate(expirationDate);
 		member.setIouAmount(iouAmount);
 		member.setReceiveEmail(receiveEmail);
 		member.setActive(status);
@@ -56,6 +57,8 @@ public class Model
 	{
 		if(oldAmount - adjustment < 0)
 			throw new Exception("Not enough working hours to apply a discount");
+		else if(adjustment <= 0)
+			throw new Exception("Adjustment must be a positive number");
 		else if(membershipType == 0)
 			throw new Exception("Must be a working member");
 		

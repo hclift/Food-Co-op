@@ -1,12 +1,13 @@
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.GregorianCalendar;;
 
 public class Member {
 	private int id;
 	private String firstName;
 	private String lastName;
 	private String email;
-	private Date lastSignupDate;
+	private GregorianCalendar lastSignupDate;
+	private GregorianCalendar expirationDate;
 	private int availableDiscounts;
 	private int membershipLength;
 	private int membershipType;
@@ -24,7 +25,7 @@ public class Member {
 	};
 	
 	public Member(int id, String firstName, String lastName, String email,
-			Date last_signup_date, int membership_length, int membership_type,
+			GregorianCalendar last_signup_date,GregorianCalendar expirationDate, int membership_length, int membership_type,
 			int year_in_school, int available_Discounts, double Iou_Amount,boolean recieve_email, boolean is_active) {
 		super();
 		this.id = id;
@@ -32,6 +33,7 @@ public class Member {
 		this.lastName = lastName;
 		this.email = email;
 		this.lastSignupDate = last_signup_date;
+		this.expirationDate = expirationDate;
 		this.membershipLength = membership_length;
 		this.membershipType = membership_type;
 		this.yearInSchool = year_in_school;
@@ -39,6 +41,14 @@ public class Member {
 		this.availableDiscounts = available_Discounts;
 		this.IouAmount = Iou_Amount;
 		this.isActive = is_active;
+	}
+
+	public GregorianCalendar getExpirationDate() {
+		return expirationDate;
+	}
+
+	public void setExpirationDate(GregorianCalendar expirationDate) {
+		this.expirationDate = expirationDate;
 	}
 
 	public String getFirstName() {
