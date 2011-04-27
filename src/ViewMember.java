@@ -113,7 +113,7 @@ private JCheckBox recieveEmailCheckBox;
 		
 		
 		okButton = new JButton("OK");
-		okButton.setBounds(340, 230, 80, 30);
+		okButton.setBounds(340, 240, 80, 30);
 		
 		
 		okButton.addActionListener(new ButtonListener());

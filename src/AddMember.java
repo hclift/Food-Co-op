@@ -9,21 +9,21 @@ public class AddMember{
 private JFrame mainFrame;
 private JPanel mainPanel;
 private JLabel firstNameLabel, lastNameLabel, emailLabel, yearLabel, 
-	membershipTypeLabel, expirationLabel,discountsLabel, IOULabel, recieveEmailLabel;
+	membershipTypeLabel, expirationLabel,discountsLabel, IOULabel, membershipDurationLabel;
 
 private JTextField firstNameTextField, lastNameTextField, 
 	emailTextField, expirationTextField, discountsTextField, IOUTextField;
 
-private JButton addSemesterButton, addYearButton, cancelButton, okButton;
+private JButton cancelButton, okButton;
+private JComboBox addSemYearComboBox;
 
-private JTextField currentYearBox, membershipTypeBox;
-private JCheckBox recieveEmailCheckBox;
+private JComboBox currentYearBox, membershipTypeBox;
 
 
 
 	public AddMember(){
 		mainFrame = new JFrame("Add Member");
-		mainFrame.setBounds(275, 150, 450, 265);
+		mainFrame.setBounds(275, 150, 450, 250);
 		//mainFrame.setFocusableWindowState(false);
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		mainFrame.setResizable(false);
@@ -73,51 +73,50 @@ private JCheckBox recieveEmailCheckBox;
 		
 		IOUTextField = new JTextField();
 		IOUTextField.setBounds(320, 180, 80, 25);
-		IOUTextField.setEditable(false);
-		
-		recieveEmailCheckBox = new JCheckBox();
-		recieveEmailCheckBox.setBounds(5, 176, 25, 28);
-		
-		recieveEmailLabel = new JLabel("Recieve E-Mails");
-		recieveEmailLabel.setBounds(30, 180, 150, 20);
 		
 		firstNameTextField = new JTextField();
 		firstNameTextField.setBounds(80, 5, 350, 25);
-		firstNameTextField.setEditable(false);
 		
 		lastNameTextField = new JTextField();
 		lastNameTextField.setBounds(80, 35, 350, 25);
-		lastNameTextField.setEditable(false);
 		
 		emailTextField = new JTextField();
 		emailTextField.setBounds(80, 65, 350, 25);
-		emailTextField.setEditable(false);
 		
-		currentYearBox = new JTextField();
+		currentYearBox = new JComboBox();
 		currentYearBox.setBounds(85, 100, 100, 25);
-		currentYearBox.setEditable(false);
+		currentYearBox.addItem("Freshman");
+		currentYearBox.addItem("Sophmore");
+		currentYearBox.addItem("Junior");
+		currentYearBox.addItem("Senior");
 		
-		membershipTypeBox = new JTextField();
-		membershipTypeBox.setBounds(310, 100, 100, 25);
-		membershipTypeBox.setEditable(false);
+		membershipTypeBox = new JComboBox();
+		membershipTypeBox.setBounds(310, 100, 120, 25);
+		membershipTypeBox.addItem("Volunteer");
+		membershipTypeBox.addItem("Non-Volunteer");
+		membershipTypeBox.addItem("Coordinator");
+		
 		
 		expirationTextField = new JTextField();
 		expirationTextField.setBounds(100, 140, 70, 25);
 		expirationTextField.setEditable(false);
 		expirationTextField.setText("12/12/2011");
 		
-		addSemesterButton = new JButton("Add Semester");
-		addSemesterButton.setBounds(178, 140, 120, 25);
+		membershipDurationLabel = new JLabel("Member Duration: ");
+		membershipDurationLabel.setBounds(205, 140, 120, 20);
 		
-		addYearButton = new JButton("Add Year");
-		addYearButton.setBounds(305, 140, 120, 25);
+		addSemYearComboBox = new JComboBox();
+		addSemYearComboBox.setBounds(310, 140, 120, 25);
+		addSemYearComboBox.addItem("Semester");
+		addSemYearComboBox.addItem("Year");
+		
 		
 		okButton = new JButton("OK");
-		okButton.setBounds(250, 180, 80, 30);
+		okButton.setBounds(260, 180, 80, 30);
 		okButton.addActionListener(new ButtonListener());
 		
 		cancelButton = new JButton("Cancel");
-		cancelButton.setBounds(340, 180, 80, 30);
+		cancelButton.setBounds(350, 180, 80, 30);
 		cancelButton.addActionListener(new ButtonListener());
 		
 		okButton.addActionListener(new ButtonListener());
@@ -135,14 +134,8 @@ private JCheckBox recieveEmailCheckBox;
 		mainPanel.add(membershipTypeBox);
 		mainPanel.add(expirationLabel);
 		mainPanel.add(expirationTextField);
-		mainPanel.add(addSemesterButton);
-		mainPanel.add(addYearButton);
-		//mainPanel.add(discountsLabel);
-		//mainPanel.add(discountsTextField);
-		//mainPanel.add(IOULabel);
-		//mainPanel.add(IOUTextField);
-		mainPanel.add(recieveEmailCheckBox);
-		mainPanel.add(recieveEmailLabel);
+		mainPanel.add(addSemYearComboBox);
+		mainPanel.add(membershipDurationLabel);
 		mainPanel.add(cancelButton);
 		mainPanel.add(okButton);
 		
