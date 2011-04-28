@@ -2,7 +2,6 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
 
 
 public class Model 
@@ -46,10 +45,10 @@ public class Model
 				{
 					throw new Exception("This member is already signed into the store");
 				}
-				long time = 0;
+			}
+			long time = 0;
 			matches.get(index).setLastSignIn(new Time(time));
 			signedIntoKitchen.add(matches.get(index));
-			}
 		}
 		else
 		{
@@ -76,10 +75,11 @@ public class Model
 				{
 					throw new Exception();
 				}
-				long time = 0;
+			}
+			long time = 0;
 			matches.get(index).setLastSignIn(new Time(time));
 			signedIntoStore.add(matches.get(index));
-			}
+			
 		}
 		else
 		{
