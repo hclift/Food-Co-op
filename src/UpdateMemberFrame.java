@@ -1,29 +1,46 @@
+/*
+ * UpdateMemberFrame.java
+ * This is the GUI class for the Update Member window of the program.
+ * 
+ */
+
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
-
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 
 public class UpdateMemberFrame{
+    // main frame of update member; changes on creation and closing
 private JFrame mainFrame;
+    // main panel of update member's main frame; changes on creation (addPanel)
 private JPanel mainPanel;
+    // labels inside main panel; self-documenting for each information required
 private JLabel firstNameLabel, lastNameLabel, emailLabel, yearLabel, 
 	membershipTypeLabel, expirationLabel,discountsLabel, IOULabel, recieveEmailLabel;
-
+    // text fields in main panel; self-documenting for data it receives
 private JTextField firstNameTextField, lastNameTextField, 
 	emailTextField, expirationTextField, discountsTextField, IOUTextField;
-
+    // buttons in main panel;  self-documenting for their purposes
 private JButton addIOUButton, applyDiscountButton, saveButton, cancelButton;
-
+    // combo boxes in main panel; self-documenting for data it receives
 private JComboBox currentYearBox, membershipTypeBox;
+    // check box in main panel; for whether member wants to receive emails
 private JCheckBox recieveEmailCheckBox;
+    // check box in main panel; for whether member is active
 private JCheckBox activeMemberCheckBox;
-
+    // holds instance of controller and member
 private Controller controller;
 private Member member;
+    // holds member's IOU amount; changes when discount applied or IOU added
 double tempIOU;
 int	   tempAvailDiscounts;
 
@@ -191,7 +208,6 @@ int	   tempAvailDiscounts;
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
 			if(e.getSource().equals(cancelButton)){
 				
 				int result = JOptionPane.showConfirmDialog(null, "Results will not be saved, are you sure you want to exit", "Error", JOptionPane.YES_NO_OPTION);
