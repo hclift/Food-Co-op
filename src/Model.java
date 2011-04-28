@@ -117,21 +117,22 @@ public class Model
 	 * @param designated index of member in array list
 	 * @return modified array list of currently working members
 	 */
-	public ArrayList<Member> signOutOfKitchen(int index)
+	public ArrayList<Member> signOutOfKitchen(int index,int adjustedTime)
 	{
 		long startTime = signedIntoKitchen.get(index).getLastSignIn();
 		long stopTime = System.currentTimeMillis();
 		shiftLength = (int)(stopTime - startTime)*60000;
 	    int numberOfDiscounts;
        
-        if ((shiftLength < 45) || (shiftLength > 120))
-        {
-            int reconciledShiftLength = controllerReference.reconcileShiftLength(shiftLength);
-            numberOfDiscounts = reconciledShiftLength/60;
+        if (adjustedTime==0)	// if ((shiftLength < 45) || (shiftLength > 120))
+        {	
+           
+        	//int reconciledShiftLength = controllerReference.reconcileShiftLength(shiftLength);
+            //numberOfDiscounts = reconciledShiftLength/60;
         //	DatabaseAbstraction.addDiscounts(signedIntoStore.get(index),numberOfDiscounts);
         }
-        else
-        {
+        
+        
         	if (shiftLength>(1.5*60))
             {
             	numberOfDiscounts = 2; 
@@ -140,7 +141,7 @@ public class Model
             {
             	numberOfDiscounts = 1;
             }
-        }
+        
         DatabaseAbstraction.addDiscounts(signedIntoStore.get(index),numberOfDiscounts);   
     	/*----------------------------------------------------------------
          * addDiscounts() incomplete.  MUST. FIX.
@@ -150,6 +151,8 @@ public class Model
         signedIntoKitchen.remove(index);
         return signedIntoKitchen;
     }
+	
+	
    
 	/*
 	 * If so, the Reconcile Shift Length window will AUTOMATICALLY open, while locking 
