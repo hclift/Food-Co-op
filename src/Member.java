@@ -25,7 +25,7 @@ public class Member {
 	
 	public Member(int id, String firstName, String lastName, String email,
 			Date last_signup_date, int membership_length, int membership_type,
-			int year_in_school, int available_Discounts, double Iou_Amount,boolean recieve_email, boolean is_active) {
+			int year_in_school, int available_Discounts, double Iou_Amount, boolean is_active) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -35,7 +35,6 @@ public class Member {
 		this.membershipLength = membership_length;
 		this.membershipType = membership_type;
 		this.yearInSchool = year_in_school;
-		this.receiveEmail = recieve_email;
 		this.availableDiscounts = available_Discounts;
 		this.IouAmount = Iou_Amount;
 		this.isActive = is_active;

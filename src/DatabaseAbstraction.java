@@ -1,10 +1,10 @@
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DatabaseAbstraction
 {
@@ -61,7 +61,6 @@ public class DatabaseAbstraction
 					rs.getInt("membership_length"),
 					rs.getInt("membership_type"),
 					rs.getInt("year_in_school"), rs.getInt("available_discounts"), rs.getDouble("iou_amount"),
-					(rs.getInt("receive_email") != 0),
 					(rs.getInt("is_active") != 0)
 				);
 				memberList.add(m);
@@ -94,7 +93,6 @@ public class DatabaseAbstraction
 		"membership_type = ?, " +
 		"year_in_school = ?, " +
 		"is_active = ? " +
-		"recieve_email = ? " +
 		"WHERE id = ?"
 	);
 	ps.setString(1, m.getFirstName());
@@ -104,8 +102,7 @@ public class DatabaseAbstraction
 	ps.setInt(5, m.getMembershipType());
 	ps.setInt(6, m.getYearsInSchool());
 	ps.setBoolean(7, m.getActive());
-	ps.setBoolean(8, m.getReceiveEmail());
-	ps.setInt(9, m.getId());
+	ps.setInt(8, m.getId());
 	ResultSet rs = ps.executeQuery();
 
 	rs.close();
@@ -145,5 +142,55 @@ public class DatabaseAbstraction
 	return false;
 	}
 	return true;
+	}
+	
+	/**
+	* Adds a member to the database.  Uses a PreparedStatement.
+	* @param first_name			First name of the member to look for
+	* @param last_name			Last name of the member to look for
+	* @param membership_length	Length of member's membership, 0 for
+									half semester, 1 for full ??
+	* @param membership_type	Membership type ??
+	* @param year_in_school		Member's year in school 0 for freshman
+									1 for sophomore, 2 for junior,
+									3 for senior, 4 for graduate,
+									5 for faculty ??
+	* @param receive_email		Can the member receive emails from the
+									Food Co-op?
+	* @param is_active			Is this member active?
+	*/
+	public static void addMember(String first_name, 
+		String last_name,
+		String email_address,
+		int membership_length,
+		int membership_type,
+		int year_in_school,
+		int is_active)
+	{
+		Date last_signup_date = new Date();
+		try
+		{
+			Connection connection = connectToDatabase();
+			PreparedStatement ps = connection.prepareStatement(
+				"INSERT INTO members VALUES(?,?,?,?,?,?,?,?,?)");
+			ps.setNull(1, java.sql.Types.INTEGER);
+			ps.setString(2, first_name);
+			ps.setString(3, last_name);
+			ps.setString(4, email_address);
+			ps.setLong(5, last_signup_date.getTime()); // Is setLong correct?
+			ps.setInt(6, membership_length);
+			ps.setInt(7, membership_type);
+			ps.setInt(8, year_in_school);
+			ps.setInt(9, is_active);
+			ps.executeUpdate();
+
+			//rs.close();
+			ps.close();
+			connection.close();
+		} 
+		catch (Exception e)
+		{
+			System.out.println(e);
+		}
 	}
 }
