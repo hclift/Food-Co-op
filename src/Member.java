@@ -44,6 +44,12 @@ public class Member {
 	public String getFirstName() {
 		return firstName;
 	}
+	/*
+	 * TODO: Add member
+	 */
+	public void addMember() {
+		
+	}
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
