@@ -1,9 +1,6 @@
 import java.sql.Date;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
-
-
 public class Model 
 {
 	public enum yearInSchool {Freshman1, Freshman, Sophmore1, Sophmore2, Junior1, Junior2, Senior1, Senior2, Graduate, Faculty}

@@ -61,6 +61,17 @@ public class Member {
 		return id;
 	}
 	
+	/*
+	 * TODO: add member function
+	 */
+	public void addMember() {
+		// SLIGHTLY DIFFERENT
+	}
+	
+	public void newFunction() {
+	}
+	
+	
 	public String getEmailAddress()
 	{
 		return email;
