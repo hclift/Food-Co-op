@@ -1,13 +1,13 @@
-/*
+/**
  * Model.java:
  * This file contains the model portion of the model/view/controller design.
- */
+ **/
 import java.sql.Time;
 import java.util.ArrayList;
 
-/*
+/**
  * This class provides the model portion of the MVC framework.
- */
+ **/
 public class Model
 {
 	// List of members currently signed into the kitchen.
@@ -20,10 +20,11 @@ public class Model
 	private Controller controllerReference; // Creates a reference to the
 											// controller.
 
-	//Number of minutes in 1 hour.
-	private final int MINUTES_PER_HOUR = 60;
+	//Number of milliseconds in a minute.
+	private final int MILLISECONDS_PER_MINUTE = 60000;
 	
-	private final int TWO_DISCOUNT_CUTOFF_HRS = 1.5;
+	//Shift length cutoff for receiving 2 discount units (In Minutes).
+	private final int TWO_DISCOUNT_CUTOFF_MINS = 90;
 
 	/**
 	 * @author Ashley Chin
@@ -32,13 +33,13 @@ public class Model
 	 *          Setter for the control reference.
 	 * @param controllerIn
 	 *            Controller to set controllerReference to
-	 */
+	 **/
 	public void setControllerReference(Controller controllerIn)
 	{
 		this.controllerReference = controllerIn;
 	}
 
-	/*
+	/**
 	 * This method provides functionality for looking up members based on name.
 	 * It services requests from the view. It does this by calling the
 	 * lookupMember method in the database abstraction layer and passing this
@@ -50,30 +51,30 @@ public class Model
 	 * 
 	 * @return An ArrayList of members matching the first name and last name
 	 * given.
-	 */
+	 **/
 	public ArrayList<Member> lookupMember(final String firstName, final String lastName)
 			throws Exception 
 	{
 		return DatabaseAbstraction.lookupMember(firstName, lastName);
 	}
 
-	/*
+	/**
 	 * This method returns an ArrayList of members currently signed into the
 	 * kitchen.
 	 * 
 	 * @return ArrayList<Member> of members signed into kitchen
-	 */
+	 **/
 	public ArrayList<Member> getSignedIntoKitchen()
 	{
 		return signedIntoKitchen;
 	}
 
-	/*
+	/**
 	 * This method returns an ArrayList of members currently signed into the
 	 * store.
 	 * 
 	 * @return ArrayList<Member> of members signed into store
-	 */
+	 **/
 	public ArrayList<Member> getSignedIntoStore()
 	{
 		return signedIntoStore;
@@ -87,7 +88,7 @@ public class Model
 	 * @param index
 	 *            ArrayList index of member to be signed out.
 	 * @return new ArrayList with specified member removed.
-	 */
+	 **/
 	public ArrayList<Member> signOutOfStore(final int index)
 	{
 		signedIntoStore.remove(index);
@@ -107,9 +108,13 @@ public class Model
 	 * @return new ArrayList of signedIntoKitchen minus the member just removed.
 	 */
 	public ArrayList<Member> signOutOfKitchen(final int index) {
+		//Time (in milliseconds) that the user signed in to the kitchen
 		long startTime = signedIntoKitchen.get(index).getLastSignIn();
+		//Time (in milliseconds) that the user is signing out (The current time)
 		long stopTime = System.currentTimeMillis();
-		int shiftLength = (int) (stopTime - startTime) * 60000;
+		//Shift length (in minutes), the difference between stopTime 
+		//and startTime, converted to minutes.
+		int shiftLength = (int) (stopTime - startTime) * MILLISECONDS_PER_MINUTE;
 
 		if ((shiftLength < 45) || (shiftLength > 120))
 		{
@@ -118,8 +123,9 @@ public class Model
 		else
 		{
 			int numberOfDiscounts = 0;
-			// If the shift length is longer than 1.5hr, user gets 2 discounts
-			if (shiftLength >= (TWO_DISCOUNT_CUTOFF_HRS * MINUTES_PER_HOUR))
+			// If the shift length is longer than TWO_DISCOUNT_CUTOFF_MINS,
+			// user gets 2 discounts
+			if (shiftLength >= TWO_DISCOUNT_CUTOFF_MINS)
 			{
 				numberOfDiscounts = 2;
 			}
