@@ -475,4 +475,15 @@ public class MainFrame extends JFrame {
 		public void keyTyped(KeyEvent e) {
 		}
 	}
+	/**
+	 *	TODO: Write method to allow the user to reconcile the shift length,
+	 * and then	return the resulting length. 
+	 *@param shiftLengthInput the actual shift length worked
+	 *@return the reconciled shift length
+	 **/
+	public int reconcileShiftLength(final int shiftLengthInput)
+	{
+	int shiftLengthOutput = 0;
+	return shiftLengthOutput;
+	}
 }

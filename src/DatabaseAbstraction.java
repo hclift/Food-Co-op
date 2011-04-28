@@ -74,4 +74,12 @@ public class DatabaseAbstraction
 		
 		return memberList;
 	}
+	/**
+	 * TODO: Implement this function - 
+	 * should add the passed number of discounts to the appropriate member.
+	 **/
+	public static void addDiscounts(final Member member,final int numDiscounts)
+			{
+			}
+
 }
