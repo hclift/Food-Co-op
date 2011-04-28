@@ -6,15 +6,8 @@ import javax.swing.JOptionPane;
 
 public class Model 
 {
-<<<<<<< HEAD
-
 	public enum yearInSchool {Freshman1, Freshman, Sophmore1, Sophmore2, Junior1, Junior2, Senior1, Senior2, Graduate, Faculty}
-	
-	 
-=======
 	private ArrayList<Member> matches = new ArrayList<Member>();
-	
->>>>>>> controller
 	public ArrayList<Member> lookupMember(String firstName, 
 			String lastName) throws Exception
 	{
@@ -22,7 +15,6 @@ public class Model
 		
 		return DatabaseAbstraction.lookupMember(firstName, lastName);
 	}
-<<<<<<< HEAD
 	public boolean updateMember(Member member, String firstName, String lastName, String emailAddress, int yearInSchool, int membershipType, 
 			Date expirationDate, int availableDiscounts, double iouAmount,boolean receiveEmail, boolean status)
 	{
@@ -67,7 +59,7 @@ public class Model
 			throw new Exception("Must be a working member");
 		
 		return oldAmount - adjustment;
-=======
+	}
 	
 	public void setLastLookupMemberResults (ArrayList<Member> results)
 	{
@@ -83,6 +75,5 @@ public class Model
 	public Member getMember (int index)
 	{
 		return matches.get(index);
->>>>>>> controller
 	}
 }
