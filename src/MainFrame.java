@@ -1,11 +1,5 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -170,7 +164,7 @@ public class MainFrame extends JFrame {
 		firstNameScrollLabel = new JLabel("First Name");
 		lastNameScrollLabel = new JLabel("Last Name");
 		membershipScrollLabel = new JLabel("Membership");
-		emailScrollLabel = new JLabel("EMail");
+		emailScrollLabel = new JLabel("Email");
 		
 		firstNameScrollLabel.setFont(f2);
 		lastNameScrollLabel.setFont(f2);
