@@ -68,4 +68,5 @@ public class Member {
 	public String getMembershipLength() {
 		return MEMBERSHIP_LENGTHS[membershipLength];
 	}
+
 }
