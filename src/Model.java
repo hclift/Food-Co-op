@@ -121,15 +121,17 @@ public class Model
 		long startTime = signedIntoKitchen.get(index).getLastSignIn();
 		long stopTime = System.currentTimeMillis();
 		int shiftLength = (int)(stopTime - startTime)*60000;
+	    int numberOfDiscounts;
        
         if ((shiftLength < 45) || (shiftLength > 120))
         {
-            controllerReference.reconcileShiftLength(shiftLength);
+            int reconciledShiftLength = controllerReference.reconcileShiftLength(shiftLength);
+            numberOfDiscounts = reconciledShiftLength/60;
+        //	DatabaseAbstraction.addDiscounts(signedIntoStore.get(index),numberOfDiscounts);
         }
         else
         {
-            int numberOfDiscounts;
-            if (shiftLength>(1.5*60))
+        	if (shiftLength>(1.5*60))
             {
             	numberOfDiscounts = 2; 
             }
@@ -137,19 +139,34 @@ public class Model
             {
             	numberOfDiscounts = 1;
             }
-            	
-        	DatabaseAbstraction.addDiscounts(signedIntoStore.get(index),numberOfDiscounts);   
-        	/*----------------------------------------------------------------
-             * addDiscounts() incomplete.  MUST. FIX.
-             *
-             *-----------------------------------------------------------------
-             */
-        	
         }
+        DatabaseAbstraction.addDiscounts(signedIntoStore.get(index),numberOfDiscounts);   
+    	/*----------------------------------------------------------------
+         * addDiscounts() incomplete.  MUST. FIX.
+         *
+         *-----------------------------------------------------------------
+         */
         signedIntoKitchen.remove(index);
         return signedIntoKitchen;
     }
    
+	/*
+	 * If so, the Reconcile Shift Length window will AUTOMATICALLY open, while locking 
+	 * the main window. Inside the Reconcile Shift Length window, there will be a textbox prompting 
+	 * the operator to input the new shift length (I still don't know if its going to be in minutes 
+	 * or hours). When the new shift length is inputted, it will percolate back to the model via the 
+	 * reconcileShiftLength() function. So yes, the int gets passed to the controller, then passes 
+	 * to the model, which will calculate the discounts. Unfortunately, I don't think the window pop-up
+	 *  for reconcile shift length has been created yet, or committed. However, I have attached the 4 
+	 *  new java files from the GUI that we received last class. You may find your answer there.
+
+
+
+	 */
+			
+	
+
+	
 	/**
 	 * @author Ashley Chin
 	 * @version 4/14/11
