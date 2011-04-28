@@ -144,4 +144,13 @@ public class Member {
 		return lastSignupDate;
 	}
 	
+	public boolean canSignIn()
+	{
+		if(membershipType > 0)
+		{
+			return true;
+		}
+		return false;
+	}
+	
 }
