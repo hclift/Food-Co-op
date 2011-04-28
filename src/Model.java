@@ -12,12 +12,12 @@ public class Model
 	private ArrayList<Member> signedIntoStore = new ArrayList<Member>();
 
 	public enum yearInSchool {Freshman1, Freshman, Sophmore1, Sophmore2, Junior1, Junior2, Senior1, Senior2, Graduate, Faculty}
-	
-	 
+	private ArrayList<Member> matches = new ArrayList<Member>();
 	public ArrayList<Member> lookupMember(String firstName, 
 			String lastName) throws Exception
 	{
 		//throw new Exception();
+		
 		return DatabaseAbstraction.lookupMember(firstName, lastName);
 	}
 	
@@ -46,7 +46,7 @@ public class Model
 				{
 					throw new Exception("This member is already signed into the store");
 				}
-				long time;
+				long time = 0;
 			matches.get(index).setLastSignIn(new Time(time));
 			signedIntoKitchen.add(matches.get(index));
 			}
@@ -76,7 +76,7 @@ public class Model
 				{
 					throw new Exception();
 				}
-				long time;
+				long time = 0;
 			matches.get(index).setLastSignIn(new Time(time));
 			signedIntoStore.add(matches.get(index));
 			}
@@ -132,5 +132,21 @@ public class Model
 			throw new Exception("Must be a working member");
 		
 		return oldAmount - adjustment;
+	}
+	
+	public void setLastLookupMemberResults (ArrayList<Member> results)
+	{
+		//	Clear the last results.. if there are any.
+		matches.clear();
+		
+		for (int i = 0; i < results.size(); i++)
+		{
+			matches.add(results.get(i));
+		}
+	}
+	
+	public Member getMember (int index)
+	{
+		return matches.get(index);
 	}
 }

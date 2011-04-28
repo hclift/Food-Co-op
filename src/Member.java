@@ -144,6 +144,14 @@ public class Member {
 		return lastSignupDate;
 	}
 	
+	public Time getLastSignIn() {
+		return lastSignIn;
+	}
+
+	public void setLastSignIn(Time lastSignIn) {
+		this.lastSignIn = lastSignIn;
+	}
+	
 	public boolean canSignIn()
 	{
 		if(membershipType > 0)
