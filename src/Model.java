@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 public class Model 
 {
+	public int shiftLength;
 	private ArrayList<Member> signedIntoKitchen = new ArrayList<Member>();
 	private ArrayList<Member> signedIntoStore = new ArrayList<Member>();
 	
@@ -120,7 +121,7 @@ public class Model
 	{
 		long startTime = signedIntoKitchen.get(index).getLastSignIn();
 		long stopTime = System.currentTimeMillis();
-		int shiftLength = (int)(stopTime - startTime)*60000;
+		shiftLength = (int)(stopTime - startTime)*60000;
 	    int numberOfDiscounts;
        
         if ((shiftLength < 45) || (shiftLength > 120))
