@@ -78,7 +78,7 @@ public class Model
 				}
 				long time;
 			matches.get(index).setLastSignIn(new Time(time));
-			throw new Exception("This member is already signed into the store");
+			signedIntoStore.add(matches.get(index));
 			}
 		}
 		else
