@@ -491,8 +491,8 @@ public class MainFrame extends JFrame {
 				//new ViewMember();
 				//str = "View member method to go here.";
 				//JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
-				Member m = controller.getMember(generalLookup.getSelectedIndex());
-				str = m.getEmailAddress();
+				//Member m = controller.getMember(generalLookup.getSelectedIndex());
+				//str = m.getEmailAddress();
 				//str = "View member method to go here.";
 				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
 			
