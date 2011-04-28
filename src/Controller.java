@@ -1,4 +1,4 @@
-
+import java.sql.Date;
 import java.util.ArrayList;
 
 public class Controller
@@ -35,4 +35,53 @@ public class Controller
 		
 		return searchResult;
 	}
+	
+	public boolean updateMember(Member member, String firstName, String lastName, String emailAddress, int yearInSchool, int membershipType, 
+			Date expirationDate, int availableDiscounts, double iouAmount, boolean status)
+	{
+		
+		
+		boolean retVal = model.updateMember(member, firstName, lastName, emailAddress, yearInSchool, membershipType, expirationDate, availableDiscounts, iouAmount, status);
+		
+		return retVal;
+	}
+	
+	public boolean validateMembershipType(double doubleIOUAmount)
+	{
+		model.validateMembershipType(doubleIOUAmount);
+		
+		return true;
+	}
+	
+	public double addToIou(int currentYear, int membershipType, double oldAmount, double adjustment)
+	{
+		double newAmount = 0;
+		try
+		{
+			newAmount = model.addToIou(currentYear, membershipType, oldAmount, adjustment);
+		}
+		catch (Exception e)
+		{
+			mainFrame.displayException(e.getMessage());
+			return oldAmount;
+		}
+		return newAmount;
+	}
+	
+	public double subtractFromIou(int currentYear, int membershipType, double oldAmount, double adjustment)
+	{
+		double newAmount = 0;
+		try
+		{
+			newAmount = model.subtractFromIou(currentYear, membershipType, oldAmount, adjustment);
+		}
+		catch(Exception e)
+		{
+			mainFrame.displayException(e.getMessage());
+			return oldAmount;
+		}
+		return newAmount;
+	}
+	
+	
 }

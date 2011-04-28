@@ -1,6 +1,7 @@
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -59,7 +60,7 @@ public class DatabaseAbstraction
 					new Date((long)rs.getInt("last_signup_date")),
 					rs.getInt("membership_length"),
 					rs.getInt("membership_type"),
-					rs.getInt("year_in_school"),
+					rs.getInt("year_in_school"), rs.getInt("available_discounts"), rs.getDouble("iou_amount"),
 					(rs.getInt("receive_email") != 0),
 					(rs.getInt("is_active") != 0)
 				);
@@ -73,5 +74,76 @@ public class DatabaseAbstraction
 		}
 		
 		return memberList;
+	}
+	
+	/**
+	* Updates a member in the database. Uses a PreparedStatement.
+	* @param m updated Member object.
+	*/
+	public static boolean updateMember(Member m)
+	{
+	try
+	{
+	Connection connection = connectToDatabase();
+	PreparedStatement ps = connection.prepareStatement(
+		"UPDATE members SET " +
+		"first_name = ?, " +
+		"last_name = ?, " +
+		"email_address = ?, " +
+		"membership_length = ?, " +
+		"membership_type = ?, " +
+		"year_in_school = ?, " +
+		"is_active = ? " +
+		"recieve_email = ? " +
+		"WHERE id = ?"
+	);
+	ps.setString(1, m.getFirstName());
+	ps.setString(2, m.getLastName());
+	ps.setString(3, m.getEmailAddress());
+	ps.setInt(4, m.getMembershipLength());
+	ps.setInt(5, m.getMembershipType());
+	ps.setInt(6, m.getYearsInSchool());
+	ps.setBoolean(7, m.getActive());
+	ps.setBoolean(8, m.getReceiveEmail());
+	ps.setInt(9, m.getId());
+	ResultSet rs = ps.executeQuery();
+
+	rs.close();
+	ps.close();
+	
+	PreparedStatement ps_iou = connection.prepareStatement(
+			"UPDATE member_iou SET " +
+			"iou_amount = ?, " +
+			"WHERE member_id = ?"
+		);
+	ps.setDouble(1, m.getIouAmount());
+	ps.setInt(2, m.getId());
+	ResultSet rs_iou = ps_iou.executeQuery();
+
+	rs_iou.close();
+	ps_iou.close();
+	
+	PreparedStatement ps_disc = connection.prepareStatement(
+			"UPDATE member_discounts SET " +
+			"discounts = ?, " +
+			"WHERE member_id = ?"
+		);
+	ps.setInt(1, m.getAvailableDiscounts());
+	ps.setInt(2, m.getId());
+	ResultSet rs_disc = ps_disc.executeQuery();
+
+	rs_disc.close();
+	ps_disc.close();
+	
+	
+	connection.close();
+	
+	}
+	catch (Exception e)
+	{
+	System.out.println(e);
+	return false;
+	}
+	return true;
 	}
 }

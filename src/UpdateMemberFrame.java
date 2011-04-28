@@ -11,32 +11,46 @@ public class UpdateMemberFrame{
 private JFrame mainFrame;
 private JPanel mainPanel;
 private JLabel firstNameLabel, lastNameLabel, emailLabel, yearLabel, 
-	membershipTypeLabel, expirationLabel, membershipDurationLabel;
+	membershipTypeLabel, expirationLabel,discountsLabel, IOULabel, activeMemberLabel;
 
 private JTextField firstNameTextField, lastNameTextField, 
-	emailTextField, expirationTextField, discIOUTextField;
+	emailTextField, expirationTextField, discountsTextField, IOUTextField;
 
-private JButton updateDiscIOUButton, okButton, cancelButton;
-private JComboBox addSemYearComboBox, discIOUComboBox, currentYearBox, membershipTypeBox;
+private JButton addIOUButton, applyDiscountButton, saveButton, cancelButton;
+
+private JComboBox currentYearBox, membershipTypeBox;
+
+private JCheckBox activeMemberCheckBox;
+
+private Controller controller;
+private Member member;
+double tempIOU;
+int	   tempAvailDiscounts;
 
 
-
-	public UpdateMemberFrame(){
+	public UpdateMemberFrame(Controller controller, Member member){
+		this.member = member;
+		this.controller = controller;
+		tempIOU = member.getIouAmount();
+		tempAvailDiscounts = (int)tempIOU;
 		mainFrame = new JFrame("Update Member");
-		mainFrame.setBounds(275, 200, 450, 310);
+		mainFrame.setBounds(375, 200, 450, 310);
 		//mainFrame.setFocusableWindowState(false);
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		mainFrame.setResizable(false);
-		
-		
-		
+		//mainFrame.setResizable(false);
 		addPanel();
+		if(!member.getActive())
+			setButtons(false);
 		mainFrame.setVisible(true);
-		
 		mainFrame.validate();
 		
-		
-		
+	}
+	private void setButtons(boolean visibility)
+	{
+		addIOUButton.setVisible(visibility);
+		applyDiscountButton.setVisible(visibility);
+		//addyear button
+		//addsemesterbutton
 	}
 	
 	private void addPanel(){
@@ -61,63 +75,83 @@ private JComboBox addSemYearComboBox, discIOUComboBox, currentYearBox, membershi
 		expirationLabel = new JLabel("Expiration Date: ");
 		expirationLabel.setBounds(5, 140, 120, 20);
 		
-		discIOUComboBox = new JComboBox();
-		discIOUComboBox.setBounds(5, 180, 180, 25 );
-		discIOUComboBox.addItem("Apply Discount");
-		discIOUComboBox.addItem("Add to IOU amount");
-		discIOUComboBox.addItem("Subtract from IOU amount");
+		discountsLabel = new JLabel("Discounts Available: ");
+		discountsLabel.setBounds(5, 180, 150, 20);
 		
-		JLabel ds = new JLabel("$");
-		ds.setBounds(190, 179, 10, 25);
+		discountsTextField = new JTextField(""+member.getAvailableDiscounts());
+		discountsTextField.setBounds(130, 180, 80, 25);
+		discountsTextField.setEditable(false);
 		
-		discIOUTextField = new JTextField();
-		discIOUTextField.setBounds(205, 181, 80, 25);
+		IOULabel = new JLabel("IOU Amount: ");
+		IOULabel.setBounds(240, 180, 80, 20);
 		
-		updateDiscIOUButton = new JButton("Update Values");
-		updateDiscIOUButton.setBounds(295, 180, 120, 25);
+		IOUTextField = new JTextField(""+member.getIouAmount());
+		IOUTextField.setBounds(320, 180, 80, 25);
+		IOUTextField.setEditable(false);
+		
+		activeMemberCheckBox = new JCheckBox();
+		activeMemberCheckBox.setBounds(100, 216, 25, 28);
+		activeMemberCheckBox.setSelected(member.getActive());
+		activeMemberCheckBox.addActionListener(new OKCancelButtonListener());
+		
+		
+		activeMemberLabel = new JLabel("Active Member");
+		activeMemberLabel.setBounds(10, 220, 150, 20);
 		
 		firstNameTextField = new JTextField();
 		firstNameTextField.setBounds(80, 5, 350, 25);
+		firstNameTextField.setText(member.getFirstName());
 		
 		lastNameTextField = new JTextField();
 		lastNameTextField.setBounds(80, 35, 350, 25);
+		lastNameTextField.setText(member.getLastName());
 		
 		emailTextField = new JTextField();
 		emailTextField.setBounds(80, 65, 350, 25);
+		emailTextField.setText(member.getEmailAddress());
 		
 		currentYearBox = new JComboBox();
 		currentYearBox.setBounds(85, 100, 100, 25);
-		currentYearBox.addItem("Freshman");
-		currentYearBox.addItem("Sophmore");
-		currentYearBox.addItem("Junior");
-		currentYearBox.addItem("Senior");
+		currentYearBox.addItem("Freshman 1");
+		currentYearBox.addItem("Freshman 2");
+		currentYearBox.addItem("Sophmore 1");
+		currentYearBox.addItem("Sophmore 2");
+		currentYearBox.addItem("Junior 1");
+		currentYearBox.addItem("Junior 2");
+		currentYearBox.addItem("Senior 1");
+		currentYearBox.addItem("Senior 2");
+		currentYearBox.setSelectedIndex(member.getYearsInSchool());
 		
 		membershipTypeBox = new JComboBox();
-		membershipTypeBox.setBounds(310, 100, 120, 25);
+		membershipTypeBox.setBounds(310, 100, 100, 25);
 		membershipTypeBox.addItem("Ordinary");
-		membershipTypeBox.addItem("Working Member");
-		membershipTypeBox.addItem("Core Member");
+		membershipTypeBox.addItem("Working");
+		membershipTypeBox.addItem("Core");
 		membershipTypeBox.addItem("Coordinator");
+		membershipTypeBox.setSelectedIndex(member.getMembershipType());
+		membershipTypeBox.addActionListener(new OKCancelButtonListener());
 		
 		expirationTextField = new JTextField();
 		expirationTextField.setBounds(100, 140, 70, 25);
 		expirationTextField.setEditable(false);
-		//expirationTextField.setText("12/12/2011");
+		expirationTextField.setText("12/12/2011");
 		
-		membershipDurationLabel = new JLabel("Member Duration: ");
-		membershipDurationLabel.setBounds(205, 140, 120, 20);
+		addIOUButton = new JButton("Add IOU");
+		addIOUButton.setBounds(178, 140, 120, 25);
+		addIOUButton.addActionListener(new OKCancelButtonListener());
 		
-		addSemYearComboBox = new JComboBox();
-		addSemYearComboBox.setBounds(310, 140, 120, 25);
-		addSemYearComboBox.addItem("Semester");
-		addSemYearComboBox.addItem("Year");
+		applyDiscountButton = new JButton("Apply Discount");
+		applyDiscountButton.setBounds(305, 140, 120, 25);
+		applyDiscountButton.addActionListener(new OKCancelButtonListener());
+		if(member.getMembershipType() == 0 || member.getIouAmount() < 1)
+			applyDiscountButton.setVisible(false);
 		
-		okButton = new JButton("OK");
-		okButton.setBounds(260, 240, 80, 30);
-		okButton.addActionListener(new OKCancelButtonListener());
+		saveButton = new JButton("SAVE");
+		saveButton.setBounds(250, 230, 80, 30);
+		saveButton.addActionListener(new OKCancelButtonListener());
 		
 		cancelButton = new JButton("Cancel");
-		cancelButton.setBounds(350, 240, 80, 30);
+		cancelButton.setBounds(340, 230, 80, 30);
 		cancelButton.addActionListener(new OKCancelButtonListener());
 		
 		mainPanel.add(firstNameLabel);
@@ -132,15 +166,17 @@ private JComboBox addSemYearComboBox, discIOUComboBox, currentYearBox, membershi
 		mainPanel.add(membershipTypeBox);
 		mainPanel.add(expirationLabel);
 		mainPanel.add(expirationTextField);
-		mainPanel.add(membershipDurationLabel);
-		mainPanel.add(discIOUComboBox);
-		mainPanel.add(ds);
-		mainPanel.add(discIOUTextField);
-		mainPanel.add(updateDiscIOUButton);
-		mainPanel.add(addSemYearComboBox);
-		mainPanel.add(okButton);
+		mainPanel.add(addIOUButton);
+		mainPanel.add(applyDiscountButton);
+		mainPanel.add(discountsLabel);
+		mainPanel.add(discountsTextField);
+		mainPanel.add(IOULabel);
+		mainPanel.add(IOUTextField);
+		//mainPanel.add(recieveEmailCheckBox);
+		mainPanel.add(activeMemberLabel);
+		mainPanel.add(saveButton);
 		mainPanel.add(cancelButton);
-		
+		mainPanel.add(activeMemberCheckBox);
 		mainPanel.setVisible(true);
 		mainFrame.add(mainPanel, BorderLayout.CENTER);
 		
@@ -153,18 +189,78 @@ private JComboBox addSemYearComboBox, discIOUComboBox, currentYearBox, membershi
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			if(e.getSource().equals(cancelButton)){
-				mainFrame.dispose();
-			}else if(e.getSource().equals(okButton)){
-				//TODO: Implement methods for OKButton
 				
-			}else{
+				int result = JOptionPane.showConfirmDialog(null, "Results will not be saved, are you sure you want to exit", "Error", JOptionPane.YES_NO_OPTION);
+				if(result == 0)
+					mainFrame.dispose();
+			}else if(e.getSource().equals(saveButton)){
+				boolean result = controller.updateMember(member, firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), currentYearBox.getSelectedIndex(), membershipTypeBox.getSelectedIndex(), null, tempAvailDiscounts, tempIOU , activeMemberCheckBox.isSelected());
+				
+				if(result)
+					mainFrame.dispose();
+				
+				int choice = JOptionPane.showConfirmDialog(null, "Results not saved to the database, would you like to quit?", "", JOptionPane.YES_NO_OPTION);
+				if(choice == 0)
+					mainFrame.dispose();
+			}
+			else if(e.getSource().equals(applyDiscountButton))
+			{
+				tempIOU = controller.subtractFromIou(currentYearBox.getSelectedIndex(), membershipTypeBox.getSelectedIndex(), tempIOU, 1);
+				tempAvailDiscounts = (int)tempIOU;
+				int twoplaces = (int) (tempIOU * 100);
+				tempIOU = ((double)twoplaces)/100;
+				IOUTextField.setText("" + tempIOU);
+				discountsTextField.setText(""+tempAvailDiscounts);
+				if(tempIOU < 1 || membershipTypeBox.getSelectedIndex() == 0)
+					applyDiscountButton.setVisible(false);
+			}
+			else if(e.getSource().equals(addIOUButton)){
+				double adjustment = 0;
+				boolean accept = false;
+				
+				while(!accept)
+				{
+					try
+					{
+					 adjustment = Double.parseDouble(JOptionPane.showInputDialog(null, "Adjustment to be made" , "Add" , JOptionPane.OK_OPTION));
+					 accept = true;
+					}
+					catch(Exception exception)
+					{
+						String str = "Do not enter characters";
+						JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
+						
+						accept = false;
+						
+					}
+				}
+				
+				tempIOU = controller.addToIou(currentYearBox.getSelectedIndex(), membershipTypeBox.getSelectedIndex(), tempIOU , adjustment);
+				tempAvailDiscounts = (int)tempIOU;
+				int twoplaces = (int) (tempIOU * 100);
+				tempIOU = ((double)twoplaces)/100;
+				IOUTextField.setText(""+tempIOU);
+				discountsTextField.setText(""+tempAvailDiscounts);
+				if(tempIOU >= 1 && membershipTypeBox.getSelectedIndex() > 0)
+					applyDiscountButton.setVisible(true);
+			}
+			else if(e.getSource().equals(activeMemberCheckBox))
+			{
+				setButtons(activeMemberCheckBox.isSelected());
+			}
+			else if(e.getSource().equals(membershipTypeBox))
+			{
+				if(membershipTypeBox.getSelectedIndex() == 0 || member.getIouAmount() < 1)
+					applyDiscountButton.setVisible(false);
+				else
+					applyDiscountButton.setVisible(true);
+			}
+			else{
+			
 				System.exit(0);
 			}
 		}
-		
-		
 	}
-		
 }
 
 
