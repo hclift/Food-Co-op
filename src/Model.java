@@ -2,7 +2,6 @@
  * Model.java:
  * This file contains the model portion of the model/view/controller design.
  **/
-import java.sql.Time;
 import java.util.ArrayList;
 
 /**
@@ -20,10 +19,10 @@ public class Model
 	private Controller controllerReference; // Creates a reference to the
 											// controller.
 
-	//Number of milliseconds in a minute.
+	// Number of milliseconds in a minute.
 	private final int MILLISECONDS_PER_MINUTE = 60000;
-	
-	//Shift length cutoff for receiving 2 discount units (In Minutes).
+
+	// Shift length cutoff for receiving 2 discount units (In Minutes).
 	private final int TWO_DISCOUNT_CUTOFF_MINS = 90;
 
 	/**
@@ -45,15 +44,17 @@ public class Model
 	 * lookupMember method in the database abstraction layer and passing this
 	 * return value its own return value.
 	 * 
-	 * @param firstName First name of the member being looked up.
+	 * @param firstName
+	 *            First name of the member being looked up.
 	 * 
-	 * @param lastName Last name of the member being looked up.
+	 * @param lastName
+	 *            Last name of the member being looked up.
 	 * 
 	 * @return An ArrayList of members matching the first name and last name
-	 * given.
+	 *         given.
 	 **/
-	public ArrayList<Member> lookupMember(final String firstName, final String lastName)
-			throws Exception 
+	public ArrayList<Member> lookupMember(final String firstName,
+			final String lastName) throws Exception
 	{
 		return DatabaseAbstraction.lookupMember(firstName, lastName);
 	}
@@ -107,20 +108,36 @@ public class Model
 	 *            index of the member to be removed from signedIntoKitchen
 	 * @return new ArrayList of signedIntoKitchen minus the member just removed.
 	 */
-	public ArrayList<Member> signOutOfKitchen(final int index) {
-		//Time (in milliseconds) that the user signed in to the kitchen
+	public ArrayList<Member> signOutOfKitchen(final int index)
+	{
+		// Time (in milliseconds) that the user signed in to the kitchen
 		long startTime = signedIntoKitchen.get(index).getLastSignIn();
-		//Time (in milliseconds) that the user is signing out (The current time)
+		// Time (in milliseconds) that the user is signing out (The current
+		// time)
 		long stopTime = System.currentTimeMillis();
-		//Shift length (in minutes), the difference between stopTime 
-		//and startTime, converted to minutes.
-		int shiftLength = (int) (stopTime - startTime) * MILLISECONDS_PER_MINUTE;
+		// Shift length (in minutes), the difference between stopTime
+		// and startTime, converted to minutes.
+		int shiftLength = (int) (stopTime - startTime)
+				* MILLISECONDS_PER_MINUTE;
 
 		if ((shiftLength < 45) || (shiftLength > 120))
 		{
+			/*
+			 * If shift length is under 45 or over 120 mins, the Reconcile Shift
+			 * Length window will AUTOMATICALLY open, while locking the main
+			 * window. Inside the Reconcile Shift Length window, there will be a
+			 * textbox prompting the operator to input the new shift length (I
+			 * still don't know if its going to be in minutes or hours). When
+			 * the new shift length is inputted, it will percolate back to the
+			 * model via the reconcileShiftLength() function. So yes, the int
+			 * gets passed to the controller, then passes to the model, which
+			 * will calculate the discounts. Unfortunately, I don't think the
+			 * window pop-up for reconcile shift length has been created yet, or
+			 * committed. However, I have attached the 4 new java files from the
+			 * GUI that we received last class. You may find your answer there.
+			 */
 			controllerReference.reconcileShiftLength(shiftLength);
-		}
-		else
+		} else
 		{
 			int numberOfDiscounts = 0;
 			// If the shift length is longer than TWO_DISCOUNT_CUTOFF_MINS,
@@ -152,7 +169,7 @@ public class Model
 	 * @author Ashley Chin
 	 * @version 4/14/11
 	 * 
-	 * First logs all working members out, then closes the program
+	 *          First logs all working members out, then closes the program
 	 */
 	public void closeProgram()
 	{
