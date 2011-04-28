@@ -6,10 +6,14 @@ public class Member {
 	private String lastName;
 	private String email;
 	private Date lastSignupDate;
+	private int availableDiscounts;
 	private int membershipLength;
 	private int membershipType;
 	private int yearInSchool;
+	private double IouAmount;
+	private boolean receiveEmail;
 	private boolean isActive;
+	private static final String[] YEAR_IN_SCHOOL = {"Freshman 1", "Freshman 2", "Sophmore 1", "Sophmore 2", "Junior 1", "Junior 2", "Senior 1", "Senior 2", "Graduate", "Faculty"};
 	private static final String[] MEMBERSHIP_LENGTHS = { "Semester", "Year" };
 	private static final String[] MEMBERSHIP_TYPES = {
 		"Ordinary",
@@ -17,10 +21,12 @@ public class Member {
 		"Core",
 		"Coordinator"
 	};
-
+	
+	/*
+	 * TODO: Add comments
+	 */
 	public Member(int id, String firstName, String lastName, String email,
-			Date last_signup_date, int membership_length, int membership_type,
-			int year_in_school, boolean is_active) {
+			Date last_signup_date, int membership_length, int membership_type, int year_in_school, int available_Discounts, double Iou_Amount,boolean recieve_email, boolean is_active) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -31,6 +37,10 @@ public class Member {
 		this.membershipType = membership_type;
 		this.yearInSchool = year_in_school;
 		this.setActive(is_active);
+		this.receiveEmail = recieve_email;
+		this.availableDiscounts = available_Discounts;
+		this.IouAmount = Iou_Amount;
+		this.isActive = is_active;
 	}
 
 	public String getFirstName() {
@@ -58,14 +68,14 @@ public class Member {
 		return email;
 	}
 
-	public String getMembershipType() {
+	public String getMembershipType() 
+	{
 		return MEMBERSHIP_TYPES[membershipType];
 	}
 
-	public String getMembershipLength() {
+public String getMembershipLength() {
 		return MEMBERSHIP_LENGTHS[membershipLength];
 	}
-
 
 	public int getMembershipLengthInt() {
 		String memLength = MEMBERSHIP_LENGTHS[membershipLength];
@@ -77,11 +87,6 @@ public class Member {
 		}
 
 		return status;
-	}
-
-
-	public int getYearInSchool() {
-		return yearInSchool;
 	}
 
 	public void setYearInSchool(int yearInSchool) {
@@ -128,18 +133,60 @@ public class Member {
 	}
 
 	/**
-	 * @param isActive the isActive to set
-	 */
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
-
-	/**
 	 * @return the isActive
 	 */
 	public boolean isActive() {
 		return isActive;
 	}
 
+	public int getYearsInSchool(){
+		return yearInSchool;
+	}
+	public double getIouAmount()
+	{
+		return IouAmount;
+	}
+	public int getAvailableDiscounts()
+	{
+		return availableDiscounts;
+	}
+	public void setAvailableDiscounts(int available_discounts)
+	{
+		availableDiscounts = available_discounts;
+	}
+	public void setIouAmount(double iou_amount)
+	{
+		IouAmount = iou_amount;
+	}
+	public void setEmail(String email)
+	{
+		this.email = email;
+	}
+	public boolean getReceiveEmail() {
+		return receiveEmail;
+	}
 
+	public void setReceiveEmail(boolean receiveEmail) {
+		this.receiveEmail = receiveEmail;
+	}
+
+	public boolean getActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public int getYearInSchool() {
+		return yearInSchool;
+	}
+
+	public void setMembershipLength(int membershipLength) {
+		this.membershipLength = membershipLength;
+	}
+
+	public void setMembershipType(int membershipType) {
+		this.membershipType = membershipType;
+	}
 }

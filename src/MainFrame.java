@@ -7,6 +7,8 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 
 /**
@@ -64,6 +66,10 @@ public class MainFrame extends JFrame {
 	//JTextAreas and JScrollPanes
 	private JTextArea generalLookupTextArea;
 	private JScrollPane generalLookupScrollPane;
+	
+	//JListLookup and JList Model
+	private JList generalLookup;
+	private DefaultListModel generalLookupModel;
 	
 	private JTextArea storeTextArea;
 	private JScrollPane storeScrollPane;
@@ -155,7 +161,7 @@ public class MainFrame extends JFrame {
 		topWestPanel.add(searchButton);
 //==============================================================
 		/**
-		 * creates the main text area where
+		 * Creates the main text area where
 		 * all the member information is placed
 		 * this is the middle panel of the westPanel
 		 * 
@@ -175,6 +181,30 @@ public class MainFrame extends JFrame {
 		lastNameScrollLabel.setBounds(182, 0, 70, 20);
 		membershipScrollLabel.setBounds(358, 0, 90, 20);
 		emailScrollLabel.setBounds(534, 0, 70, 20);
+
+		generalLookupModel = new DefaultListModel();
+		generalLookup = new JList(generalLookupModel);
+		
+		JScrollPane generalLookupPane = new JScrollPane(generalLookup);
+		generalLookupPane.setBounds(15, 0, 410, 125);
+		
+		/**
+		 * This listener will wait to see if a member has been looked up.
+		 */
+		generalLookup.addListSelectionListener(new ListSelectionListener(){
+			
+			/**
+			 * Every time a member has been selected by the cursor, an event will be triggered that will
+			 * enable the use of the View Member, Update Member, Sign Into Kitchen, and Sign into Store
+			 * buttons.
+			 */
+			public void valueChanged(ListSelectionEvent e){
+				enableButtons();
+			}	
+			
+			
+						
+		});
 		
 		generalLookupTextArea = new JTextArea();
 		generalLookupTextArea.setFont(f2);
@@ -189,6 +219,9 @@ public class MainFrame extends JFrame {
 		middleWestPanel.add(membershipScrollLabel);
 		middleWestPanel.add(emailScrollLabel);
 		middleWestPanel.add(generalLookupScrollPane);
+		generalLookupScrollPane.setBounds(15, 0, 410, 125);
+		middleWestPanel.add(generalLookupPane);
+		//middleWestPanel.add(generalLookupScrollPane);
 		
 //==============================================================
 		/**
@@ -200,10 +233,12 @@ public class MainFrame extends JFrame {
 		viewMemberButton = new JButton("View Member");
 		viewMemberButton.setBounds(65, 30, 150, 40);
 		viewMemberButton.setFont(buttonFont);
+		viewMemberButton.setEnabled(false);
 		
 		updateMemberButton = new JButton("Update Member");
 		updateMemberButton.setBounds(325, 30, 150, 40);
 		updateMemberButton.setFont(buttonFont);
+		updateMemberButton.setEnabled(false);
 		
 		addMemberButton = new JButton("Add Member");
 		addMemberButton.setBounds(565, 30, 150, 40);
@@ -212,10 +247,12 @@ public class MainFrame extends JFrame {
 		signIntoStoreButton = new JButton("Sign Into Store");
 		signIntoStoreButton.setBounds(65, 100, 150, 40);
 		signIntoStoreButton.setFont(buttonFont);
+		signIntoStoreButton.setEnabled(false);
 		
 		signIntoKitchenButton = new JButton("Sign Into Kitchen");
 		signIntoKitchenButton.setBounds(325, 100, 150, 40);
 		signIntoKitchenButton.setFont(buttonFont);
+		signIntoKitchenButton.setEnabled(false);
 		
 		viewScheduleButton = new JButton("View Schedule");
 		viewScheduleButton.setBounds(565, 100, 150, 40);
@@ -294,8 +331,7 @@ public class MainFrame extends JFrame {
 		mainPanel.add(eastPanel);
 		addListeners();
 		validate();
-		
-		
+				
 	}
 	
 	/**
@@ -304,6 +340,9 @@ public class MainFrame extends JFrame {
 	 * 
 	 */
 	private void addListeners(){
+		
+		
+		
 		ActionListener buttonListener = new ButtonListener();
 		searchButton.addActionListener(buttonListener);
 		viewMemberButton.addActionListener(buttonListener);
@@ -318,6 +357,33 @@ public class MainFrame extends JFrame {
 		KeyListener EnterListener = new EnterListener();
 		firstNameTextField.addKeyListener(EnterListener);
 		lastNameTextField.addKeyListener(EnterListener);
+	}
+	/** 
+	 * 
+	 * Enable View Member, Update Member, Sign Into Store, and Sign Into Kitchen Button
+	 * 
+	 */
+	
+	private void enableButtons(){
+		viewMemberButton.setEnabled(true);
+		updateMemberButton.setEnabled(true);
+		signIntoStoreButton.setEnabled(true);
+		signIntoKitchenButton.setEnabled(true);
+		
+	}
+	
+	/**
+	 * 
+	 * Disable View Member, Update Member, Sign Into Store, and Sign Into Kitchen Button
+	 * 
+	 */
+	private void disableButtons(){
+		
+		viewMemberButton.setEnabled(false);
+		updateMemberButton.setEnabled(false);
+		signIntoStoreButton.setEnabled(false);
+		signIntoKitchenButton.setEnabled(false);
+				
 	}
 	
 	/**
@@ -358,9 +424,24 @@ public class MainFrame extends JFrame {
 											+ searchResult.get(j).getMembershipType() + "\t\t\t"
 											+ searchResult.get(j).getEmailAddress()+ "\t\t\n");
 		}
-		
+        //       generalLookupTextArea.setText("First Name\t\tLastName\t\tMembership Type\tE-Mail\t\t\t\n");
+		//This will clear the previous Search Result automatically to prevent an event from happening.
+		generalLookup.clearSelection();
 		
 		//generalLookupTextArea.append("Michael\t\tWang\t\tCoordinator\t\tmwang10@binghamton.edu\t\t\t\n");
+		if (searchResult.size() == 0){
+			disableButtons();
+		}
+		generalLookupModel.clear();
+		for(int j = 0; j < searchResult.size(); j++){
+			String string  = new String((searchResult.get(j).getFirstName()+ "     "+ searchResult.get(j).getLastName()+ "    "
+											+ searchResult.get(j).getMembershipType() + "    "
+											+ searchResult.get(j).getEmailAddress()+ "    ")); 
+			generalLookupModel.addElement(string);
+					
+		}
+			
+		//generalLookupTextArea.append("Michael\t\tWang\t\tCoordinator\t\t\tmwang10@binghamton.edu\t\t\t\n");
 		//generalLookupTextArea.append("Jeremy\t\tSimpson\t\tCore\t\t\tjsimpso1@binghamton.edu\t\t\t\n");
 		//generalLookupTextArea.append("Jeremy\t\tSmith\t\tVolunteer\t\t\tjsmith1@binghamton.edu\t\t\t\n");
 		//"First Name\t\tLastName\t\tMembership Type\t\t\tE-Mail\t\t\t\n"
@@ -403,14 +484,23 @@ public class MainFrame extends JFrame {
 				new ViewMember();
 				//str = "View member method to go here.";
 				//JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
+				//new ViewMember();
+				//str = "View member method to go here.";
+				//JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
+				//Member m = controller.getMember(generalLookup.getSelectedIndex());
+				//str = m.getEmailAddress();
+				//str = "View member method to go here.";
+				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
 			
 			}else if(e.getSource().equals(updateMemberButton)){
+				Member evan = new Member(0, "Evan", "Sussman", "esussma1@binghamton.edu", null, 0, 2, 3, 3, 3.4, true, true);
 				new UpdateMemberFrame();
 				//str = "Update member method to go here.";
 				//JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
 			
 			}else if(e.getSource().equals(addMemberButton)){
 				new AddMember();
+
 				//str = "Add member method to go here.";
 				//JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
 			

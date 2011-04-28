@@ -165,6 +165,3 @@ private JComboBox addSemYearComboBox, discIOUComboBox, currentYearBox, membershi
 	}
 		
 }
-
-
-
