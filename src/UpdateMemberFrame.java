@@ -13,7 +13,7 @@ public class UpdateMemberFrame{
 private JFrame mainFrame;
 private JPanel mainPanel;
 private JLabel firstNameLabel, lastNameLabel, emailLabel, yearLabel, 
-	membershipTypeLabel, expirationLabel,discountsLabel, IOULabel, recieveEmailLabel;
+	membershipTypeLabel, expirationLabel,discountsLabel, IOULabel, recieveEmailLabel, activeMemberLabel;
 
 private JTextField firstNameTextField, lastNameTextField, 
 	emailTextField, expirationTextField, discountsTextField, IOUTextField;
@@ -38,7 +38,7 @@ GregorianCalendar   tempExpirationDate;
 		tempAvailDiscounts = (int)tempIOU;
 		tempExpirationDate = new GregorianCalendar(member.getExpirationDate().get(Calendar.YEAR), member.getExpirationDate().get(Calendar.MONTH), member.getExpirationDate().get(Calendar.DAY_OF_MONTH));
 		mainFrame = new JFrame("Update Member");
-		mainFrame.setBounds(475, 300, 550, 410);
+		mainFrame.setBounds(575, 600, 650, 410);
 		//mainFrame.setFocusableWindowState(false);
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		//mainFrame.setResizable(false);
@@ -71,55 +71,51 @@ GregorianCalendar   tempExpirationDate;
 		emailLabel.setBounds(5, 63, 80, 20);
 		
 		yearLabel = new JLabel("Current Year: ");
-		yearLabel.setBounds(5, 100, 80, 20);
+		yearLabel.setBounds(5, 100, 100, 20);
 		
 		membershipTypeLabel = new JLabel("Membership Type: ");
-		membershipTypeLabel.setBounds(200, 100, 150, 20);
+		membershipTypeLabel.setBounds(5, 140, 150, 20);
 		
 		expirationLabel = new JLabel("Expiration Date: ");
-		expirationLabel.setBounds(5, 140, 120, 20);
+		expirationLabel.setBounds(5,180, 120, 20);
 		
 		discountsLabel = new JLabel("Discounts Available: ");
-		discountsLabel.setBounds(5, 180, 150, 20);
+		discountsLabel.setBounds(5, 220, 150, 20);
 		
 		discountsTextField = new JTextField(""+member.getAvailableDiscounts());
-		discountsTextField.setBounds(130, 180, 80, 25);
+		discountsTextField.setBounds(160, 220, 80, 25);
 		discountsTextField.setEditable(false);
 		
 		IOULabel = new JLabel("IOU Amount: ");
-		IOULabel.setBounds(240, 180, 80, 20);
+		IOULabel.setBounds(5, 260, 100, 20);
 		
 		IOUTextField = new JTextField(""+member.getIouAmount());
-		IOUTextField.setBounds(320, 180, 80, 25);
+		IOUTextField.setBounds(105, 260, 70, 25);
 		IOUTextField.setEditable(false);
 		
-		recieveEmailCheckBox = new JCheckBox();
-		recieveEmailCheckBox.setBounds(5, 216, 25, 28);
-		recieveEmailCheckBox.setSelected(member.getReceiveEmail());
-		
 		activeMemberCheckBox = new JCheckBox();
-		activeMemberCheckBox.setBounds(178, 216, 25, 28);
+		activeMemberCheckBox.setBounds(130, 290, 25, 20);
 		activeMemberCheckBox.setSelected(member.getActive());
 		activeMemberCheckBox.addActionListener(new OKCancelButtonListener());
 		
 		
-		recieveEmailLabel = new JLabel("Recieve E-Mails");
-		recieveEmailLabel.setBounds(30, 220, 150, 20);
+		activeMemberLabel = new JLabel("Active Member");
+		activeMemberLabel.setBounds(5, 290, 120, 20);
 		
 		firstNameTextField = new JTextField();
-		firstNameTextField.setBounds(80, 5, 350, 25);
+		firstNameTextField.setBounds(80, 5, 550, 25);
 		firstNameTextField.setText(member.getFirstName());
 		
 		lastNameTextField = new JTextField();
-		lastNameTextField.setBounds(80, 35, 350, 25);
+		lastNameTextField.setBounds(80, 35, 550, 25);
 		lastNameTextField.setText(member.getLastName());
 		
 		emailTextField = new JTextField();
-		emailTextField.setBounds(80, 65, 350, 25);
+		emailTextField.setBounds(80, 65, 550, 25);
 		emailTextField.setText(member.getEmailAddress());
 		
 		currentYearBox = new JComboBox();
-		currentYearBox.setBounds(85, 100, 100, 25);
+		currentYearBox.setBounds(145, 100, 100, 25);
 		currentYearBox.addItem("Freshman 1");
 		currentYearBox.addItem("Freshman 2");
 		currentYearBox.addItem("Sophmore 1");
@@ -131,7 +127,7 @@ GregorianCalendar   tempExpirationDate;
 		currentYearBox.setSelectedIndex(member.getYearsInSchool());
 		
 		membershipTypeBox = new JComboBox();
-		membershipTypeBox.setBounds(310, 100, 100, 25);
+		membershipTypeBox.setBounds(145, 140, 100, 25);
 		membershipTypeBox.addItem("Ordinary");
 		membershipTypeBox.addItem("Working");
 		membershipTypeBox.addItem("Core");
@@ -140,38 +136,39 @@ GregorianCalendar   tempExpirationDate;
 		membershipTypeBox.addActionListener(new OKCancelButtonListener());
 		
 		expirationTextField = new JTextField();
-		expirationTextField.setBounds(100, 140, 70, 25);
+		expirationTextField.setBounds(130, 180, 70, 25);
 		expirationTextField.setEditable(false);
 		expirationTextField.setText("12/12/2011");
 		
-		addIOUButton = new JButton("Add IOU");
-		addIOUButton.setBounds(178, 140, 120, 25);
+		
+		subtractIOUButton = new JButton("Subtract from IOU Amount");
+		subtractIOUButton.setBounds(400, 260, 240, 25);
+		subtractIOUButton.addActionListener(new OKCancelButtonListener());
+		
+		addIOUButton = new JButton("Add to IOU Amount");
+		addIOUButton.setBounds(180, 260, 200, 25);
 		addIOUButton.addActionListener(new OKCancelButtonListener());
 		
 		addSemesterButton = new JButton("Add Semester");
-		addSemesterButton.setBounds(350, 270, 120, 30);
+		addSemesterButton.setBounds(220, 180, 140, 25);
 		addSemesterButton.addActionListener(new OKCancelButtonListener());
 		
 		addYearButton = new JButton("Add Year");
-		addYearButton.setBounds(220, 270, 120, 30);
+		addYearButton.setBounds(370, 180, 100, 25);
 		addYearButton.addActionListener(new OKCancelButtonListener());
 		
 		applyDiscountButton = new JButton("Apply Discount");
-		applyDiscountButton.setBounds(305, 140, 160, 25);
+		applyDiscountButton.setBounds(260, 220, 160, 25);
 		applyDiscountButton.addActionListener(new OKCancelButtonListener());
 		if(member.getMembershipType() == 0 || member.getIouAmount() < 1)
 			applyDiscountButton.setVisible(false);
 		
 		saveButton = new JButton("SAVE");
-		saveButton.setBounds(250, 230, 80, 30);
+		saveButton.setBounds(550, 300, 80, 30);
 		saveButton.addActionListener(new OKCancelButtonListener());
 		
-		subtractIOUButton = new JButton("Subtract IOU");
-		subtractIOUButton.setBounds(100, 240, 80, 30);
-		subtractIOUButton.addActionListener(new OKCancelButtonListener());
-		
 		cancelButton = new JButton("Cancel");
-		cancelButton.setBounds(340, 230, 80, 30);
+		cancelButton.setBounds(450, 300, 80, 30);
 		cancelButton.addActionListener(new OKCancelButtonListener());
 		
 		mainPanel.add(firstNameLabel);
@@ -192,14 +189,14 @@ GregorianCalendar   tempExpirationDate;
 		mainPanel.add(discountsTextField);
 		mainPanel.add(IOULabel);
 		mainPanel.add(IOUTextField);
-		mainPanel.add(recieveEmailCheckBox);
-		mainPanel.add(recieveEmailLabel);
+		//mainPanel.add(recieveEmailCheckBox);
+		mainPanel.add(activeMemberLabel);
+		mainPanel.add(addSemesterButton);
 		mainPanel.add(subtractIOUButton);
+		mainPanel.add(addYearButton);
 		mainPanel.add(saveButton);
 		mainPanel.add(cancelButton);
 		mainPanel.add(activeMemberCheckBox);
-		mainPanel.add(addSemesterButton);
-		mainPanel.add(addYearButton);
 		mainPanel.setVisible(true);
 		mainFrame.add(mainPanel, BorderLayout.CENTER);
 		

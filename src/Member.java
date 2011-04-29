@@ -25,7 +25,7 @@ public class Member {
 	};
 	
 	public Member(int id, String firstName, String lastName, String email,
-			GregorianCalendar last_signup_date,GregorianCalendar expirationDate, int membership_length, int membership_type,
+			GregorianCalendar last_signup_date, GregorianCalendar expirationDate, int membership_length, int membership_type,
 			int year_in_school, int available_Discounts, double Iou_Amount,boolean recieve_email, boolean is_active) {
 		super();
 		this.id = id;

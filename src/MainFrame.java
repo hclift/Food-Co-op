@@ -105,8 +105,11 @@ public class MainFrame extends JFrame {
 	public MainFrame(Controller c, Model m){
 		controller = c;
 		model = m;
-		setBounds(100, 30, 1024, 768);
-		//setExtendedState(MAXIMIZED_BOTH);
+
+		setExtendedState(MAXIMIZED_BOTH);
+
+		
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//setResizable(false);
 		setVisible(true);
@@ -190,11 +193,12 @@ public class MainFrame extends JFrame {
 		lastNameScrollLabel.setBounds(182, 0, 70, 20);
 		membershipScrollLabel.setBounds(358, 0, 90, 20);
 		emailScrollLabel.setBounds(534, 0, 70, 20);
+
 		generalLookupModel = new DefaultListModel();
 		generalLookup = new JList(generalLookupModel);
 		
 		JScrollPane generalLookupPane = new JScrollPane(generalLookup);
-		generalLookupPane.setBounds(15, 0, 410, 125);
+		//generalLookupPane.setBounds(15, 0, 410, 125);
 		
 		/**
 		 * This listener will wait to see if a member has been looked up.
@@ -214,6 +218,7 @@ public class MainFrame extends JFrame {
 						
 		}
 		);
+
 		
 		generalLookupTextArea = new JTextArea();
 		generalLookupTextArea.setFont(f2);
@@ -228,7 +233,8 @@ public class MainFrame extends JFrame {
 		middleWestPanel.add(membershipScrollLabel);
 		middleWestPanel.add(emailScrollLabel);
 		middleWestPanel.add(generalLookupScrollPane);
-		generalLookupScrollPane.setBounds(15, 0, 410, 125);
+		generalLookupPane.setBounds(5, 20, 795, 205);
+		//generalLookupScrollPane.setBounds(15, 0, 410, 125);
 		middleWestPanel.add(generalLookupPane);
 		//middleWestPanel.add(generalLookupScrollPane);
 		
@@ -247,7 +253,7 @@ public class MainFrame extends JFrame {
 		updateMemberButton = new JButton("Update Member");
 		updateMemberButton.setBounds(325, 30, 150, 40);
 		updateMemberButton.setFont(buttonFont);
-		updateMemberButton.setEnabled(false);
+		updateMemberButton.setEnabled(true);
 		
 		addMemberButton = new JButton("Add Member");
 		addMemberButton.setBounds(565, 30, 150, 40);
@@ -437,6 +443,10 @@ public class MainFrame extends JFrame {
 		//This will clear the previous Search Result automatically to prevent an event from happening.
 		generalLookup.clearSelection();
 		
+
+		
+		//generalLookupTextArea.append("Michael\t\tWang\t\tCoordinator\t\tmwang10@binghamton.edu\t\t\t\n");
+
 		//generalLookupTextArea.append("Michael\t\tWang\t\tCoordinator\t\tmwang10@binghamton.edu\t\t\t\n");
 		if (searchResult.size() == 0){
 			disableButtons();
@@ -451,13 +461,14 @@ public class MainFrame extends JFrame {
 		}
 			
 		//generalLookupTextArea.append("Michael\t\tWang\t\tCoordinator\t\t\tmwang10@binghamton.edu\t\t\t\n");
+
 		//generalLookupTextArea.append("Jeremy\t\tSimpson\t\tCore\t\t\tjsimpso1@binghamton.edu\t\t\t\n");
 		//generalLookupTextArea.append("Jeremy\t\tSmith\t\tVolunteer\t\t\tjsmith1@binghamton.edu\t\t\t\n");
 		//"First Name\t\tLastName\t\tMembership Type\t\t\tE-Mail\t\t\t\n"
 	}
 	/**
 	 * 
-	 * @param errorMessage a string to be displayed in the error message popup
+	 * @param errorMessage a string to be displayed in the error message pop-up
 	 * 
 	 * displays a given string as an error message
 	 */
@@ -499,7 +510,7 @@ public class MainFrame extends JFrame {
 				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
 			
 			}else if(e.getSource().equals(updateMemberButton)){
-				Member evan = new Member(0, "Evan", "Sussman", "esussma1@binghamton.edu", null,new GregorianCalendar(2011, 8, 20) , 0, 2, 3, 3, 3.4, true, true);
+				Member evan = new Member(0, "Evan", "Sussman", "esussma1@binghamton.edu",null, new GregorianCalendar(2010, 5, 20) , 0, 2, 3, 3, 3.4, true, true);
 				new UpdateMemberFrame(controller, evan);
 				//str = "Update member method to go here.";
 				//JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);

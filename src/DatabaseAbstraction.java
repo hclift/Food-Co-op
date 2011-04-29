@@ -61,7 +61,8 @@ public class DatabaseAbstraction
 					new GregorianCalendar(),
 					rs.getInt("membership_length"),
 					rs.getInt("membership_type"),
-					rs.getInt("year_in_school"), rs.getInt("available_discounts"), rs.getDouble("iou_amount"),
+					rs.getInt("year_in_school"), 
+					rs.getInt("available_discounts"), rs.getDouble("iou_amount"),
 					(rs.getInt("receive_email") != 0),
 					(rs.getInt("is_active") != 0)
 				);
