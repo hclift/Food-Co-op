@@ -30,7 +30,11 @@ public class Model
 	
 	public ArrayList<Member> signIntoKitchen(int index) throws Exception
 	{
-		if(matches.get(index).canSignIn())
+		if(index >= matches.size())
+		{
+			throw new Exception("Invalid Index");
+		}
+		else if(matches.get(index).canSignIn())
 		{
 			for(int i = 0; i < signedIntoKitchen.size(); i++)
 			{
@@ -60,20 +64,24 @@ public class Model
 	
 	public ArrayList<Member> signIntoStore(int index) throws Exception
 	{
-		if(matches.get(index).canSignIn())
+		if(index >= matches.size())
 		{
-			for(int i = 0; i < signedIntoStore.size(); i++)
-			{
-				if(signedIntoStore.get(i).equals(matches.get(index)))
-				{
-					throw new Exception("This member is already signed into the kitchen");
-				}
-			}
+			throw new Exception("Invalid Index");
+		}
+		else if(matches.get(index).canSignIn())
+		{
 			for(int i = 0; i < signedIntoKitchen.size(); i++)
 			{
 				if(signedIntoKitchen.get(i).equals(matches.get(index)))
 				{
-					throw new Exception();
+					throw new Exception("This member is already signed into the kitchen");
+				}
+			}
+			for(int i = 0; i < signedIntoStore.size(); i++)
+			{
+				if(signedIntoStore.get(i).equals(matches.get(index)))
+				{
+					throw new Exception("This member is already signed into the store");
 				}
 			}
 			long time = 0;
