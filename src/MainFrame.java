@@ -97,9 +97,9 @@ public class MainFrame extends JFrame {
 	public MainFrame(Controller c, Model m){
 		controller = c;
 		model = m;
-		setBounds(100, 30, 1200, 675);
+		setExtendedState(MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(false);
+		//setResizable(false);
 		setVisible(true);
 		setTitle("Main Menu");
 		Font buttonFont = new Font("Calibri", Font.BOLD, 12);
@@ -110,7 +110,7 @@ public class MainFrame extends JFrame {
 		topWestPanel = new JPanel();
 		//topWestPanel.setBackground(Color.CYAN);
 		middleWestPanel = new JPanel();
-		middleWestPanel.setBackground(Color.YELLOW);
+		//middleWestPanel.setBackground(Color.YELLOW);
 		bottomWestPanel = new JPanel();
 		//bottomWestPanel.setBackground(Color.PINK);
 		mainPanel = new JPanel();
@@ -118,9 +118,9 @@ public class MainFrame extends JFrame {
 		mainPanel.setLayout(null);
 		
 		eastPanel.setLayout(null);
-		eastPanel.setBounds(900, 0, 300, 675);
+		eastPanel.setBounds(800, 0, 300, 675);
 		westPanel.setLayout(new GridLayout(3, 1));
-		westPanel.setBounds(0, 0, 900, 675);
+		westPanel.setBounds(0, 0, 800, 675);
 		topWestPanel.setLayout(null);
 		middleWestPanel.setLayout(null);
 		bottomWestPanel.setLayout(null);
@@ -177,16 +177,19 @@ public class MainFrame extends JFrame {
 		membershipScrollLabel.setFont(f2);
 		emailScrollLabel.setFont(f2);
 		
-		firstNameScrollLabel.setBounds(80, 0, 70, 20);
-		lastNameScrollLabel.setBounds(280, 0, 70, 20);
-		membershipScrollLabel.setBounds(500, 0, 90, 20);
-		emailScrollLabel.setBounds(720, 0, 70, 20);
+		firstNameScrollLabel.setBounds(5, 0, 70, 20);
+		lastNameScrollLabel.setBounds(182, 0, 70, 20);
+		membershipScrollLabel.setBounds(358, 0, 90, 20);
+		emailScrollLabel.setBounds(534, 0, 70, 20);
 		
 		generalLookupTextArea = new JTextArea();
 		generalLookupTextArea.setFont(f2);
+		
+		generalLookupTextArea.setText("Michael\t\tWang\t\tCoordinator\t\tmwang10@binghamton.edu\n");
+		
 		generalLookupTextArea.setEditable(false);
 		generalLookupScrollPane = new JScrollPane(generalLookupTextArea);
-		generalLookupScrollPane.setBounds(0, 20, 900, 205);
+		generalLookupScrollPane.setBounds(5, 20, 795, 205);
 		middleWestPanel.add(firstNameScrollLabel);
 		middleWestPanel.add(lastNameScrollLabel);
 		middleWestPanel.add(membershipScrollLabel);
@@ -205,11 +208,11 @@ public class MainFrame extends JFrame {
 		viewMemberButton.setFont(buttonFont);
 		
 		updateMemberButton = new JButton("Update Member");
-		updateMemberButton.setBounds(365, 30, 150, 40);
+		updateMemberButton.setBounds(325, 30, 150, 40);
 		updateMemberButton.setFont(buttonFont);
 		
 		addMemberButton = new JButton("Add Member");
-		addMemberButton.setBounds(665, 30, 150, 40);
+		addMemberButton.setBounds(565, 30, 150, 40);
 		addMemberButton.setFont(buttonFont);
 		
 		signIntoStoreButton = new JButton("Sign Into Store");
@@ -217,11 +220,11 @@ public class MainFrame extends JFrame {
 		signIntoStoreButton.setFont(buttonFont);
 		
 		signIntoKitchenButton = new JButton("Sign Into Kitchen");
-		signIntoKitchenButton.setBounds(365, 100, 150, 40);
+		signIntoKitchenButton.setBounds(325, 100, 150, 40);
 		signIntoKitchenButton.setFont(buttonFont);
 		
 		viewScheduleButton = new JButton("View Schedule");
-		viewScheduleButton.setBounds(665, 100, 150, 40);
+		viewScheduleButton.setBounds(565, 100, 150, 40);
 		viewScheduleButton.setFont(buttonFont);
 		
 		bottomWestPanel.add(viewMemberButton);
@@ -251,11 +254,11 @@ public class MainFrame extends JFrame {
 		
 		signOutOfStoreButton = new JButton("Sign Out");
 		signOutOfStoreButton.setFont(buttonFont);
-		signOutOfStoreButton.setBounds(190, 290, 80, 25);
+		signOutOfStoreButton.setBounds(135, 290, 80, 25);
 		
 		signOutOfKitchenButton = new JButton("Sign Out");
 		signOutOfKitchenButton.setFont(buttonFont);
-		signOutOfKitchenButton.setBounds(190, 600, 80, 25);
+		signOutOfKitchenButton.setBounds(135, 600, 80, 25);
 		
 		storeTextArea = new JTextArea();
 		storeTextArea.setFont(f2);
@@ -263,7 +266,7 @@ public class MainFrame extends JFrame {
 		//storeTextArea.setText("Name One\nName Two\nReallyReallyReallyLongLong AsianNameInStore\n1\n2\n3\n4\n5\n6\n7\n8\n9\n");
 		
 		storeScrollPane = new JScrollPane(storeTextArea);
-		storeScrollPane.setBounds(15, 30, 255, 250);
+		storeScrollPane.setBounds(15, 30, 200, 250);
 		
 		kitchenTextArea = new JTextArea();
 		kitchenTextArea.setFont(f2);
@@ -271,7 +274,7 @@ public class MainFrame extends JFrame {
 		//storeTextArea.setText("Name One\nName Two\nReallyReallyReallyLongLong AsianNameInKitchen\n1\n2\n3\n4\n5\n6\n7\n8\n9\n");
 		
 		kitchenScrollPane = new JScrollPane(kitchenTextArea);
-		kitchenScrollPane.setBounds(15, 340, 255, 250);
+		kitchenScrollPane.setBounds(15, 340, 200, 250);
 		
 		
 		eastPanel.add(storeLabel);
@@ -363,7 +366,7 @@ public class MainFrame extends JFrame {
 		}
 		
 		
-		//generalLookupTextArea.append("Michael\t\tWang\t\tCoordinator\t\t\tmwang10@binghamton.edu\t\t\t\n");
+		//generalLookupTextArea.append("Michael\t\tWang\t\tCoordinator\t\tmwang10@binghamton.edu\t\t\t\n");
 		//generalLookupTextArea.append("Jeremy\t\tSimpson\t\tCore\t\t\tjsimpso1@binghamton.edu\t\t\t\n");
 		//generalLookupTextArea.append("Jeremy\t\tSmith\t\tVolunteer\t\t\tjsmith1@binghamton.edu\t\t\t\n");
 		//"First Name\t\tLastName\t\tMembership Type\t\t\tE-Mail\t\t\t\n"
@@ -398,24 +401,24 @@ public class MainFrame extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			
 			if(e.getSource().equals(searchButton)){
-				str = "You must enter a first and a last name!";
-				if(firstNameTextField.getText().equals("") || lastNameTextField.getText().equals("")){
-					JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.ERROR_MESSAGE);
-				}else{
+				
 					printSearchResult(controller.lookUpMember(firstNameTextField.getText(), lastNameTextField.getText()));
-				}
+				
 			
 			}else if(e.getSource().equals(viewMemberButton)){
-				str = "View member method to go here.";
-				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
+				new ViewMember();
+				//str = "View member method to go here.";
+				//JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
 			
 			}else if(e.getSource().equals(updateMemberButton)){
-				str = "Update member method to go here.";
-				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
+				new UpdateMemberFrame();
+				//str = "Update member method to go here.";
+				//JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
 			
 			}else if(e.getSource().equals(addMemberButton)){
-				str = "Add member method to go here.";
-				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
+				new AddMember();
+				//str = "Add member method to go here.";
+				//JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
 			
 			}else if(e.getSource().equals(signIntoStoreButton)){
 				str = "Sign into store method to go here.";
@@ -475,4 +478,45 @@ public class MainFrame extends JFrame {
 		public void keyTyped(KeyEvent e) {
 		}
 	}
+	
+	/**
+	 * @author Ashley Chin
+	 * @version 4/28/11
+	 * 
+	 * When member has worked for less than 45 minutes or greater than 2 hours,
+	 * reconcile shift length window pops up and prompts user to input a new
+	 * shift length based on judgement.
+	 * 
+	 * @param actual shift length
+	 * @return reonciled shift length
+	 */
+	public int reconcileShiftLength(int actualShiftLength)
+	{
+		int reconciledShiftLength = 0;
+		boolean flag = false;
+		while (!flag)
+		{
+			String value = JOptionPane.showInputDialog("Member has been working for " + actualShiftLength + "minutes. Enter the adjusted shift length: ");
+			try
+			{
+				reconciledShiftLength = Integer.parseInt(value);
+				if (reconciledShiftLength < 0)
+				{
+					value = "Please enter a non-negative value for time.";
+				}
+				else
+				{
+					flag = true;
+				}
+			}
+			catch (NumberFormatException e)
+			{
+				JOptionPane.showMessageDialog(null, "Please enter a valid number.","Error",JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		return reconciledShiftLength;		
+	}
+	
+	
+	
 }
