@@ -125,16 +125,10 @@ public class Controller
      * @param shift length in minutes
      * @return shift length
      */
-    public void reconcileShiftLength(int shiftLength)
+    public int reconcileShiftLength(int reconciledShiftLength)
     {
-        
-    	//return mainFrame.reconcileShiftLength(shiftLength);
-        /*----------------------------------------------------------------
-        * Update-member User Interface reference?  Need this method in the View somehow
-        *
-        *-----------------------------------------------------------------
-        */
-        
+    	return mainFrame.reconcileShiftLength(reconciledShiftLength);
+         
     }
 	
 }
