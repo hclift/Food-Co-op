@@ -68,4 +68,14 @@ public class Member {
 	public String getMembershipLength() {
 		return MEMBERSHIP_LENGTHS[membershipLength];
 	}
+
+	/**
+	 * TODO:	Write method to return the last sign-in of the Member in ms.
+	 * @return Time of last sign-in in milliseconds
+	 **/
+	public long getLastSignIn()
+	{
+		return 0;
+	}
+
 }
