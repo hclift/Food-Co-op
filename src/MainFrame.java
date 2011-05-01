@@ -25,7 +25,7 @@ import javax.swing.event.ListSelectionListener;
  * this class, all it's members, and all it's variables are completely
  * self explanatory
  * 
- * 
+ * Code reviewed by Raanan Korinow
  * 
  * 
  * 
