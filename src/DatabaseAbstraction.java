@@ -35,7 +35,7 @@ public class DatabaseAbstraction
 	* parameters
 	* @param first_name		First name of the member to look for
 	* @param last_name		Last name of the member to look for
-	* @return memberList	An arraylist of member objects which match the 
+	* @return memberList	An ArrayList of member objects which match the 
 	*						parameters
 	*/
 	public static ArrayList<Member> lookupMember(String first_name, String last_name)
@@ -79,7 +79,7 @@ public class DatabaseAbstraction
 	/**
 	* Updates a member in the database. Uses a PreparedStatement.
 	* @param m updated Member object.
-	*/
+	**/
 	public static boolean updateMember(Member m)
 	{
 	try
