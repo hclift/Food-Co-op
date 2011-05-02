@@ -1,12 +1,4 @@
-<<<<<<< HEAD
 import java.sql.Date;
-=======
-/**
- * Controller.java:
- * This file contains the controller portion 
- * of the model/view/controller design.
- **/
->>>>>>> refs/heads/sign_out
 import java.util.ArrayList;
 
 /**
@@ -61,7 +53,6 @@ public class Controller
 
 		return searchResult;
 	}
-<<<<<<< HEAD
 	
 	public boolean updateMember(Member member, String firstName, String lastName, String emailAddress, int yearInSchool, int membershipType, 
 			Date expirationDate, int availableDiscounts, double iouAmount, boolean recieveEmail, boolean status)
@@ -110,10 +101,6 @@ public class Controller
 		return newAmount;
 	}
 	
-	
-}
-=======
-
 	/**
 	 * @author Ashley Chin
 	 * @version 4/14/11
@@ -162,4 +149,3 @@ public class Controller
     }
 
 }
->>>>>>> refs/heads/sign_out
