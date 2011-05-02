@@ -182,7 +182,7 @@ public class UpdateMemberFrame{
 		
 		cancelButton = new JButton("Cancel");
 		cancelButton.setBounds(340, 230, 80, 30);
-		cancelButton.addActionListener(new OKCancelButtonListener());
+		cancelButton.addActi onListener(new OKCancelButtonListener());
 		
 		mainPanel.add(firstNameLabel);
 		mainPanel.add(firstNameTextField);

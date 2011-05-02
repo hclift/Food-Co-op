@@ -331,4 +331,7 @@ public class Member
 	{
 		this.membershipType = membershipType;
 	}
+	
 }
+
+// TODO: Sign in

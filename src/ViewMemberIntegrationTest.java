@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class ViewMemberTest {
+public class ViewMemberIntegrationTest {
 	private Controller c;
 	private Model m;
 	private MainFrame mf;

@@ -1,61 +1,50 @@
+
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.junit.Before;
+
 import org.junit.Test;
 
 
 public class SignOutTest {
-	private Model m;
-	private Controller c;
-	private MainFrame mf;
-	ArrayList<Member> dummy = new ArrayList<Member>();
+	Controller TempController;
+	Model TempModel;
+	ArrayList<Member> TestStoreMemberList;
+	ArrayList<Member> TestKitchenMemberList;
+	ArrayList<Member> testResults;
+	Member testMember;
 	@Before
 	public void setUp() throws Exception {
-		m = new Model();
-		c = new Controller(m);
-		mf = new MainFrame(c, m);
-		dummy = m.lookupMember("John", "Smith");
-		m.signIntoStore(0);
-		dummy = m.lookupMember("Jane", "Dane");
-		m.signIntoStore(0);
-		dummy = m.lookupMember("Keith", "Hernandez");
-		m.signIntoKitchen(0);
-		dummy = m.lookupMember("Art", "Vandalay");
-		m.signIntoKitchen(0);
-	
+		TempModel = new Model();
+		testResults = new ArrayList<Member>();
+		testMember = new Member(13132, "John", "Doe", "jdoe@binghamton.edu", 
+				new Date(1234567890), 1, 1,1,2, 1, false, true);
+		testResults.add(testMember);
+		testMember = new Member(13902, "Raibi", "Jamila", "raibi1@binghamton.edu", 
+				new Date(1234567890), 1, 3,1,2, 1, false, true);
+		testResults.add(testMember);
+		TempModel.setLastLookupMemberResults(testResults);
+		TestStoreMemberList  = TempModel.signIntoStore(0);
+		TestKitchenMemberList = TempModel.signIntoKitchen(1);
+
 	}
-	
-	@Test
+    @Test
 	public void testsignOutOfStore()
-	{
-		
-		dummy = m.getSignedIntoStore();
-		int numSignedIn = dummy.size();
-		dummy = m.signOutOfStore(1);
-		assertEquals(numSignedIn-1, dummy.size());
-		
-		dummy = c.getSignedIntoStore();
-		int numSignedIn = dummy.size();
-		dummy = c.signOutOfStore(0);
-		assertEquals(numSignedIn-1, dummy.size());
-		
+    {
+		TestStoreMemberList.remove(0);
+		TempModel.signOutOfStore(0);
+		assertEquals(TestStoreMemberList,TempModel.getSignedIntoStore());
 	}
-	
-	@Test
+    @Test
 	public void testsignOutOfKitchen()
-	{
-		
-		dummy = m.getSignedIntoKitchen();
-		int numSignedIn = dummy.size();
-		dummy = m.signOutOfKitchen(1);
-		assertEquals(numSignedIn-1, dummy.size());
-		
-		dummy = c.getSignedIntoKitchen();
-		int numSignedIn = dummy.size();
-		dummy = c.signOutOfKitchen(0);
-		assertEquals(numSignedIn-1, dummy.size());
+    {
+		TestKitchenMemberList.remove(0);
+		TempModel.signOutOfKitchen(0);
+		assertEquals(TestKitchenMemberList,TempModel.getSignedIntoKitchen());
 		
 	}
 }
+
