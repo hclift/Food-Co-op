@@ -19,7 +19,7 @@ public class Controller
 	 * @author Ashley Chin
 	 * @version 4/14/11
 	 * 
-	 *          Explicit Value Constructor.
+	 *          Explicit Value Constructor for the controller, that takes in a model to be associated.
 	 * @param model
 	 *            The model to link to the controller
 	 **/
@@ -41,7 +41,7 @@ public class Controller
 	 *            Last name of the member being looked up
 	 * @return array list of members
 	 **/
-	public ArrayList<Member> lookUpMember(String firstName, String lastName)
+	public ArrayList<Member> lookUpMember(final String firstName, final String lastName)
 	{
 		// ArrayList to hold returned search results
 		ArrayList<Member> searchResult = new ArrayList<Member>();
@@ -49,7 +49,8 @@ public class Controller
 		try
 		{
 			searchResult = model.lookupMember(firstName, lastName);
-		} catch (Exception e)
+		}
+		catch (Exception e)
 		{
 			mainFrame.displayException(e.getMessage());
 		}
@@ -83,7 +84,7 @@ public class Controller
 	 * @return modified array list of currently working members in the kitchen
 	 */
 
-    public ArrayList<Member> signOutOfKitchen(int index)
+    public ArrayList<Member> signOutOfKitchen(final int index)
     {
         return model.signOutOfKitchen(index);
     }
@@ -92,16 +93,13 @@ public class Controller
 	 * @author Ashley Chin
 	 * @version 4/14/11
 	 * 
-	 *          FIXME: See comments below
-	 * 
-	 * 
 	 *          Calls reconcileShiftLength() method in the view, so it will
 	 *          eventually be passed to the model.
 	 * @param shfitLength
 	 *            shift length in minutes
 	 * @return New shift length after reconciliation.
 	 */
-    public int reconcileShiftLength(int reconciledShiftLength)
+    public int reconcileShiftLength(final int reconciledShiftLength)
     {
     	return mainFrame.reconcileShiftLength(reconciledShiftLength);
          

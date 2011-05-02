@@ -7,8 +7,7 @@ import java.util.ArrayList;
 /**
  * This class provides the model portion of the MVC framework.
  **/
-public class Model
-{
+public class Model {
 	// List of members currently signed into the kitchen.
 	private ArrayList<Member> signedIntoKitchen = new ArrayList<Member>();
 	// List of members currently signed into the store.
@@ -18,7 +17,6 @@ public class Model
 	// so that it can be operated on from within model.
 	private Controller controllerReference; // Creates a reference to the
 	// controller.
-
 
 	// Number of milliseconds in a minute.
 	private final int MILLISECONDS_PER_MINUTE = 60000;
@@ -32,7 +30,8 @@ public class Model
 	 * @author Ashley Chin
 	 * @version 4/27/11
 	 * 
-	 * Getter
+	 *          Getter for shift length
+	 * @return Shift Length of the member
 	 */
 
 	public int getShiftLength()
@@ -40,20 +39,18 @@ public class Model
 		return shiftLength;
 	}
 
-
 	/**
 	 * @author Ashley Chin
 	 * @version 4/27/11
 	 * 
-	 * Setter
+	 *          Setter for shift length
 	 * @param shiftLengthIn
+	 *            Shift Length being passed in
 	 */
-	public void setShiftLength(int shiftLengthIn)
+	public void setShiftLength(final int shiftLengthIn)
 	{
 		this.shiftLength = shiftLengthIn;
 	}
-
-
 
 	/**
 	 * @author Ashley Chin
@@ -63,7 +60,7 @@ public class Model
 	 * @param controllerIn
 	 *            Controller to set controllerReference to
 	 **/
-	public void setControllerReference(Controller controllerIn)
+	public void setControllerReference(final Controller controllerIn)
 	{
 		this.controllerReference = controllerIn;
 	}
@@ -85,9 +82,9 @@ public class Model
 	 **/
 	public ArrayList<Member> lookupMember(final String firstName,
 			final String lastName) throws Exception
-			{
+	{
 		return DatabaseAbstraction.lookupMember(firstName, lastName);
-			}
+	}
 
 	/**
 	 * This method returns an ArrayList of members currently signed into the
@@ -100,8 +97,6 @@ public class Model
 		return signedIntoKitchen;
 	}
 
-
-
 	/**
 	 * This method returns an ArrayList of members currently signed into the
 	 * store.
@@ -112,7 +107,6 @@ public class Model
 	{
 		return signedIntoStore;
 	}
-
 
 	/**
 	 * @author Ashley Chin
@@ -137,7 +131,7 @@ public class Model
 	 *          kitchen. It calculates the shift length of the member, and calls
 	 *          reoncileShiftLength in the controller if the shift is shorter
 	 *          than 45min or longer than 120min
-	 * @param ArrayList
+	 * @param index
 	 *            index of the member to be removed from signedIntoKitchen
 	 * @return new ArrayList of signedIntoKitchen minus the member just removed.
 	 */
@@ -151,11 +145,11 @@ public class Model
 
 		// Shift length (in minutes), the difference between stopTime
 		// and startTime, converted to minutes.
-		shiftLength = (int)(stopTime - startTime)/MILLISECONDS_PER_MINUTE;
+		shiftLength = (int) (stopTime - startTime) / MILLISECONDS_PER_MINUTE;
 		int numberOfDiscounts = 0;
 
 		if ((shiftLength < 45) || (shiftLength > 120))
-		{	
+		{
 			/*
 			 * If shift length is under 45 or over 120 mins, the Reconcile Shift
 			 * Length window will AUTOMATICALLY open, while locking the main
@@ -184,13 +178,13 @@ public class Model
 		{
 			numberOfDiscounts = 1;
 		}
-		signedIntoStore.get(index).setAvailableDiscounts(signedIntoStore.get(index).getAvailableDiscounts()+numberOfDiscounts);
-		DatabaseAbstraction.updateMember(signedIntoStore.get(index));   
+		signedIntoStore.get(index).setAvailableDiscounts(
+				signedIntoStore.get(index).getAvailableDiscounts()
+						+ numberOfDiscounts);
+		DatabaseAbstraction.updateMember(signedIntoStore.get(index));
 		signedIntoKitchen.remove(index);
 		return signedIntoKitchen;
 	}
-
-
 
 	/**
 	 * @author Ashley Chin

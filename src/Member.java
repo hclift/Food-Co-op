@@ -7,7 +7,7 @@
  * keeps track if the member is active.
  */
 
-import java.util.ArrayList;
+
 import java.util.Date;
 
 public class Member 
