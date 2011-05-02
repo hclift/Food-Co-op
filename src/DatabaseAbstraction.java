@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 
 
 public class DatabaseAbstraction
@@ -55,20 +54,19 @@ public class DatabaseAbstraction
 					"SELECT * FROM members WHERE first_name='" + first_name +
 					"' AND last_name='" + last_name + "';"
 			);
-			while (rs.next())
-			{
+				while (rs.next())
+				{
 				Member m = new Member(
-						rs.getInt("id"),
-						rs.getString("first_name"),
-						rs.getString("last_name"),
-						rs.getString("email_address"),
-						new GregorianCalendar(),
-						new GregorianCalendar(),
-						rs.getInt("membership_length"),
-						rs.getInt("membership_type"),
-						rs.getInt("year_in_school"), rs.getInt("available_discounts"), rs.getDouble("iou_amount"),
-						(rs.getInt("receive_email") != 0),
-						(rs.getInt("is_active") != 0)
+				rs.getInt("id"),
+				rs.getString("first_name"),
+				rs.getString("last_name"),
+				rs.getString("email_address"),
+				new Date((long)rs.getInt("last_signup_date")),
+				rs.getInt("membership_length"),
+				rs.getInt("membership_type"),
+				rs.getInt("year_in_school"), rs.getInt("available_discounts"), rs.getDouble("iou_amount"),
+				(rs.getInt("receive_email") != 0),
+				(rs.getInt("is_active") != 0)
 				);
 				memberList.add(m);
 			}
@@ -80,6 +78,7 @@ public class DatabaseAbstraction
 		}
 
 		return memberList;
+	}
 
 
 
