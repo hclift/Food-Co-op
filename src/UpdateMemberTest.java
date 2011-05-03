@@ -15,7 +15,7 @@ public class UpdateMemberTest {
 	public void testUpdateMember()
 	{
 	Member original = new Member(1, "john", "doe", "jdoe@gmail.com",
-			new Date(1234567890), 1, 2, 3, 4, 5.0, false, true);
+			new Date(1234567890), 1, 2, 3, 4, 5.0, true);
 	Model model = new Model();
 	Controller controller = new Controller(model);
 	controller.updateMember(original, "jason", "doe1", "jdoe1@gmail.com", 4, 3, 

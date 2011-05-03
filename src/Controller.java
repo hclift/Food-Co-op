@@ -50,7 +50,7 @@ public class Controller
 		{
 			mainFrame.displayException(e.getMessage());
 		}
-
+		model.setLastLookupMemberResults(searchResult);
 		return searchResult;
 	}
 	
@@ -72,6 +72,7 @@ public class Controller
 		catch(Exception e)
 		{
 			System.err.println(e.getMessage());
+			signedIntoKitchen = model.getSignedIntoKitchen();
 		}
 		
 		return signedIntoKitchen;
@@ -95,6 +96,7 @@ public class Controller
 		catch(Exception e)
 		{
 			System.err.println(e.getMessage());
+			signedIntoStore = model.getSignedIntoStore();
 		}
 		
 		return signedIntoStore;

@@ -95,7 +95,7 @@ public class Member
 	public Member(int id, String firstName, String lastName, String email,
 			Date lastSignupDate, int membershipLength, int membershipType,
 			int yearInSchool, int availableDiscounts, double iouAmount,
-			boolean receiveEmail, boolean isActive)
+			boolean isActive)
 	{
 		super();
 		this.id = id;
@@ -106,7 +106,7 @@ public class Member
 		this.membershipLength = membershipLength;
 		this.membershipType = membershipType;
 		this.yearInSchool = yearInSchool;
-		this.receiveEmail = receiveEmail;
+
 		this.availableDiscounts = availableDiscounts;
 		this.IouAmount = iouAmount;
 		this.isActive = isActive;

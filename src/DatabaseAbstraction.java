@@ -49,12 +49,21 @@ public class DatabaseAbstraction
 		{
 			Connection connection = connectToDatabase();
 			Statement stat = connection.createStatement();
+			//ResultSet rs = stat.executeQuery(
+			//		"SELECT * FROM members, member_discounts, member_iou WHERE first_name='" + first_name +
+			//		"' AND last_name='" + last_name + "' AND members.id = member_discounts.member_id AND members.id = member_iou.member_id;"
+			//);
 			ResultSet rs = stat.executeQuery(
-					"SELECT * FROM members WHERE first_name='" + first_name +
+					"SELECT members.*	, member_discounts.discounts, member_iou.iou_amount " +
+					"FROM members " +
+					"LEFT OUTER JOIN member_discounts " +
+					"LEFT OUTER JOIN member_iou " +
+					"ON (member_discounts.member_id = members.id AND member_iou.member_id = members.id)" +
+					" WHERE first_name='" + first_name +
 					"' AND last_name='" + last_name + "';"
 			);
-				while (rs.next())
-				{
+			while (rs.next())
+			{
 				Member m = new Member(
 					rs.getInt("id"),
 					rs.getString("first_name"),
@@ -63,17 +72,42 @@ public class DatabaseAbstraction
 					new Date((long)rs.getInt("last_signup_date")),
 					rs.getInt("membership_length"),
 					rs.getInt("membership_type"),
-					rs.getInt("year_in_school"), rs.getInt("available_discounts"), rs.getDouble("iou_amount"),
-					(rs.getInt("receive_email") != 0),
+					rs.getInt("year_in_school"), 
+					rs.getInt("discounts"),
+					rs.getDouble("iou_amount"),
 					(rs.getInt("is_active") != 0)
 				);
+				
+				System.err.println(rs.getInt("discounts"));
+				System.err.println(rs.getDouble("iou_amount"));
+				/*(=Statement stat2 = connection.createStatement();
+				ResultSet rs2 = stat2.executeQuery(
+						"SELECT iou_amount FROM member_iou " +
+						"WHERE member_id = '" + m.getId() + "';"
+				);
+				System.err.println(rs2.isClosed());
+				rs2.next();
+				m.setIouAmount(rs2.getDouble("iou_amount"));
+				Statement stat3 = connection.createStatement();
+				ResultSet rs3 = stat3.executeQuery(
+						"SELECT discounts FROM member_discounts " +
+						"WHERE member_id = '" + m.getId() + "';"
+				);
+				rs3.next();
+				m.setAvailableDiscounts(rs3.getInt("discounts"));
+				*/
 				memberList.add(m);
 			}
+			
+			
+			
+			
 			connection.close();
 		} 
 		catch (Exception e)
 		{
-			System.out.println(e);
+			e.printStackTrace();
+			System.exit(1);
 		}
 
 		return memberList;

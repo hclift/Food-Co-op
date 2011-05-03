@@ -491,7 +491,7 @@ public class MainFrame extends JFrame {
 			}else if(e.getSource().equals(updateMemberButton)){
 				
 
-				Member evan = new Member(0, "Evan", "Sussman", "esussma1@binghamton.edu", null, 0, 2, 3, 3, 3.4, true, true);
+				Member evan = new Member(0, "Evan", "Sussman", "esussma1@binghamton.edu", null, 0, 2, 3, 3, 3.4, true);
 				new UpdateMemberFrame(controller, evan);
 
 
