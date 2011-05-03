@@ -212,9 +212,7 @@ public class MainFrame extends JFrame {
 		
 		generalLookupTextArea = new JTextArea();
 		generalLookupTextArea.setFont(f2);
-		
-		generalLookupTextArea.setText("Michael\t\tWang\t\tCoordinator\t\tmwang10@binghamton.edu\n");
-		
+	
 		generalLookupTextArea.setEditable(false);
 		generalLookupScrollPane = new JScrollPane(generalLookupTextArea);
 		generalLookupScrollPane.setBounds(5, 20, 795, 205);
