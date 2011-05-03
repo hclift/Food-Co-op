@@ -50,7 +50,7 @@ public class Controller
 		{
 			mainFrame.displayException(e.getMessage());
 		}
-
+		model.setLastLookupMemberResults(searchResult);
 		return searchResult;
 	}
 	
@@ -72,6 +72,7 @@ public class Controller
 		catch(Exception e)
 		{
 			System.err.println(e.getMessage());
+			signedIntoKitchen = model.getSignedIntoKitchen();
 		}
 		
 		return signedIntoKitchen;
@@ -95,17 +96,17 @@ public class Controller
 		catch(Exception e)
 		{
 			System.err.println(e.getMessage());
+			signedIntoStore = model.getSignedIntoStore();
 		}
 		
 		return signedIntoStore;
 	}
 	
 	public boolean updateMember(Member member, String firstName, String lastName, String emailAddress, int yearInSchool, int membershipType, 
-			Date expirationDate, int availableDiscounts, double iouAmount, /*boolean recieveEmail,*/ boolean status)
+			Date expirationDate, int availableDiscounts, double iouAmount, boolean status)
 	{
-		
-		
-		boolean retVal = model.updateMember(member, firstName, lastName, emailAddress, yearInSchool, membershipType, expirationDate, availableDiscounts, iouAmount, /*recieveEmail,*/ status);
+				
+		boolean retVal = model.updateMember(member, firstName, lastName, emailAddress, yearInSchool, membershipType, expirationDate, availableDiscounts, iouAmount, status);
 		
 		return retVal;
 	}
@@ -146,9 +147,8 @@ public class Controller
 		}
 		return newAmount;
 	}
-	
-	/**
-	 * @author Ashley Chin
+
+	/** @author Ashley Chin
 	 * @version 4/14/11
 	 * 
 	 *          Calls model's signOutOfStore() method, so it will eventually be
@@ -173,4 +173,25 @@ public class Controller
 	 * @return modified array list of currently working members in the kitchen
 	 */
 
+    public ArrayList<Member> signOutOfKitchen(final int index)
+    {
+        return model.signOutOfKitchen(index);
+    }
+    
+	/**
+	 * @author Ashley Chin
+	 * @version 4/14/11
+	 * 
+	 *          Calls reconcileShiftLength() method in the view, so it will
+	 *          eventually be passed to the model.
+	 * @param shfitLength
+	 *            shift length in minutes
+	 * @return New shift length after reconciliation.
+	 */
+    public int reconcileShiftLength(final int reconciledShiftLength)
+    {
+    	// FIXME: implement in MainFrame class
+    	// return mainFrame.reconcileShiftLength(reconciledShiftLength);
+    	return 0;    
+    }
 }

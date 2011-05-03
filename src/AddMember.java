@@ -351,6 +351,5 @@ public class AddMember
 		public void keyTyped(KeyEvent e) 
 		{
 		}
-	}
-	
+	}	
 }

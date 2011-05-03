@@ -30,7 +30,7 @@ public class Member
 	private Date lastSignupDate;
 	
 	// the number of available discounts for the member
-	private Time lastSignIn;
+	private long lastSignIn;
 	
 	// the available discount in percent form
 	private int availableDiscounts;
@@ -88,21 +88,24 @@ public class Member
 	 * @param isActive				member's active status
 	 */
 	public Member(int id, String firstName, String lastName, String email,
-			Date last_signup_date, int membership_length, int membership_type,
-			int year_in_school, int available_Discounts, double Iou_Amount, boolean is_active)
+
+			Date lastSignupDate, int membershipLength, int membershipType,
+			int yearInSchool, int availableDiscounts, double iouAmount,
+			boolean isActive)
 	{
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
-		this.lastSignupDate = last_signup_date;
-		this.membershipLength = membership_length;
-		this.membershipType = membership_type;
-		this.yearInSchool = year_in_school;
-		this.availableDiscounts = available_Discounts;
-		this.IouAmount = Iou_Amount;
-		this.isActive = is_active;
+		this.lastSignupDate = lastSignupDate;
+		this.membershipLength = membershipLength;
+		this.membershipType = membershipType;
+		this.yearInSchool = yearInSchool;
+
+		this.availableDiscounts = availableDiscounts;
+		this.IouAmount = iouAmount;
+		this.isActive = isActive;
 	}
 
 	/**
@@ -331,11 +334,11 @@ public class Member
 		return lastSignupDate;
 	}
 	
-	public Time getLastSignIn() {
+	public long getLastSignIn() {
 		return lastSignIn;
 	}
 
-	public void setLastSignIn(Time lastSignIn) {
+	public void setLastSignIn(long lastSignIn) {
 		this.lastSignIn = lastSignIn;
 	}
 	

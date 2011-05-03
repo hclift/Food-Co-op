@@ -33,10 +33,9 @@ public class SignInTest {
 	@Test
 	public void testSetlastSignIn()
 	{
-		long time = 0;
-		Time t = new Time(time);
-		testMember.setLastSignIn(t);
-		assertEquals(t, testMember.getLastSignIn());
+		long time = System.currentTimeMillis();
+		testMember.setLastSignIn(time);
+		assertEquals(time, testMember.getLastSignIn());
 	}
 	
 	@Test

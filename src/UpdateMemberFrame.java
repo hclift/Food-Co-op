@@ -19,15 +19,14 @@ import javax.swing.JTextField;
 
 
 public class UpdateMemberFrame{
-    // main frame of update member; changes on creation and closing
-	private JFrame mainFrame;
-    // main panel of update member's main frame; changes on creation (addPanel)
-	private JPanel mainPanel;
+// main frame of update member; changes on creation and closing
+private JFrame mainFrame;
 
-	// labels inside main panel; self-documenting for each information required
-	private JLabel firstNameLabel, lastNameLabel, emailLabel, yearLabel, 
-	membershipTypeLabel, expirationLabel,discountsLabel, IOULabel, 
-	recieveEmailLabel;
+// main panel of update member's main frame; changes on creation (addPanel)
+private JPanel mainPanel;
+private JLabel firstNameLabel, lastNameLabel, emailLabel, yearLabel, 
+	membershipTypeLabel, expirationLabel,discountsLabel, IOULabel, activeMemberLabel;
+
     // text fields in main panel; self-documenting for data it receives
 	private JTextField firstNameTextField, lastNameTextField, 
 	emailTextField, expirationTextField, discountsTextField, IOUTextField;
@@ -44,6 +43,7 @@ public class UpdateMemberFrame{
 	// holds instance of controller and member
 	private Controller controller;
 	private Member member;
+
 
 	// holds member's IOU amount; changes when discount applied or IOU added
 	double tempIOU;
@@ -113,20 +113,14 @@ public class UpdateMemberFrame{
 		IOUTextField.setBounds(320, 180, 80, 25);
 		IOUTextField.setEditable(false);
 		
-/**
-		recieveEmailCheckBox = new JCheckBox();
-		recieveEmailCheckBox.setBounds(5, 216, 25, 28);
-		recieveEmailCheckBox.setSelected(member.getReceiveEmail());
-*/
-				
 		activeMemberCheckBox = new JCheckBox();
-		activeMemberCheckBox.setBounds(178, 216, 25, 28);
+		activeMemberCheckBox.setBounds(100, 216, 25, 28);
 		activeMemberCheckBox.setSelected(member.getActive());
 		activeMemberCheckBox.addActionListener(new OKCancelButtonListener());
 		
 		
-		recieveEmailLabel = new JLabel("Recieve E-Mails");
-		recieveEmailLabel.setBounds(30, 220, 150, 20);
+		activeMemberLabel = new JLabel("Active Member");
+		activeMemberLabel.setBounds(10, 220, 150, 20);
 		
 		firstNameTextField = new JTextField();
 		firstNameTextField.setBounds(80, 5, 350, 25);
@@ -204,8 +198,8 @@ public class UpdateMemberFrame{
 		mainPanel.add(discountsTextField);
 		mainPanel.add(IOULabel);
 		mainPanel.add(IOUTextField);
-		mainPanel.add(recieveEmailCheckBox);
-		mainPanel.add(recieveEmailLabel);
+		//mainPanel.add(recieveEmailCheckBox);
+		mainPanel.add(activeMemberLabel);
 		mainPanel.add(saveButton);
 		mainPanel.add(cancelButton);
 		mainPanel.add(activeMemberCheckBox);
@@ -226,6 +220,7 @@ public class UpdateMemberFrame{
 						JOptionPane.YES_NO_OPTION);
 				if(result == 0)
 					mainFrame.dispose();
+
 			}
 			else if(e.getSource().equals(saveButton))
 			{
@@ -327,5 +322,6 @@ public class UpdateMemberFrame{
 		}
 	}
 }
+
 
 
