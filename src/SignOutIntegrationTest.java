@@ -38,6 +38,7 @@ public class SignOutIntegrationTest {
 		int numSignedIn = dummy.size();
 		dummy = m.signOutOfStore(1);
 		assertEquals(numSignedIn-1, dummy.size());
+		assertEquals("John", dummy.get(0).getFirstName());
 		
 		dummy = c.getSignedIntoStore();
 		numSignedIn = dummy.size();
@@ -54,13 +55,13 @@ public class SignOutIntegrationTest {
 		int numSignedIn = dummy.size();
 		dummy = m.signOutOfKitchen(1);
 		assertEquals(numSignedIn-1, dummy.size());
-		assertEquals("John", dummy.get(0).getFirstName());
+		assertEquals("Keith", dummy.get(0).getFirstName());
 		
 		dummy = c.getSignedIntoKitchen();
 		numSignedIn = dummy.size();
 		dummy = c.signOutOfKitchen(0);
 		assertEquals(numSignedIn-1, dummy.size());
-		assertEquals("Keith", dummy.get(0).getFirstName());
+
 		
 	}
 	
@@ -71,7 +72,7 @@ public class SignOutIntegrationTest {
 		testMember = new Member(13132, "Barack", "Obama", "president@whitehouse.gov", 
 						new Date(1234567890), 1, 1,1,7, 1, false, true);
 		dummy = m.signIntoKitchen(testMember);
-		int newShiftLength = c.reconcileShiftLength(51);
+		int newShiftLength = c.reconcileShiftLength(24);
 		if (newShiftLength >= 90)
 		{
 			m.getSignedIntoKitchen().get(0).setAvailableDiscounts(testMember.getAvailableDiscounts()+2);
