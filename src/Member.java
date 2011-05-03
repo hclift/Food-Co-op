@@ -1,3 +1,5 @@
+import java.sql.Time;
+
 /**
  * Member.java
  * 
@@ -28,6 +30,9 @@ public class Member
 	private Date lastSignupDate;
 	
 	// the number of available discounts for the member
+	private Time lastSignIn;
+	
+	// the available discount in percent form
 	private int availableDiscounts;
 	
 	// the length of the member's membership
@@ -330,6 +335,37 @@ public class Member
 	public void setMembershipType(int membershipType)
 	{
 		this.membershipType = membershipType;
+	}
+	
+	/**
+	 * @param lastSignupDate the lastSignupDate to set
+	 */
+	public void setLastSignupDate(Date lastSignupDate) {
+		this.lastSignupDate = lastSignupDate;
+	}
+
+	/**
+	 * @return the lastSignupDate
+	 */
+	public Date getLastSignupDate() {
+		return lastSignupDate;
+	}
+	
+	public Time getLastSignIn() {
+		return lastSignIn;
+	}
+
+	public void setLastSignIn(Time lastSignIn) {
+		this.lastSignIn = lastSignIn;
+	}
+	
+	public boolean canSignIn()
+	{
+		if(membershipType > 0)
+		{
+			return true;
+		}
+		return false;
 	}
 	
 }
