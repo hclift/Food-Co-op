@@ -78,8 +78,6 @@ public class DatabaseAbstraction
 					(rs.getInt("is_active") != 0)
 				);
 				
-				System.err.println(rs.getInt("discounts"));
-				System.err.println(rs.getDouble("iou_amount"));
 				/*(=Statement stat2 = connection.createStatement();
 				ResultSet rs2 = stat2.executeQuery(
 						"SELECT iou_amount FROM member_iou " +
