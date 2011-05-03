@@ -1,6 +1,8 @@
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.*;
 
@@ -37,6 +39,47 @@ private JComboBox currentYearBox, membershipTypeBox;
 		
 		
 		
+	}
+	
+	private int convertYear(String sIn){
+		int status = -1;
+		if(sIn.equals("Freshman")){
+			status = 0;
+		}else if(sIn.equals("Sophmore")){
+			status = 1;
+		}else if(sIn.equals("Junior")){
+			status = 2;
+		}else if(sIn.equals("Senior")){
+			status = 3;
+		}
+
+		return status;
+	}
+
+	private int convertMemType(String sIn){
+		int status = -1;
+		if(sIn.equals("Ordinary")){
+			status = 0;
+		}else if(sIn.equals("Working")){
+			status = 1;
+		}else if(sIn.equals("Core")){
+			status = 2;
+		}else if(sIn.equals("Coordinator")){
+			status = 3;
+		}
+
+		return status;
+	}
+
+	private int convertMemDur(String sIn){
+		int status = -1;
+		if(sIn.equals("Semester")){
+			status = 0;
+		}else if(sIn.equals("Year")){
+			status = 1;
+		}
+
+		return status;
 	}
 	
 	private void addPanel(){
@@ -120,8 +163,6 @@ private JComboBox currentYearBox, membershipTypeBox;
 		cancelButton.setBounds(350, 180, 80, 30);
 		cancelButton.addActionListener(new ButtonListener());
 		
-		okButton.addActionListener(new ButtonListener());
-		
 		
 		mainPanel.add(firstNameLabel);
 		mainPanel.add(firstNameTextField);
@@ -143,9 +184,21 @@ private JComboBox currentYearBox, membershipTypeBox;
 		
 		mainPanel.setVisible(true);
 		mainFrame.add(mainPanel, BorderLayout.CENTER);
-		
-		
+
+		if(firstNameTextField.getText().equals("") || lastNameTextField.getText().equals("")
+				|| emailTextField.getText().equals("")){
+			okButton.setEnabled(false);
+		}
+		else{
+			okButton.setEnabled(true);
+		}
+
+		KeyListener EnterListener = new EnterListener();
+		firstNameTextField.addKeyListener(EnterListener);
+		lastNameTextField.addKeyListener(EnterListener);
+		emailTextField.addKeyListener(EnterListener);		
 	}
+
 	
 	class ButtonListener implements ActionListener{
 
@@ -156,17 +209,71 @@ private JComboBox currentYearBox, membershipTypeBox;
 				mainFrame.dispose();
 			}else if(e.getSource().equals(okButton)){
 				//TODO: Implement methods for OKButton
-				
+				String fn;
+				String ln;
+				String em; 
+				String cy = (String)currentYearBox.getSelectedItem();
+				String mt = (String)membershipTypeBox.getSelectedItem();
+				String sy = (String)addSemYearComboBox.getSelectedItem();
+				boolean flag = true;
+				//
+					fn = firstNameTextField.getText();
+					ln = lastNameTextField.getText();
+					em = emailTextField.getText();
+					while(flag){
+					if(fn.isEmpty() || ln.isEmpty() || em.isEmpty()){
+						fn = firstNameTextField.getText();
+						ln = lastNameTextField.getText();
+						em = emailTextField.getText();
+					}else{
+						flag = false;
+					}
+				}
+
+				DatabaseAbstraction.addMember(fn, ln, em, convertMemDur(sy), convertMemType(mt), convertYear(cy), 1);
+
+
+
+				mainFrame.dispose();
 			}else{
 				System.exit(0);
 			}
 		}
-		
-		
+
+
 	}
-	
-	
+
+	class EnterListener implements KeyListener{
+		boolean TextFieldStatus = false;
+		public void keyPressed(KeyEvent e) {
+			int key = e.getKeyCode();
+
+		    if ((key == KeyEvent.VK_ENTER) && !firstNameTextField.getText().equals("") || !lastNameTextField.getText().equals("")
+					|| !emailTextField.getText().equals("") 
+					) {
+		    	//System.out.println("First Name: " + firstNameTextField.getText() + "\nLastName: " + lastNameTextField.getText());
+		    		//controller.addMember(first,last,email,1,mt,cy,1);
+		        }
+		}
+
+		public void keyReleased(KeyEvent e) {
+			if(firstNameTextField.getText().equals("") || lastNameTextField.getText().equals("")
+					|| emailTextField.getText().equals("") ){
+				okButton.setEnabled(false);
+			}
+			else{
+				okButton.setEnabled(true);
+			}
+		}
+
+		public void keyTyped(KeyEvent e) {
+		}
+	}
+
+
 }
+
+
 
 
 
