@@ -35,7 +35,11 @@ public class DatabaseAbstraction
 	* parameters
 	* @param first_name		First name of the member to look for
 	* @param last_name		Last name of the member to look for
+<<<<<<< HEAD
 	* @return memberList	An arraylist of member objects which match the 
+=======
+	* @return memberList	An ArrayList of member objects which match the 
+>>>>>>> branch 'refs/heads/dev' of ssh://git@github.com/team-williams/Food-Co-op.git
 	*						parameters
 	*/
 	public static ArrayList<Member> lookupMember(String first_name, String last_name)
