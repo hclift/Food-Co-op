@@ -1,5 +1,4 @@
 import java.sql.Connection;
-
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -35,13 +34,13 @@ public class DatabaseAbstraction
 
 
 	/**
-	 * Connects to the queries the database and then queries it given the input
-	 * parameters
-	 * @param first_name		First name of the member to look for
-	 * @param last_name		Last name of the member to look for
-	 * @return memberList	An arraylist of member objects which match the 
-	 *						parameters
-	 */
+	* Connects to the queries the database and then queries it given the input
+	* parameters
+	* @param first_name		First name of the member to look for
+	* @param last_name		Last name of the member to look for
+	* @return memberList	An ArrayList of member objects which match the 
+	*						parameters
+	*/
 	public static ArrayList<Member> lookupMember(String first_name, String last_name)
 	{
 		ArrayList<Member> memberList = new ArrayList<Member>();
@@ -79,7 +78,6 @@ public class DatabaseAbstraction
 
 		return memberList;
 	}
-
 
 		/**
 		 * Updates a member in the database. Uses a PreparedStatement.
