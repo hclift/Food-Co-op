@@ -85,7 +85,7 @@ public class Model {
 	}
 	
 	public boolean updateMember(Member member, String firstName, String lastName, String emailAddress, int yearInSchool, int membershipType, 
-			Date expirationDate, int availableDiscounts, double iouAmount,boolean receiveEmail, boolean status)
+			Date expirationDate, int availableDiscounts, double iouAmount, boolean status)
 	{
 		
 		member.setFirstName(firstName);
@@ -95,7 +95,6 @@ public class Model {
 		member.setMembershipType(membershipType);
 		member.setAvailableDiscounts(availableDiscounts);
 		member.setIouAmount(iouAmount);
-		member.setReceiveEmail(receiveEmail);
 		member.setActive(status);
 		
 		boolean retVal = DatabaseAbstraction.updateMember(member);
@@ -168,6 +167,8 @@ public class Model {
 		return signedIntoStore;
 	}
 
+//TODO	caused error because there is no getLastSignIn() or ReconcileShiftLength() methods
+	 
 	/**
 	 * @author Ashley Chin
 	 * @version 4/14/11
@@ -245,7 +246,7 @@ public class Model {
 		signedIntoKitchen.remove(index);
 		return signedIntoKitchen;
 	}
-
+	
 	/**
 	 * @author Ashley Chin
 	 * @version 4/14/11
@@ -259,3 +260,4 @@ public class Model {
 		System.exit(0);
 	}
 }
+

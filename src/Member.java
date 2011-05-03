@@ -42,10 +42,6 @@ public class Member
 	
 	// the amount of money the member owes
 	private double IouAmount;
-
-	//TODO: No longer need receiveEmail?
-	// Indicates if the member wants to receive emails
-	private boolean receiveEmail;
 	
 	// Indicates whether the member is active or expired
 	private boolean isActive;
@@ -84,27 +80,24 @@ public class Member
 	 * @param yearInSchool			member's year in school
 	 * @param availableDiscounts	member's available discounts
 	 * @param iouAmount				member's IOU amount
-	 * @param receiveEmail			member's receive email status
 	 * @param isActive				member's active status
 	 */
 	public Member(int id, String firstName, String lastName, String email,
-			Date lastSignupDate, int membershipLength, int membershipType,
-			int yearInSchool, int availableDiscounts, double iouAmount,
-			boolean receiveEmail, boolean isActive)
+			Date last_signup_date, int membership_length, int membership_type,
+			int year_in_school, int available_Discounts, double Iou_Amount, boolean is_active)
 	{
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
-		this.lastSignupDate = lastSignupDate;
-		this.membershipLength = membershipLength;
-		this.membershipType = membershipType;
-		this.yearInSchool = yearInSchool;
-		this.receiveEmail = receiveEmail;
-		this.availableDiscounts = availableDiscounts;
-		this.IouAmount = iouAmount;
-		this.isActive = isActive;
+		this.lastSignupDate = last_signup_date;
+		this.membershipLength = membership_length;
+		this.membershipType = membership_type;
+		this.yearInSchool = year_in_school;
+		this.availableDiscounts = available_Discounts;
+		this.IouAmount = Iou_Amount;
+		this.isActive = is_active;
 	}
 
 	/**
@@ -115,6 +108,14 @@ public class Member
 	public String getFirstName()
 	{
 		return firstName;
+	}
+	
+	/*
+	 * TODO: Add member
+	 */
+	public void addMember() 
+	{
+		
 	}
 
 	/**
@@ -156,12 +157,7 @@ public class Member
 	{
 		return id;
 	}
-	
-	/**
-	 * Returns the memeber's e-mail address
-	 * 
-	 * @return	e-mail address of the member
-	 */
+
 	public String getEmailAddress()
 	{
 		return email;
@@ -246,28 +242,28 @@ public class Member
 	{
 		this.email = email;
 	}
-
-	//TODO Receive Email
+	
 	/**
-	 * Returns the member's receive e-mail status
-	 * (true for yes, false for no)
-	 * 
-	 * @return	receive e-mail status of the member
-	 */
-	public boolean getReceiveEmail()
+	* @param lastSignupDate the lastSignupDate to set
+	*/
+	public void setLastSignupDate(Date lastSignupDate) 
 	{
-		return receiveEmail;
+		this.lastSignupDate = lastSignupDate;
 	}
 
-	//TODO Receive Email
 	/**
-	 * Changes the member's receive e-mail status
-	 * 
-	 * @param receiveEmail	new receive e-mail status of the member
-	 */
-	public void setReceiveEmail(boolean receiveEmail)
+	* @return the lastSignupDate
+	*/
+	public Date getLastSignupDate() 
 	{
-		this.receiveEmail = receiveEmail;
+		return lastSignupDate;
+	}
+
+	/**
+	* @return the isActive
+	*/
+	public boolean isActive() {
+	return isActive;
 	}
 
 	/**

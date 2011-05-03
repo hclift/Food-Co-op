@@ -113,10 +113,12 @@ public class UpdateMemberFrame{
 		IOUTextField.setBounds(320, 180, 80, 25);
 		IOUTextField.setEditable(false);
 		
+/**
 		recieveEmailCheckBox = new JCheckBox();
 		recieveEmailCheckBox.setBounds(5, 216, 25, 28);
 		recieveEmailCheckBox.setSelected(member.getReceiveEmail());
-		
+*/
+				
 		activeMemberCheckBox = new JCheckBox();
 		activeMemberCheckBox.setBounds(178, 216, 25, 28);
 		activeMemberCheckBox.setSelected(member.getActive());
@@ -233,8 +235,7 @@ public class UpdateMemberFrame{
 						emailTextField.getText(),
 						currentYearBox.getSelectedIndex(),
 						membershipTypeBox.getSelectedIndex(), null,
-						tempAvailDiscounts, tempIOU ,
-						recieveEmailCheckBox.isSelected(),
+						tempAvailDiscounts, tempIOU,
 						activeMemberCheckBox.isSelected());
 				
 				if(result)
