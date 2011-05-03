@@ -246,12 +246,12 @@ public class MainFrame extends JFrame {
 		viewMemberButton = new JButton("View Member");
 		viewMemberButton.setBounds(65, 30, 150, 40);
 		viewMemberButton.setFont(buttonFont);
-		viewMemberButton.setEnabled(false);
+		//viewMemberButton.setEnabled(false);
 		
 		updateMemberButton = new JButton("Update Member");
 		updateMemberButton.setBounds(325, 30, 150, 40);
 		updateMemberButton.setFont(buttonFont);
-		updateMemberButton.setEnabled(false);
+		//updateMemberButton.setEnabled(false);
 		
 		addMemberButton = new JButton("Add Member");
 		addMemberButton.setBounds(565, 30, 150, 40);
