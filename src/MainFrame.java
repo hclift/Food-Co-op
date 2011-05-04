@@ -183,7 +183,7 @@ public class MainFrame extends JFrame {
 		firstNameScrollLabel = new JLabel("First Name");
 		lastNameScrollLabel = new JLabel("Last Name");
 		membershipScrollLabel = new JLabel("Membership");
-		emailScrollLabel = new JLabel("EMail");
+		emailScrollLabel = new JLabel("Email");
 
 		firstNameScrollLabel.setFont(f2);
 		lastNameScrollLabel.setFont(f2);
