@@ -8,12 +8,17 @@ import java.util.ArrayList;
  **/
 public class Model 
 {
-	
+
 	private ArrayList<Member> signedIntoKitchen = new ArrayList<Member>();
 	private ArrayList<Member> signedIntoStore = new ArrayList<Member>();
 
+
 	public enum yearInSchool {Freshman1, Freshman, Sophmore1, Sophmore2, Junior1, Junior2, Senior1, Senior2, Graduate, Faculty}
 	private ArrayList<Member> matches = new ArrayList<Member>();
+
+	
+
+
 
 	// List of members currently signed into the kitchen.
 	// List of members currently signed into the store.
@@ -63,6 +68,7 @@ public class Model
 	 *            Controller to set controllerReference to
 	 **/
 	public void setControllerReference(final Controller controllerIn)
+
 	{
 		this.controllerReference = controllerIn;
 	}
@@ -88,7 +94,6 @@ public class Model
 		
 		return DatabaseAbstraction.lookupMember(firstName, lastName);
 	}
-	
 	/**
 	 * The getSignedIntoKitchen method is used to return 
 	 * an array of members signed into the kitchen.
@@ -139,8 +144,8 @@ public class Model
 					throw new Exception("This member is already signed into the store");
 				}
 			}
-			long time = 0;
-			matches.get(index).setLastSignIn(new Time(time));
+			long time = System.currentTimeMillis();
+			matches.get(index).setLastSignIn(time);
 			signedIntoKitchen.add(matches.get(index));
 		}
 		else
@@ -181,8 +186,8 @@ public class Model
 					throw new Exception("This member is already signed into the store");
 				}
 			}
-			long time = 0;
-			matches.get(index).setLastSignIn(new Time(time));
+			long time = System.currentTimeMillis();
+			matches.get(index).setLastSignIn(time);
 			signedIntoStore.add(matches.get(index));
 			
 		}
@@ -212,8 +217,9 @@ public class Model
 	 * @returns	boolean if database updates completed successfully	// TODO: turn this into an exception 
 	 * 
 	 */
+
 	public boolean updateMember(Member member, String firstName, String lastName, String emailAddress, int yearInSchool, int membershipType, 
-			Date expirationDate, int availableDiscounts, double iouAmount,boolean receiveEmail, boolean status)
+			Date expirationDate, int availableDiscounts, double iouAmount, boolean status)
 	{
 		
 		member.setFirstName(firstName);
@@ -223,7 +229,6 @@ public class Model
 		member.setMembershipType(membershipType);
 		member.setAvailableDiscounts(availableDiscounts);
 		member.setIouAmount(iouAmount);
-		member.setReceiveEmail(receiveEmail);
 		member.setActive(status);
 		
 		boolean retVal = DatabaseAbstraction.updateMember(member);
@@ -313,6 +318,8 @@ public class Model
 		return matches.get(index);
 	}
 
+//TODO	caused error because there is no getLastSignIn() or ReconcileShiftLength() methods
+	 
 	/**
 	 * @author Ashley Chin
 	 * @version 4/14/11
@@ -390,7 +397,7 @@ public class Model
 		signedIntoKitchen.remove(index);
 		return signedIntoKitchen;
 	}
-
+	
 	/**
 	 * @author Ashley Chin
 	 * @version 4/14/11
@@ -404,3 +411,4 @@ public class Model
 		System.exit(0);
 	}
 }
+

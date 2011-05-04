@@ -50,7 +50,7 @@ public class Controller
 		{
 			mainFrame.displayException(e.getMessage());
 		}
-
+		model.setLastLookupMemberResults(searchResult);
 		return searchResult;
 	}
 	
@@ -72,6 +72,7 @@ public class Controller
 		catch(Exception e)
 		{
 			System.err.println(e.getMessage());
+			signedIntoKitchen = model.getSignedIntoKitchen();
 		}
 		
 		return signedIntoKitchen;
@@ -95,17 +96,17 @@ public class Controller
 		catch(Exception e)
 		{
 			System.err.println(e.getMessage());
+			signedIntoStore = model.getSignedIntoStore();
 		}
 		
 		return signedIntoStore;
 	}
 	
 	public boolean updateMember(Member member, String firstName, String lastName, String emailAddress, int yearInSchool, int membershipType, 
-			Date expirationDate, int availableDiscounts, double iouAmount, boolean recieveEmail, boolean status)
+			Date expirationDate, int availableDiscounts, double iouAmount, boolean status)
 	{
-		
-		
-		boolean retVal = model.updateMember(member, firstName, lastName, emailAddress, yearInSchool, membershipType, expirationDate, availableDiscounts, iouAmount, recieveEmail, status);
+				
+		boolean retVal = model.updateMember(member, firstName, lastName, emailAddress, yearInSchool, membershipType, expirationDate, availableDiscounts, iouAmount, status);
 		
 		return retVal;
 	}
@@ -146,9 +147,8 @@ public class Controller
 		}
 		return newAmount;
 	}
-	
-	/**
-	 * @author Ashley Chin
+
+	/** @author Ashley Chin
 	 * @version 4/14/11
 	 * 
 	 *          Calls model's signOutOfStore() method, so it will eventually be
@@ -190,8 +190,8 @@ public class Controller
 	 */
     public int reconcileShiftLength(final int reconciledShiftLength)
     {
-    	return mainFrame.reconcileShiftLength(reconciledShiftLength);
-         
+    	// FIXME: implement in MainFrame class
+    	// return mainFrame.reconcileShiftLength(reconciledShiftLength);
+    	return 0;    
     }
-
 }

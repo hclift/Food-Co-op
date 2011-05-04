@@ -18,13 +18,13 @@ public class SignInTest {
 	{
 		testResults = new ArrayList<Member>();
 		testMember = new Member(13132, "John", "Doe", "jdoe@binghamton.edu", 
-				new Date(1234567890), 1, 1,1,2, 1, false, true);
+				new Date(1234567890), 1, 1,1,2, 1, true);
 		testResults.add(testMember);
 		testMember = new Member(13902, "Kevin", "Hannon", "kbh1@binghamton.edu", 
-				new Date(1234567890), 1, 3,1,2, 1, false, true);
+				new Date(1234567890), 1, 3,1,2, 1, true);
 		testResults.add(testMember);
 		testMember = new Member(13902, "Bob", "Smith", "bsmith@binghamton.edu", 
-				new Date(1234567890), 1, 0,1,2, 1, false, true);
+				new Date(1234567890), 1, 0,1,2, 1, true);
 		testResults.add(testMember);
 		model = new Model();
 		model.setLastLookupMemberResults(testResults);
@@ -33,10 +33,9 @@ public class SignInTest {
 	@Test
 	public void testSetlastSignIn()
 	{
-		long time = 0;
-		Time t = new Time(time);
-		testMember.setLastSignIn(t);
-		assertEquals(t, testMember.getLastSignIn());
+		long time = System.currentTimeMillis();
+		testMember.setLastSignIn(time);
+		assertEquals(time, testMember.getLastSignIn());
 	}
 	
 	@Test

@@ -72,11 +72,11 @@ public class MainFrame extends JFrame {
 	//JTextAreas and JScrollPanes
 	private JTextArea generalLookupTextArea;
 	private JScrollPane generalLookupScrollPane;
-	
+
 	//JListLookup and JList Model
 	private JList generalLookup;
 	private DefaultListModel generalLookupModel;
-	
+
 	private JTextArea storeTextArea;
 	private JScrollPane storeScrollPane;
 
@@ -103,7 +103,7 @@ public class MainFrame extends JFrame {
 	public MainFrame(Controller c, Model m){
 		controller = c;
 		model = m;
-		setBounds(100, 30, 1024, 768);
+
 		setExtendedState(MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//setResizable(false);
@@ -177,28 +177,29 @@ public class MainFrame extends JFrame {
 		firstNameScrollLabel = new JLabel("First Name");
 		lastNameScrollLabel = new JLabel("Last Name");
 		membershipScrollLabel = new JLabel("Membership");
-		emailScrollLabel = new JLabel("EMail");
+		emailScrollLabel = new JLabel("Email");
 
 		firstNameScrollLabel.setFont(f2);
 		lastNameScrollLabel.setFont(f2);
 		membershipScrollLabel.setFont(f2);
 		emailScrollLabel.setFont(f2);
-		
+
 		firstNameScrollLabel.setBounds(5, 0, 70, 20);
 		lastNameScrollLabel.setBounds(182, 0, 70, 20);
 		membershipScrollLabel.setBounds(358, 0, 90, 20);
 		emailScrollLabel.setBounds(534, 0, 70, 20);
+
 		generalLookupModel = new DefaultListModel();
 		generalLookup = new JList(generalLookupModel);
-		
+
 		JScrollPane generalLookupPane = new JScrollPane(generalLookup);
-		generalLookupPane.setBounds(15, 0, 410, 125);
-		
+		//generalLookupPane.setBounds(15, 0, 410, 125);
+
 		/**
 		 * This listener will wait to see if a member has been looked up.
 		 */
 		generalLookup.addListSelectionListener(new ListSelectionListener(){
-			
+
 			/**
 			 * Every time a member has been selected by the cursor, an event will be triggered that will
 			 * enable the use of the View Member, Update Member, Sign Into Kitchen, and Sign into Store
@@ -206,17 +207,12 @@ public class MainFrame extends JFrame {
 			 */
 			public void valueChanged(ListSelectionEvent e){
 				enableButtons();
-			}	
-			
-			
-						
-		}
-		);
+			}		
+		});
+
 		generalLookupTextArea = new JTextArea();
 		generalLookupTextArea.setFont(f2);
-		
-		generalLookupTextArea.setText("Michael\t\tWang\t\tCoordinator\t\tmwang10@binghamton.edu\n");
-		
+
 		generalLookupTextArea.setEditable(false);
 		generalLookupScrollPane = new JScrollPane(generalLookupTextArea);
 		generalLookupScrollPane.setBounds(5, 20, 795, 205);
@@ -225,10 +221,11 @@ public class MainFrame extends JFrame {
 		middleWestPanel.add(membershipScrollLabel);
 		middleWestPanel.add(emailScrollLabel);
 		middleWestPanel.add(generalLookupScrollPane);
-		generalLookupScrollPane.setBounds(15, 0, 410, 125);
+		generalLookupPane.setBounds(5, 20, 795, 205);
+		//generalLookupScrollPane.setBounds(15, 0, 410, 125);
 		middleWestPanel.add(generalLookupPane);
 		//middleWestPanel.add(generalLookupScrollPane);
-		
+
 //==============================================================
 
 		/**
@@ -240,10 +237,12 @@ public class MainFrame extends JFrame {
 		viewMemberButton = new JButton("View Member");
 		viewMemberButton.setBounds(65, 30, 150, 40);
 		viewMemberButton.setFont(buttonFont);
+		viewMemberButton.setEnabled(false);
 
 		updateMemberButton = new JButton("Update Member");
 		updateMemberButton.setBounds(325, 30, 150, 40);
 		updateMemberButton.setFont(buttonFont);
+		updateMemberButton.setEnabled(false);
 
 		addMemberButton = new JButton("Add Member");
 		addMemberButton.setBounds(565, 30, 150, 40);
@@ -341,9 +340,9 @@ public class MainFrame extends JFrame {
 	 * 
 	 */
 	private void addListeners(){
-		
-		
-		
+
+
+
 		ActionListener buttonListener = new ButtonListener();
 		searchButton.addActionListener(buttonListener);
 		viewMemberButton.addActionListener(buttonListener);
@@ -355,36 +354,36 @@ public class MainFrame extends JFrame {
 		signOutOfStoreButton.addActionListener(buttonListener);
 		signOutOfKitchenButton.addActionListener(buttonListener);
 		//KeyListener Added
-		KeyListener EnterListener = new EnterListener();
-		firstNameTextField.addKeyListener(EnterListener);
-		lastNameTextField.addKeyListener(EnterListener);
+		KeyListener enterListener = new EnterListener();
+		firstNameTextField.addKeyListener(enterListener);
+		lastNameTextField.addKeyListener(enterListener);
 	}
 	/** 
 	 * 
 	 * Enable View Member, Update Member, Sign Into Store, and Sign Into Kitchen Button
 	 * 
 	 */
-	
+
 	private void enableButtons(){
 		viewMemberButton.setEnabled(true);
 		updateMemberButton.setEnabled(true);
 		signIntoStoreButton.setEnabled(true);
 		signIntoKitchenButton.setEnabled(true);
-		
+
 	}
-	
+
 	/**
 	 * 
 	 * Disable View Member, Update Member, Sign Into Store, and Sign Into Kitchen Button
 	 * 
 	 */
 	private void disableButtons(){
-		
+
 		viewMemberButton.setEnabled(false);
 		updateMemberButton.setEnabled(false);
 		signIntoStoreButton.setEnabled(false);
 		signIntoKitchenButton.setEnabled(false);
-				
+
 	}
 
 	/**
@@ -428,7 +427,11 @@ public class MainFrame extends JFrame {
         //       generalLookupTextArea.setText("First Name\t\tLastName\t\tMembership Type\tE-Mail\t\t\t\n");
 		//This will clear the previous Search Result automatically to prevent an event from happening.
 		generalLookup.clearSelection();
-		
+
+
+
+		//generalLookupTextArea.append("Michael\t\tWang\t\tCoordinator\t\tmwang10@binghamton.edu\t\t\t\n");
+
 		//generalLookupTextArea.append("Michael\t\tWang\t\tCoordinator\t\tmwang10@binghamton.edu\t\t\t\n");
 		if (searchResult.size() == 0){
 			disableButtons();
@@ -439,9 +442,9 @@ public class MainFrame extends JFrame {
 											+ searchResult.get(j).getMembershipType() + "    "
 											+ searchResult.get(j).getEmailAddress()+ "    ")); 
 			generalLookupModel.addElement(string);
-					
+
 		}
-			
+
 		//generalLookupTextArea.append("Michael\t\tWang\t\tCoordinator\t\t\tmwang10@binghamton.edu\t\t\t\n");
 
 		//generalLookupTextArea.append("Jeremy\t\tSimpson\t\tCore\t\t\tjsimpso1@binghamton.edu\t\t\t\n");
@@ -450,7 +453,7 @@ public class MainFrame extends JFrame {
 	}
 	/**
 	 * 
-	 * @param errorMessage a string to be displayed in the error message popup
+	 * @param errorMessage a string to be displayed in the error message pop-up
 	 * 
 	 * displays a given string as an error message
 	 */
@@ -486,13 +489,15 @@ public class MainFrame extends JFrame {
 				//JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
 
 			}else if(e.getSource().equals(updateMemberButton)){
-				new UpdateMemberFrame();
-				//str = "Update member method to go here.";
-				//JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
+
+
+				Member evan = new Member(0, "Evan", "Sussman", "esussma1@binghamton.edu", null, 0, 2, 3, 3, 3.4, true);
+				new UpdateMemberFrame(controller, evan);
+
+
 			}else if(e.getSource().equals(addMemberButton)){
+
 				new AddMember();
-				//str = "Add member method to go here.";
-				//JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
 
 			}else if(e.getSource().equals(signIntoStoreButton)){
 				str = "Sign into store method to go here.";
@@ -597,8 +602,4 @@ public class MainFrame extends JFrame {
 		}
 		return reconciledShiftLength;		
 	}
-
-
-
-
 }
