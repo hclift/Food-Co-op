@@ -29,7 +29,7 @@ public class DatabaseAbstraction
 			return null;
 		}
 	}
-	
+
 	/**
 	* Connects to the queries the database and then queries it given the input
 	* parameters
@@ -45,7 +45,7 @@ public class DatabaseAbstraction
 	public static ArrayList<Member> lookupMember(String first_name, String last_name)
 	{
 		ArrayList<Member> memberList = new ArrayList<Member>();
-		
+
 		try
 		{
 			Connection connection = connectToDatabase();
@@ -78,7 +78,7 @@ public class DatabaseAbstraction
 					rs.getDouble("iou_amount"),
 					(rs.getInt("is_active") != 0)
 				);
-				
+
 				/*(=Statement stat2 = connection.createStatement();
 				ResultSet rs2 = stat2.executeQuery(
 						"SELECT iou_amount FROM member_iou " +
@@ -97,10 +97,10 @@ public class DatabaseAbstraction
 				*/
 				memberList.add(m);
 			}
-			
-			
-			
-			
+
+
+
+
 			connection.close();
 		} 
 		catch (Exception e)
@@ -108,10 +108,10 @@ public class DatabaseAbstraction
 			e.printStackTrace();
 			System.exit(1);
 		}
-		
+
 		return memberList;
 	}
-	
+
 	/**
 	* Updates a member in the database. Uses a PreparedStatement.
 	* @param m updated Member object.
@@ -144,7 +144,7 @@ public class DatabaseAbstraction
 
 	rs.close();
 	ps.close();
-	
+
 	PreparedStatement ps_iou = connection.prepareStatement(
 			"UPDATE member_iou SET " +
 			"iou_amount = ?, " +
@@ -156,7 +156,7 @@ public class DatabaseAbstraction
 
 	rs_iou.close();
 	ps_iou.close();
-	
+
 	PreparedStatement ps_disc = connection.prepareStatement(
 			"UPDATE member_discounts SET " +
 			"discounts = ?, " +
@@ -168,10 +168,10 @@ public class DatabaseAbstraction
 
 	rs_disc.close();
 	ps_disc.close();
-	
-	
+
+
 	connection.close();
-	
+
 	}
 	catch (Exception e)
 	{
@@ -180,7 +180,7 @@ public class DatabaseAbstraction
 	}
 	return true;
 	}
-	
+
 	/**
 	* Adds a member to the database.  Uses a PreparedStatement.
 	* @param first_name			First name of the member to look for
@@ -231,3 +231,4 @@ public class DatabaseAbstraction
 		}
 	}
 }
+

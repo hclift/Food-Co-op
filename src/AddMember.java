@@ -1,3 +1,11 @@
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import javax.swing.*;
+
 /**
  * Add Member
  * 
@@ -9,18 +17,9 @@
  * the 'OK' button to add the member into the database.
  */
 
-
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
-import javax.swing.*;
-
 public class AddMember
 {
-		
+
 	private JFrame mainFrame;
 	private JPanel mainPanel;
 	private JLabel firstNameLabel, lastNameLabel, emailLabel, yearLabel, 
@@ -52,7 +51,7 @@ public class AddMember
 		
 		mainFrame.validate();
 	}
-	
+		
 	/**
 	 * Convert Year
 	 * 
@@ -232,9 +231,7 @@ public class AddMember
 		cancelButton = new JButton("Cancel");
 		cancelButton.setBounds(350, 180, 80, 30);
 		cancelButton.addActionListener(new ButtonListener());
-		
-		//okButton.addActionListener(new ButtonListener());
-		
+				
 		mainPanel.add(firstNameLabel);
 		mainPanel.add(firstNameTextField);
 		mainPanel.add(lastNameLabel);
@@ -254,8 +251,11 @@ public class AddMember
 		
 		mainPanel.setVisible(true);
 		mainFrame.add(mainPanel, BorderLayout.CENTER);
-		
-		if(firstNameTextField.getText().equals("") || lastNameTextField.getText().equals("")
+
+		// checks that all text fields have input, 
+		// OK is disabled if at least one is empty
+		if(firstNameTextField.getText().equals("") 
+				|| lastNameTextField.getText().equals("")
 				|| emailTextField.getText().equals(""))
 		{
 			okButton.setEnabled(false);
@@ -264,12 +264,13 @@ public class AddMember
 		{
 			okButton.setEnabled(true);
 		}
-		
+
 		KeyListener EnterListener = new EnterListener();
 		firstNameTextField.addKeyListener(EnterListener);
 		lastNameTextField.addKeyListener(EnterListener);
 		emailTextField.addKeyListener(EnterListener);		
 	}
+
 	
 	class ButtonListener implements ActionListener
 	{
@@ -277,14 +278,16 @@ public class AddMember
 		@Override
 		public void actionPerformed(ActionEvent e) 
 		{
-			// TODO Auto-generated method stub
+			// 'cancel' button is pressed
 			if(e.getSource().equals(cancelButton))
 			{
+				// closes the window
 				mainFrame.dispose();
 			}
+			
+			// 'ok' button is pressed 
 			else if(e.getSource().equals(okButton))
 			{
-				//TODO: Implement methods for OKButton
 				String fn;
 				String ln;
 				String em; 
@@ -292,11 +295,15 @@ public class AddMember
 				String mt = (String)membershipTypeBox.getSelectedItem();
 				String sy = (String)addSemYearComboBox.getSelectedItem();
 				boolean flag = true;
-				
-					fn = firstNameTextField.getText();
-					ln = lastNameTextField.getText();
-					em = emailTextField.getText();
-					while(flag){
+
+				// set variables equal to input in text fields
+				fn = firstNameTextField.getText();
+				ln = lastNameTextField.getText();
+				em = emailTextField.getText();
+				while(flag)
+				{
+					// if any of the variables is empty, 
+					// load data from the text fields into the variables
 					if(fn.isEmpty() || ln.isEmpty() || em.isEmpty())
 					{
 						fn = firstNameTextField.getText();
@@ -309,8 +316,9 @@ public class AddMember
 					}
 				}
 				
-				DatabaseAbstraction.addMember(fn, ln, em, convertMemDur(sy), convertMemType(mt), convertYear(cy), 1);					
-				
+				// add member to database and close window
+				DatabaseAbstraction.addMember(fn, ln, em, convertMemDur(sy),
+						convertMemType(mt), convertYear(cy), 1);
 				mainFrame.dispose();
 			}
 			else
@@ -327,7 +335,9 @@ public class AddMember
 		{
 			int key = e.getKeyCode();
 			
-		    if ((key == KeyEvent.VK_ENTER) && !firstNameTextField.getText().equals("") || !lastNameTextField.getText().equals("")
+		    if ((key == KeyEvent.VK_ENTER)
+		    		&& !firstNameTextField.getText().equals("")
+		    		|| !lastNameTextField.getText().equals("")
 					|| !emailTextField.getText().equals(""))
 		    {
 		    	//System.out.println("First Name: " + firstNameTextField.getText() + "\nLastName: " + lastNameTextField.getText());
@@ -337,19 +347,23 @@ public class AddMember
 
 		public void keyReleased(KeyEvent e)
 		{
-			if(firstNameTextField.getText().equals("") || lastNameTextField.getText().equals("")
+			// at least one of the text fields is empty
+			if(firstNameTextField.getText().equals("") 
+					|| lastNameTextField.getText().equals("")
 					|| emailTextField.getText().equals(""))
 			{
+				// 'ok' button is disabled
 				okButton.setEnabled(false);
 			}
 			else
 			{
+				// 'ok' button is enabled
 				okButton.setEnabled(true);
 			}
 		}
 
 		public void keyTyped(KeyEvent e) 
-		{
+		{	
 		}
 	}	
 }
