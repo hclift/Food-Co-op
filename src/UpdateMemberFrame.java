@@ -156,12 +156,12 @@ private JLabel firstNameLabel, lastNameLabel, emailLabel, yearLabel,
 		membershipTypeBox.addActionListener(new OKCancelButtonListener());
 		
 		expirationTextField = new JTextField();
-		expirationTextField.setBounds(100, 140, 70, 25);
+		expirationTextField.setBounds(100, 140, 100, 25);
 		expirationTextField.setEditable(false);
 		expirationTextField.setText("12/12/2011");
 		
 		addIOUButton = new JButton("Add IOU");
-		addIOUButton.setBounds(178, 140, 120, 25);
+		addIOUButton.setBounds(200, 140, 120, 25);
 		addIOUButton.addActionListener(new OKCancelButtonListener());
 		
 		applyDiscountButton = new JButton("Apply Discount");
@@ -230,7 +230,7 @@ private JLabel firstNameLabel, lastNameLabel, emailLabel, yearLabel,
 						emailTextField.getText(),
 						currentYearBox.getSelectedIndex(),
 						membershipTypeBox.getSelectedIndex(), null,
-						tempAvailDiscounts, tempIOU ,
+						tempAvailDiscounts, tempIOU,
 						activeMemberCheckBox.isSelected());
 				
 				if(result)

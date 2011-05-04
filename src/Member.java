@@ -47,10 +47,6 @@ public class Member
 	
 	// the amount of money the member owes
 	private double IouAmount;
-
-	//TODO: No longer need receiveEmail?
-	// Indicates if the member wants to receive emails
-	private boolean receiveEmail;
 	
 	// Indicates whether the member is active or expired
 	private boolean isActive;
@@ -89,10 +85,10 @@ public class Member
 	 * @param yearInSchool			member's year in school
 	 * @param availableDiscounts	member's available discounts
 	 * @param iouAmount				member's IOU amount
-	 * @param receiveEmail			member's receive email status
 	 * @param isActive				member's active status
 	 */
 	public Member(int id, String firstName, String lastName, String email,
+
 			Date lastSignupDate, int membershipLength, int membershipType,
 			int yearInSchool, int availableDiscounts, double iouAmount,
 			boolean isActive)
@@ -120,6 +116,14 @@ public class Member
 	public String getFirstName()
 	{
 		return firstName;
+	}
+	
+	/*
+	 * TODO: Add member
+	 */
+	public void addMember() 
+	{
+		
 	}
 
 	/**
@@ -161,12 +165,7 @@ public class Member
 	{
 		return id;
 	}
-	
-	/**
-	 * Returns the memeber's e-mail address
-	 * 
-	 * @return	e-mail address of the member
-	 */
+
 	public String getEmailAddress()
 	{
 		return email;
@@ -252,27 +251,11 @@ public class Member
 		this.email = email;
 	}
 
-	//TODO Receive Email
 	/**
-	 * Returns the member's receive e-mail status
-	 * (true for yes, false for no)
-	 * 
-	 * @return	receive e-mail status of the member
-	 */
-	public boolean getReceiveEmail()
-	{
-		return receiveEmail;
-	}
-
-	//TODO Receive Email
-	/**
-	 * Changes the member's receive e-mail status
-	 * 
-	 * @param receiveEmail	new receive e-mail status of the member
-	 */
-	public void setReceiveEmail(boolean receiveEmail)
-	{
-		this.receiveEmail = receiveEmail;
+	* @return the isActive
+	*/
+	public boolean isActive() {
+	return isActive;
 	}
 
 	/**

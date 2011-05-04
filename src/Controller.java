@@ -91,7 +91,7 @@ public class Controller
 		ArrayList<Member> signedIntoStore = new ArrayList<Member>();
 		try
 		{
-			signedIntoStore = model.signIntoKitchen(index);
+			signedIntoStore = model.signIntoStore(index);
 		}
 		catch(Exception e)
 		{
@@ -105,11 +105,15 @@ public class Controller
 	public boolean updateMember(Member member, String firstName, String lastName, String emailAddress, int yearInSchool, int membershipType, 
 			Date expirationDate, int availableDiscounts, double iouAmount, boolean status)
 	{
-		
-		
+				
 		boolean retVal = model.updateMember(member, firstName, lastName, emailAddress, yearInSchool, membershipType, expirationDate, availableDiscounts, iouAmount, status);
 		
 		return retVal;
+	}
+	
+	public Member getMember (int index)
+	{
+		return model.getMember(index);
 	}
 	
 	public boolean validateMembershipType(double doubleIOUAmount)
@@ -193,8 +197,6 @@ public class Controller
     {
     	// FIXME: implement in MainFrame class
     	// return mainFrame.reconcileShiftLength(reconciledShiftLength);
-    	return 0;
-         
+    	return 0;    
     }
-
 }

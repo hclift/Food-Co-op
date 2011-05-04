@@ -318,6 +318,8 @@ public class Model
 		return matches.get(index);
 	}
 
+//TODO	caused error because there is no getLastSignIn() or ReconcileShiftLength() methods
+	 
 	/**
 	 * @author Ashley Chin
 	 * @version 4/14/11
@@ -388,14 +390,14 @@ public class Model
 		{
 			numberOfDiscounts = 1;
 		}
-		signedIntoStore.get(index).setAvailableDiscounts(
-				signedIntoStore.get(index).getAvailableDiscounts()
+		signedIntoKitchen.get(index).setAvailableDiscounts(
+				signedIntoKitchen.get(index).getAvailableDiscounts()
 						+ numberOfDiscounts);
-		DatabaseAbstraction.updateMember(signedIntoStore.get(index));
+		DatabaseAbstraction.updateMember(signedIntoKitchen.get(index));
 		signedIntoKitchen.remove(index);
 		return signedIntoKitchen;
 	}
-
+	
 	/**
 	 * @author Ashley Chin
 	 * @version 4/14/11
@@ -409,3 +411,4 @@ public class Model
 		System.exit(0);
 	}
 }
+
