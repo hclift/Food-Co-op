@@ -72,11 +72,17 @@ public class MainFrame extends JFrame {
 	//JTextAreas and JScrollPanes
 	private JTextArea generalLookupTextArea;
 	private JScrollPane generalLookupScrollPane;
-	
+
 	//JListLookup and JList Model
 	private JList generalLookup;
 	private DefaultListModel generalLookupModel;
 	
+	private JList store;
+	private DefaultListModel storeModel;
+	
+	private JList kitchen;
+	private DefaultListModel kitchenModel;
+
 	private JTextArea storeTextArea;
 	private JScrollPane storeScrollPane;
 
@@ -183,7 +189,7 @@ public class MainFrame extends JFrame {
 		lastNameScrollLabel.setFont(f2);
 		membershipScrollLabel.setFont(f2);
 		emailScrollLabel.setFont(f2);
-		
+
 		firstNameScrollLabel.setBounds(5, 0, 70, 20);
 		lastNameScrollLabel.setBounds(182, 0, 70, 20);
 		membershipScrollLabel.setBounds(358, 0, 90, 20);
@@ -191,7 +197,7 @@ public class MainFrame extends JFrame {
 
 		generalLookupModel = new DefaultListModel();
 		generalLookup = new JList(generalLookupModel);
-		
+
 		JScrollPane generalLookupPane = new JScrollPane(generalLookup);
 		//generalLookupPane.setBounds(15, 0, 410, 125);
 		
@@ -199,7 +205,6 @@ public class MainFrame extends JFrame {
 		 * This listener will wait to see if a member has been looked up.
 		 */
 		generalLookup.addListSelectionListener(new ListSelectionListener(){
-			
 			/**
 			 * Every time a member has been selected by the cursor, an event will be triggered that will
 			 * enable the use of the View Member, Update Member, Sign Into Kitchen, and Sign into Store
@@ -207,31 +212,26 @@ public class MainFrame extends JFrame {
 			 */
 			public void valueChanged(ListSelectionEvent e){
 				enableButtons();
-			}		
-		});
-		
+			}				
+		}
+		);
+
 		generalLookupTextArea = new JTextArea();
 		generalLookupTextArea.setFont(f2);
-	
-		generalLookupTextArea.setEditable(false);
-		generalLookupScrollPane = new JScrollPane(generalLookupTextArea);
-		generalLookupScrollPane.setBounds(5, 20, 795, 205);
+
 		middleWestPanel.add(firstNameScrollLabel);
 		middleWestPanel.add(lastNameScrollLabel);
 		middleWestPanel.add(membershipScrollLabel);
 		middleWestPanel.add(emailScrollLabel);
-		middleWestPanel.add(generalLookupScrollPane);
-		generalLookupPane.setBounds(5, 20, 795, 205);
-		//generalLookupScrollPane.setBounds(15, 0, 410, 125);
 		middleWestPanel.add(generalLookupPane);
-		//middleWestPanel.add(generalLookupScrollPane);
 		
+		generalLookupPane.setBounds(5, 20, 795, 205);
+
 //==============================================================
 
 		/**
 		 * Creates the bottom panel of buttons
 		 * the bottom most panel on westPanel
-		 * 
 		 * 
 		 */
 		viewMemberButton = new JButton("View Member");
@@ -251,10 +251,12 @@ public class MainFrame extends JFrame {
 		signIntoStoreButton = new JButton("Sign Into Store");
 		signIntoStoreButton.setBounds(65, 100, 150, 40);
 		signIntoStoreButton.setFont(buttonFont);
+		signIntoStoreButton.setEnabled(false);
 
 		signIntoKitchenButton = new JButton("Sign Into Kitchen");
 		signIntoKitchenButton.setBounds(325, 100, 150, 40);
 		signIntoKitchenButton.setFont(buttonFont);
+		signIntoKitchenButton.setEnabled(false);
 
 		viewScheduleButton = new JButton("View Schedule");
 		viewScheduleButton.setBounds(565, 100, 150, 40);
@@ -288,10 +290,31 @@ public class MainFrame extends JFrame {
 		signOutOfStoreButton = new JButton("Sign Out");
 		signOutOfStoreButton.setFont(buttonFont);
 		signOutOfStoreButton.setBounds(135, 290, 80, 25);
+		signOutOfStoreButton.setEnabled(false);
+		
+		storeModel = new DefaultListModel();
+		store = new JList(storeModel);
+
+		JScrollPane storePane = new JScrollPane(store);
+		storePane.setBounds(15, 30, 200, 250);
+		
+		/**
+		 * This listener will wait to see if a member has been looked up.
+		 */
+		store.addListSelectionListener(new ListSelectionListener(){
+			/**
+			 * 
+			 */
+			public void valueChanged(ListSelectionEvent e){
+				signOutOfStoreButton.setEnabled(true);
+			}				
+		}
+		);
 
 		signOutOfKitchenButton = new JButton("Sign Out");
 		signOutOfKitchenButton.setFont(buttonFont);
 		signOutOfKitchenButton.setBounds(135, 600, 80, 25);
+		signOutOfKitchenButton.setEnabled(false);
 
 		storeTextArea = new JTextArea();
 		storeTextArea.setFont(f2);
@@ -308,11 +331,30 @@ public class MainFrame extends JFrame {
 
 		kitchenScrollPane = new JScrollPane(kitchenTextArea);
 		kitchenScrollPane.setBounds(15, 340, 200, 250);
+		
+		kitchenModel = new DefaultListModel();
+		kitchen = new JList(kitchenModel);
+		
+		JScrollPane kitchenPane = new JScrollPane(kitchen);
+		kitchenPane.setBounds(15, 340, 200, 250);
+		
+		/**
+		 * This listener will wait to see if a member has been looked up.
+		 */
+		kitchen.addListSelectionListener(new ListSelectionListener(){
+			/**
+			 * 
+			 */
+			public void valueChanged(ListSelectionEvent e){
+				signOutOfKitchenButton.setEnabled(true);
+			}				
+		}
+		);
 
 		eastPanel.add(storeLabel);
 		eastPanel.add(kitchenLabel);
-		eastPanel.add(storeScrollPane);
-		eastPanel.add(kitchenScrollPane);
+		eastPanel.add(storePane);
+		eastPanel.add(kitchenPane);
 		eastPanel.add(signOutOfStoreButton);
 		eastPanel.add(signOutOfKitchenButton);
 
@@ -340,9 +382,9 @@ public class MainFrame extends JFrame {
 	 * 
 	 */
 	private void addListeners(){
-		
-		
-		
+
+
+
 		ActionListener buttonListener = new ButtonListener();
 		searchButton.addActionListener(buttonListener);
 		viewMemberButton.addActionListener(buttonListener);
@@ -363,93 +405,86 @@ public class MainFrame extends JFrame {
 	 * Enable View Member, Update Member, Sign Into Store, and Sign Into Kitchen Button
 	 * 
 	 */
-	
+
 	private void enableButtons(){
 		viewMemberButton.setEnabled(true);
 		updateMemberButton.setEnabled(true);
 		signIntoStoreButton.setEnabled(true);
 		signIntoKitchenButton.setEnabled(true);
-		
+
 	}
-	
+
 	/**
 	 * 
 	 * Disable View Member, Update Member, Sign Into Store, and Sign Into Kitchen Button
 	 * 
 	 */
 	private void disableButtons(){
-		
+
 		viewMemberButton.setEnabled(false);
 		updateMemberButton.setEnabled(false);
 		signIntoStoreButton.setEnabled(false);
 		signIntoKitchenButton.setEnabled(false);
-				
+
 	}
 
-	/**
-	 * @param: an array list of strings
-	 * @return: none
-	 * 
-	 * Takes the result arraylist and formats it to be displayed in the generalLookupTextArea
-	 */
-	/*public void printSearchResult(ArrayList<String> searchResult)
+	public void printStore(ArrayList<Member> members)
 	{
-		for(int j = 0; j < searchResult.size(); j++){
-			for(int i = 0; i < 3; i++)
+		store.clearSelection();
+		storeModel.clear();
+		if (members.size() < 1)
+		{
+			signOutOfStoreButton.setEnabled(false);
+		}
+		else
+		{
+			for (int i = 0; i < members.size(); i++)
 			{
-				if(i < 2){
-					searchResult.set(j,searchResult.get(j).replaceFirst(" ","\t\t"));
-				}
-				else{
-					searchResult.set(j,searchResult.get(j).replaceFirst(" ","\t\t\t"));
-				}
-
+				String string = new String(members.get(i).getFirstName() +
+					" " + members.get(i).getLastName());
+				storeModel.addElement(string);
 			}
-			generalLookupTextArea.append(searchResult.get(j)+ "\t\t\t\n");
+		}
+	}
+
+	public void printKitchen(ArrayList<Member> members)
+	{
+		kitchen.clearSelection();
+		kitchenModel.clear();
+		if (members.size() < 1)
+		{
+			signOutOfKitchenButton.setEnabled(false);
+		}
+		else
+		{
+			for (int i = 0; i < members.size(); i++)
+			{
+				String string = new String(members.get(i).getFirstName() +
+					" " + members.get(i).getLastName());
+				kitchenModel.addElement(string);
+			}
 		}
 
-
-		//generalLookupTextArea.append("Michael\t\tWang\t\tCoordinator\t\t\tmwang10@binghamton.edu\t\t\t\n");
-		//generalLookupTextArea.append("Jeremy\t\tSimpson\t\tCore\t\t\tjsimpso1@binghamton.edu\t\t\t\n");
-		//generalLookupTextArea.append("Jeremy\t\tSmith\t\tVolunteer\t\t\tjsmith1@binghamton.edu\t\t\t\n");
-		//"First Name\t\tLastName\t\tMembership Type\t\t\tE-Mail\t\t\t\n"
 	}
 
-	 */
 	public void printSearchResult(ArrayList<Member> searchResult)
 	{
-		generalLookupTextArea.setText(" ");
-		for(int j = 0; j < searchResult.size(); j++){
-			generalLookupTextArea.append(searchResult.get(j).getFirstName()+ "\t\t"+ searchResult.get(j).getLastName()+ "\t\t"
-					+ searchResult.get(j).getMembershipType() + "\t\t\t"
-					+ searchResult.get(j).getEmailAddress()+ "\t\t\n");
-		}
-        //       generalLookupTextArea.setText("First Name\t\tLastName\t\tMembership Type\tE-Mail\t\t\t\n");
 		//This will clear the previous Search Result automatically to prevent an event from happening.
 		generalLookup.clearSelection();
+		generalLookupModel.clear();
 		
-
-		
-		//generalLookupTextArea.append("Michael\t\tWang\t\tCoordinator\t\tmwang10@binghamton.edu\t\t\t\n");
-
-		//generalLookupTextArea.append("Michael\t\tWang\t\tCoordinator\t\tmwang10@binghamton.edu\t\t\t\n");
-		if (searchResult.size() == 0){
+		if (searchResult.size() < 1){
 			disableButtons();
 		}
-		generalLookupModel.clear();
-		for(int j = 0; j < searchResult.size(); j++){
-			String string  = new String((searchResult.get(j).getFirstName()+ "     "+ searchResult.get(j).getLastName()+ "    "
-											+ searchResult.get(j).getMembershipType() + "    "
-											+ searchResult.get(j).getEmailAddress()+ "    ")); 
-			generalLookupModel.addElement(string);
-					
+		else
+		{
+			for(int j = 0; j < searchResult.size(); j++){
+				String string  = new String((searchResult.get(j).getFirstName()+ "     "+ searchResult.get(j).getLastName()+ "    "
+												+ searchResult.get(j).getMembershipType() + "    "
+												+ searchResult.get(j).getEmailAddress()+ "    ")); 
+				generalLookupModel.addElement(string);
+			}
 		}
-			
-		//generalLookupTextArea.append("Michael\t\tWang\t\tCoordinator\t\t\tmwang10@binghamton.edu\t\t\t\n");
-
-		//generalLookupTextArea.append("Jeremy\t\tSimpson\t\tCore\t\t\tjsimpso1@binghamton.edu\t\t\t\n");
-		//generalLookupTextArea.append("Jeremy\t\tSmith\t\tVolunteer\t\t\tjsmith1@binghamton.edu\t\t\t\n");
-		//"First Name\t\tLastName\t\tMembership Type\t\t\tE-Mail\t\t\t\n"
 	}
 	/**
 	 * 
@@ -484,40 +519,37 @@ public class MainFrame extends JFrame {
 				printSearchResult(controller.lookUpMember(firstNameTextField.getText(), lastNameTextField.getText()));
 
 			else if(e.getSource().equals(viewMemberButton)){
-				new ViewMember();
-				//str = "View member method to go here.";
-				//JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
+				Member m = controller.getMember(generalLookup.getSelectedIndex());
+				new ViewMember(m);
 
 			}else if(e.getSource().equals(updateMemberButton)){
-				
-
-				Member evan = new Member(0, "Evan", "Sussman", "esussma1@binghamton.edu", null, 0, 2, 3, 3, 3.4, true);
-				new UpdateMemberFrame(controller, evan);
-
+				Member m = controller.getMember(generalLookup.getSelectedIndex());
+				new UpdateMemberFrame(controller, m);
 
 			}else if(e.getSource().equals(addMemberButton)){
-
 				new AddMember();
 
 			}else if(e.getSource().equals(signIntoStoreButton)){
-				str = "Sign into store method to go here.";
-				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
-
+				int memberIndex = generalLookup.getSelectedIndex();
+				ArrayList<Member> members = controller.signIntoStore(memberIndex);
+				printStore(members);
+				
 			}else if(e.getSource().equals(signIntoKitchenButton)){
-				str = "Sign into kitchen method to go here.";
-				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
-
+				int memberIndex = generalLookup.getSelectedIndex();
+				ArrayList<Member> members = controller.signIntoKitchen(memberIndex);
+				printKitchen(members);
+				
 			}else if(e.getSource().equals(viewScheduleButton)){
 				str = "View schedule method to go here.";
 				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
 
 			}else if(e.getSource().equals(signOutOfStoreButton)){
-				str = "Sign out of store method to go here.";
-				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
+				ArrayList<Member> members = controller.signOutOfStore(store.getSelectedIndex());
+				printStore(members);
 
 			}else if(e.getSource().equals(signOutOfKitchenButton)){
-				str = "Sign out of kitchen method to go here.";
-				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
+				ArrayList<Member> members = controller.signOutOfKitchen(kitchen.getSelectedIndex());
+				printKitchen(members);
 
 			}else{
 				System.exit(0);
@@ -602,8 +634,4 @@ public class MainFrame extends JFrame {
 		}
 		return reconciledShiftLength;		
 	}
-
-
-
-
 }
