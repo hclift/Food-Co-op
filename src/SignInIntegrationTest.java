@@ -1,4 +1,5 @@
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import java.sql.Date;
 import java.util.ArrayList;
 
@@ -47,7 +48,7 @@ public class SignInIntegrationTest {
 	}
 
 	@Test
-	public void testSignIntoKitchen{
+	public void testSignIntoKitchen(){
 		try{
 			//getSignedIntoKitchen returns an arrayList of members currently signed into kitchen
 			//The size of dummyArrayList in both methods should be 2 (number of members signed in)
@@ -61,7 +62,7 @@ public class SignInIntegrationTest {
 	}
 
 	@Test
-	public void testSignIntoStore{
+	public void testSignIntoStore(){
 		try{
 			//dummyArrayList will now contain members signed into store
 			//not completely sure this is accurate
