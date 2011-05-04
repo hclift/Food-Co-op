@@ -292,7 +292,7 @@ public class AddMember
 				String mt = (String)membershipTypeBox.getSelectedItem();
 				String sy = (String)addSemYearComboBox.getSelectedItem();
 				boolean flag = true;
-				//
+				
 					fn = firstNameTextField.getText();
 					ln = lastNameTextField.getText();
 					em = emailTextField.getText();
