@@ -49,11 +49,11 @@ public class AddMemberIntegrationTest {
 			isSuccesful =m.addMember("John","Doe","jdoe@bing.edu","junior 1", "Core", "one");
 		
 			Member testMember;
-			testMember = //don't know how the member is stored in model yet
+			//testMember = //don't know how the member is stored in model yet
 			assertEquals("John", testMember.getFirstName() );
 			assertEquals("Doe", testMember.getLastName() );
 			assertEquals("jdoe@bing.edu", testMember.getEmailAddress());
-			assertEquals(4,getYearsInSchool());
+			assertEquals(4,testMember.getYearsInSchool());
 		}
 		catch(Exception e)
 		{
@@ -65,8 +65,8 @@ public class AddMemberIntegrationTest {
 	public void ControllerToMainFrame()
 	{
 		try{
-			boolean isSuccesful;
-			isSuccessful = c.addMember("John","Doe","jdoe@bing.edu","junior 1", "Core", "one");
+			boolean isSuccessful;
+			isSuccessful = c.addMember("John","Doe","jdoe@bing.edu",4, "Core", "one");
 			assertEquals(true, isSuccessful);
 		}
 		catch(Exception e)
