@@ -371,6 +371,21 @@ public class MainFrame extends JFrame {
 		signIntoKitchenButton.setEnabled(true);
 
 	}
+	
+	private String convertMemberType(int memberTypeIn){
+		String status = "default";
+		if(memberTypeIn==0){
+			status = "Ordinary";
+		}else if(memberTypeIn==1){
+			status = "Working";
+		}else if(memberTypeIn==2){
+			status = "Core";
+		}else if(memberTypeIn==3){
+			status = "Coordinator";
+		}
+		
+		return status;
+	}
 
 	/**
 	 * 
@@ -439,11 +454,13 @@ public class MainFrame extends JFrame {
 		generalLookupModel.clear();
 		for(int j = 0; j < searchResult.size(); j++){
 			String string  = new String((searchResult.get(j).getFirstName()+ "     "+ searchResult.get(j).getLastName()+ "    "
-											+ searchResult.get(j).getMembershipType() + "    "
+											+ convertMemberType(searchResult.get(j).getMembershipType()) + "    "
 											+ searchResult.get(j).getEmailAddress()+ "    ")); 
 			generalLookupModel.addElement(string);
 
 		}
+		
+		
 
 		//generalLookupTextArea.append("Michael\t\tWang\t\tCoordinator\t\t\tmwang10@binghamton.edu\t\t\t\n");
 
