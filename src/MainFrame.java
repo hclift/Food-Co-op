@@ -472,7 +472,7 @@ public class MainFrame extends JFrame {
 		{
 			for(int j = 0; j < searchResult.size(); j++){
 				String string  = new String((searchResult.get(j).getFirstName()+ "     "+ searchResult.get(j).getLastName()+ "    "
-												+ searchResult.get(j).getMembershipTypeString() + "    "
+												+ searchResult.get(j).getMembershipType() + "    "
 												+ searchResult.get(j).getEmailAddress()+ "    ")); 
 				generalLookupModel.addElement(string);
 			}
@@ -525,7 +525,7 @@ public class MainFrame extends JFrame {
 				new UpdateMemberFrame(controller, m);
 
 			}else if(e.getSource().equals(addMemberButton)){
-				new AddMember(controller);
+				new AddMember();
 
 			}else if(e.getSource().equals(signIntoStoreButton)){
 				int memberIndex = generalLookup.getSelectedIndex();
