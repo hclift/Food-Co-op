@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -74,19 +76,15 @@ public class MainFrame extends JFrame {
 	//JListLookup and JList Model
 	private JList generalLookup;
 	private DefaultListModel generalLookupModel;
+	private JScrollPane generalLookupPane;
 	
 	private JList store;
 	private DefaultListModel storeModel;
+	private JScrollPane storePane;
 	
 	private JList kitchen;
 	private DefaultListModel kitchenModel;
-
-	private JTextArea storeTextArea;
-	private JScrollPane storeScrollPane;
-
-	private JTextArea kitchenTextArea;
-	private JScrollPane kitchenScrollPane;
-
+	private JScrollPane kitchenPane;
 
 	private JMenu menu;
 
@@ -196,7 +194,7 @@ public class MainFrame extends JFrame {
 		generalLookupModel = new DefaultListModel();
 		generalLookup = new JList(generalLookupModel);
 
-		JScrollPane generalLookupPane = new JScrollPane(generalLookup);
+		generalLookupPane = new JScrollPane(generalLookup);
 		//generalLookupPane.setBounds(15, 0, 410, 125);
 
 		/**
@@ -213,6 +211,16 @@ public class MainFrame extends JFrame {
 			}				
 		}
 		);
+		
+		// Add a listener for mouse clicks
+		generalLookup.addMouseListener(new MouseAdapter() {
+		    public void mouseClicked(MouseEvent evt) {
+		        JList list = (JList)evt.getSource();
+		        if (evt.getClickCount() == 2) {          // Double-click
+		            showViewMember();
+		        }
+		    }
+		});
 
 		generalLookupTextArea = new JTextArea();
 		generalLookupTextArea.setFont(f2);
@@ -294,7 +302,7 @@ public class MainFrame extends JFrame {
 		storeModel = new DefaultListModel();
 		store = new JList(storeModel);
 
-		JScrollPane storePane = new JScrollPane(store);
+		storePane = new JScrollPane(store);
 		storePane.setBounds(15, 30, 200, 250);
 		
 		/**
@@ -314,27 +322,11 @@ public class MainFrame extends JFrame {
 		signOutOfKitchenButton.setFont(buttonFont);
 		signOutOfKitchenButton.setBounds(135, 600, 80, 25);
 		signOutOfKitchenButton.setEnabled(false);
-
-		storeTextArea = new JTextArea();
-		storeTextArea.setFont(f2);
-		storeTextArea.setEditable(false);
-		//storeTextArea.setText("Name One\nName Two\nReallyReallyReallyLongLong AsianNameInStore\n1\n2\n3\n4\n5\n6\n7\n8\n9\n");
-
-		storeScrollPane = new JScrollPane(storeTextArea);
-		storeScrollPane.setBounds(15, 30, 200, 250);
-
-		kitchenTextArea = new JTextArea();
-		kitchenTextArea.setFont(f2);
-		kitchenTextArea.setEditable(false);
-		//storeTextArea.setText("Name One\nName Two\nReallyReallyReallyLongLong AsianNameInKitchen\n1\n2\n3\n4\n5\n6\n7\n8\n9\n");
-
-		kitchenScrollPane = new JScrollPane(kitchenTextArea);
-		kitchenScrollPane.setBounds(15, 340, 200, 250);
 		
 		kitchenModel = new DefaultListModel();
 		kitchen = new JList(kitchenModel);
 		
-		JScrollPane kitchenPane = new JScrollPane(kitchen);
+		kitchenPane = new JScrollPane(kitchen);
 		kitchenPane.setBounds(15, 340, 200, 250);
 		
 		/**
@@ -481,7 +473,7 @@ public class MainFrame extends JFrame {
 		{
 			for(int j = 0; j < searchResult.size(); j++){
 				String string  = new String((searchResult.get(j).getFirstName()+ "     "+ searchResult.get(j).getLastName()+ "    "
-												+ searchResult.get(j).getMembershipType() + "    "
+												+ searchResult.get(j).getMembershipTypeString() + "    "
 												+ searchResult.get(j).getEmailAddress()+ "    ")); 
 				generalLookupModel.addElement(string);
 			}
@@ -499,6 +491,13 @@ public class MainFrame extends JFrame {
 	{
 		JOptionPane.showMessageDialog(null, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 	}
+	
+	public void showViewMember()
+	{
+		Member m = controller.getMember(generalLookup.getSelectedIndex());
+		new ViewMember(m);
+	}
+	
 	/**
 	 * 
 	 * @author Dave Wroblewski
@@ -520,14 +519,13 @@ public class MainFrame extends JFrame {
 				printSearchResult(controller.lookUpMember(firstNameTextField.getText(), lastNameTextField.getText()));
 
 			else if(e.getSource().equals(viewMemberButton)){
-				Member m = controller.getMember(generalLookup.getSelectedIndex());
-				new ViewMember(m);
+				showViewMember();
 
 			}else if(e.getSource().equals(updateMemberButton)){
 				Member m = controller.getMember(generalLookup.getSelectedIndex());
 				new UpdateMemberFrame(controller, m);
 			}else if(e.getSource().equals(addMemberButton)){
-				new AddMember();
+				new AddMember(controller);
 			}else if(e.getSource().equals(signIntoStoreButton)){
 				int memberIndex = generalLookup.getSelectedIndex();
 				ArrayList<Member> members = controller.signIntoStore(memberIndex);

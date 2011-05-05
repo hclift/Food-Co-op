@@ -181,6 +181,22 @@ public class Member
 		return membershipType;
 	}
 	
+	public String getMembershipTypeString()
+	{	
+		String status = "";
+		if(membershipType==0){
+			status = "Ordinary";
+		}else if(membershipType==1){
+			status = "Working";
+		}else if(membershipType==2){
+			status = "Core";
+		}else if(membershipType==3){
+			status = "Coordinator";
+		}
+		
+		return status;
+	}
+	
 	/**
 	 * Returns the member's membership length
 	 * 

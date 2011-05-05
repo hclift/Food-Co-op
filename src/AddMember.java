@@ -43,15 +43,18 @@ public class AddMember
 	private JComboBox addSemYearComboBox;
 
 	private JComboBox currentYearBox, membershipTypeBox;
+	private Controller controller;
 
 	/**
 	 * Create the window
 	 * 
 	 * This method creates the window for adding a member
 	 */
-	public AddMember()
+
+
+	public AddMember(Controller c)
 	{
-		mainFrame = new JFrame("Add Member");
+		controller = c;
 		mainFrame.setBounds(275, 150, 450, 250);
 		//mainFrame.setFocusableWindowState(false);
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -226,9 +229,9 @@ public class AddMember
 		expirationTextField.setEditable(false);
 		expirationTextField.setText("12/12/2011");
 		*/
-		
-		membershipDurationLabel = new JLabel("Member Duration: ");
-		membershipDurationLabel.setBounds(205, 140, 120, 20);
+
+		membershipDurationLabel = new JLabel("Length of Membership: ");
+		membershipDurationLabel.setBounds(165, 140, 160, 20);
 
 		addSemYearComboBox = new JComboBox();
 		addSemYearComboBox.setBounds(310, 140, 120, 25);
@@ -317,8 +320,9 @@ public class AddMember
 						flag = false;
 					}
 				}
-
-				DatabaseAbstraction.addMember(fn, ln, em, convertMemDur(sy), convertMemType(mt), convertYear(cy), 1);
+					// add member to database and close window
+					controller.addMember(fn, ln, em, convertMemDur(sy),
+					convertMemType(mt), convertYear(cy), 1);
 				mainFrame.dispose();
 			}else{
 				System.exit(0);
