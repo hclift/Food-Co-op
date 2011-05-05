@@ -477,7 +477,6 @@ public class MainFrame extends JFrame {
 
 		String str;
 
-		@Override
 		public void actionPerformed(ActionEvent e) {
 
 			if(e.getSource().equals(searchButton))

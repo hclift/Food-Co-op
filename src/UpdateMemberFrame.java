@@ -178,7 +178,7 @@ private JLabel firstNameLabel, lastNameLabel, emailLabel, yearLabel,
 		
 		cancelButton = new JButton("Cancel");
 		cancelButton.setBounds(340, 230, 80, 30);
-		cancelButton.addActi onListener(new OKCancelButtonListener());
+		cancelButton.addActionListener(new OKCancelButtonListener());
 		
 		mainPanel.add(firstNameLabel);
 		mainPanel.add(firstNameTextField);
@@ -209,7 +209,6 @@ private JLabel firstNameLabel, lastNameLabel, emailLabel, yearLabel,
 	
 	class OKCancelButtonListener implements ActionListener
 	{
-		@Override
 		public void actionPerformed(ActionEvent e) 
 		{
 			if(e.getSource().equals(cancelButton))

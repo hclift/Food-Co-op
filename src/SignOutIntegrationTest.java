@@ -12,21 +12,32 @@ public class SignOutIntegrationTest {
 	private Model m;
 	private Controller c;
 	private MainFrame mf;
-	ArrayList<Member> dummy = new ArrayList<Member>();
-	Member testMember;
+	Member dummy;
+	ArrayList<Member> searchResults = new ArrayList<Member>();
+	
 	@Before
 	public void setUp() throws Exception {
 		m = new Model();
 		c = new Controller(m);
 		mf = new MainFrame(c, m);
-		dummy = m.lookupMember("John", "Smith");
+		
+		dummy = new Member(12347, "Keith", "Hernandez", "khernandez@sny.com", new Date(123456789), 1, 1, 1, 1, 1, true);
+		searchResults.add(dummy);
+		dummy = new Member(12346, "Art", "Vandalay", "avandalay@lol.com", new Date(123456789), 2, 2, 2, 2, 2, true);
+		searchResults.add(dummy);
+		m.setLastLookupMemberResults(searchResults);
 		m.signIntoStore(0);
-		dummy = m.lookupMember("Jane", "Dane");
-		m.signIntoStore(0);
-		dummy = m.lookupMember("Keith", "Hernandez");
+		m.signIntoStore(1);
+		
+		searchResults.clear();
+		dummy = new Member(12345, "Barack", "Obama", "president@whitehouse.gov", new Date(123456789), 1, 1, 1, 7, 500, true);
+		searchResults.add(dummy);
+		dummy = new Member(12348, "Samuel", "Jackson", "snakes@aplane.com", new Date(123456789), 3, 3, 3, 3, 3, true);
+		searchResults.add(dummy);
+		m.setLastLookupMemberResults(searchResults);
 		m.signIntoKitchen(0);
-		dummy = m.lookupMember("Art", "Vandalay");
-		m.signIntoKitchen(0);
+		m.signIntoKitchen(1);
+		
 	
 	}
 	
@@ -34,16 +45,18 @@ public class SignOutIntegrationTest {
 	public void testsignOutOfStore()
 	{
 		
-		dummy = m.getSignedIntoStore();
-		int numSignedIn = dummy.size();
-		dummy = m.signOutOfStore(1);
-		assertEquals(numSignedIn-1, dummy.size());
-		assertEquals("John", dummy.get(0).getFirstName());
+		searchResults = m.getSignedIntoStore();
+		int numSignedIn = searchResults.size();
+		searchResults = m.signOutOfStore(1);
+		assertEquals(numSignedIn-1, searchResults.size());
+		assertEquals("Keith", searchResults.get(0).getFirstName());
 		
+		/**
 		dummy = c.getSignedIntoStore();
 		numSignedIn = dummy.size();
 		dummy = c.signOutOfStore(0);
 		assertEquals(numSignedIn-1, dummy.size());
+		**/
 		
 	}
 	
@@ -51,38 +64,47 @@ public class SignOutIntegrationTest {
 	public void testsignOutOfKitchen()
 	{
 		
-		dummy = m.getSignedIntoKitchen();
-		int numSignedIn = dummy.size();
-		dummy = m.signOutOfKitchen(1);
-		assertEquals(numSignedIn-1, dummy.size());
-		assertEquals("Keith", dummy.get(0).getFirstName());
+		searchResults = m.getSignedIntoKitchen();
+		int numSignedIn = searchResults.size();
+		searchResults = m.signOutOfKitchen(1);
+		assertEquals(numSignedIn-1, searchResults.size());
+		assertEquals("Barack", searchResults.get(0).getFirstName());
 		
+		/**
 		dummy = c.getSignedIntoKitchen();
 		numSignedIn = dummy.size();
 		dummy = c.signOutOfKitchen(0);
 		assertEquals(numSignedIn-1, dummy.size());
-
+		**/
 		
 	}
 	
 	@Test
 	public void testreconcileShiftLength()
 	{
-		m.getSignedIntoKitchen().clear();
-		testMember = new Member(13132, "Barack", "Obama", "president@whitehouse.gov", 
-						new Date(1234567890), 1, 1,1,7, 1, false, true);
-		dummy = m.signIntoKitchen(testMember);
+		
+		dummy = m.getSignedIntoKitchen().get(0);
+		dummy.setAvailableDiscounts(10);
+		// Simulate Working for 72 minutes
+		dummy.setLastSignIn(System.currentTimeMillis() - 4320000);
+		searchResults = m.signOutOfKitchen(0);
+		assertEquals(11, dummy.getAvailableDiscounts());
+		
+		
+		/**
+		int currentDiscounts = m.getSignedIntoKitchen().get(0).getAvailableDiscounts();
 		int newShiftLength = c.reconcileShiftLength(24);
 		if (newShiftLength >= 90)
 		{
-			m.getSignedIntoKitchen().get(0).setAvailableDiscounts(testMember.getAvailableDiscounts()+2);
-			assertEquals(9, m.getSignedIntoKitchen().get(0).getAvailableDiscounts());
+			m.getSignedIntoKitchen().get(0).setAvailableDiscounts(dummy.getAvailableDiscounts()+2);
+			assertEquals(currentDiscounts+2, m.getSignedIntoKitchen().get(0).getAvailableDiscounts());
 		}
 		else
 		{
-			m.getSignedIntoKitchen().get(0).setAvailableDiscounts(testMember.getAvailableDiscounts()+1);
-			assertEquals(8, testMember.getAvailableDiscounts());
+			m.getSignedIntoKitchen().get(0).setAvailableDiscounts(dummy.getAvailableDiscounts()+1);
+			assertEquals(currentDiscounts+1, dummy.getAvailableDiscounts());
 		}
+		**/
 	}
 	
 }

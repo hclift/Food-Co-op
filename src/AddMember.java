@@ -275,7 +275,6 @@ public class AddMember
 	class ButtonListener implements ActionListener
 	{
 
-		@Override
 		public void actionPerformed(ActionEvent e) 
 		{
 			// 'cancel' button is pressed

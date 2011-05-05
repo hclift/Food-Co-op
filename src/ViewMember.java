@@ -148,7 +148,6 @@ private JCheckBox recieveEmailCheckBox;
 	
 	class ButtonListener implements ActionListener{
 
-		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			if(e.getSource().equals(okButton)){
