@@ -1,6 +1,7 @@
 /*
  * UpdateMemberFrame.java
  * This is the GUI class for the Update Member window of the program.
+ * Interacts with the controller which calls the model.
  * 
  */
 
@@ -19,24 +20,27 @@ import javax.swing.JTextField;
 
 
 public class UpdateMemberFrame{
-// main frame of update member; changes on creation and closing
-private JFrame mainFrame;
+	// main frame of update member; changes on creation and closing
+	private JFrame mainFrame;
 
-// main panel of update member's main frame; changes on creation (addPanel)
-private JPanel mainPanel;
-private JLabel firstNameLabel, lastNameLabel, emailLabel, yearLabel, 
+	// main panel of update member's main frame; changes on creation (addPanel)
+	private JPanel mainPanel;
+	private JLabel firstNameLabel, lastNameLabel, emailLabel, yearLabel, 
 	membershipTypeLabel, expirationLabel,discountsLabel, IOULabel, activeMemberLabel;
 
     // text fields in main panel; self-documenting for data it receives
 	private JTextField firstNameTextField, lastNameTextField, 
 	emailTextField, expirationTextField, discountsTextField, IOUTextField;
+	
     // buttons in main panel;  self-documenting for their purposes
 	private JButton addIOUButton, applyDiscountButton, saveButton, 
 	cancelButton;
+	
     // combo boxes in main panel; self-documenting for data it receives
 	private JComboBox currentYearBox, membershipTypeBox;
+	
     // check box in main panel; for whether member wants to receive emails
-	private JCheckBox recieveEmailCheckBox;
+	//private JCheckBox recieveEmailCheckBox;
     // check box in main panel; for whether member is active
 	private JCheckBox activeMemberCheckBox;
 
@@ -48,8 +52,12 @@ private JLabel firstNameLabel, lastNameLabel, emailLabel, yearLabel,
 	// holds member's IOU amount; changes when discount applied or IOU added
 	double tempIOU;
 	int	tempAvailDiscounts;
-
-
+	
+	/**
+	 * Explicit value constructor for UpdateMemberFrame.
+	 * Takes in controller and member as parameters.
+	 * @param controller, member
+	 **/
 	public UpdateMemberFrame(Controller controller, Member member)
 	{
 		this.member = member;
@@ -68,14 +76,25 @@ private JLabel firstNameLabel, lastNameLabel, emailLabel, yearLabel,
 		}
 		mainFrame.setVisible(true);
 		mainFrame.validate();
-		
 	}
+	
+	
+	/**
+	 * Sets the visibility of the buttons.
+	 * Takes in a boolean which determines whether buttons are visible.
+	 * @param visibility
+	 **/
 	private void setButtons(boolean visibility)
 	{
 		addIOUButton.setVisible(visibility);
 		applyDiscountButton.setVisible(visibility);
 	}
 	
+	
+	/**
+	 * Adds the main panel into the main frame of update member.
+	 * Creates all labels, text fields, buttons, and boxes in main panel.
+	 **/
 	private void addPanel()
 	{
 		mainPanel = new JPanel();
@@ -207,6 +226,12 @@ private JLabel firstNameLabel, lastNameLabel, emailLabel, yearLabel,
 		mainFrame.add(mainPanel, BorderLayout.CENTER);
 	}
 	
+	
+	/**
+	 * 
+	 * This ActionListener is done improperly and will need to be redone.
+	 * 
+	 */
 	class OKCancelButtonListener implements ActionListener
 	{
 		@Override

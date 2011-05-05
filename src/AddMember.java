@@ -19,7 +19,7 @@ import javax.swing.*;
 
 public class AddMember
 {
-
+	private Controller controller;
 	private JFrame mainFrame;
 	private JPanel mainPanel;
 	private JLabel firstNameLabel, lastNameLabel, emailLabel, yearLabel, 
@@ -38,8 +38,9 @@ public class AddMember
 	 * 
 	 * This method creates the window for adding a member
 	 */
-	public AddMember()
+	public AddMember(Controller c)
 	{
+		controller = c;
 		mainFrame = new JFrame("Add Member");
 		mainFrame.setBounds(275, 150, 450, 250);
 		//mainFrame.setFocusableWindowState(false);
@@ -317,7 +318,7 @@ public class AddMember
 				}
 				
 				// add member to database and close window
-				DatabaseAbstraction.addMember(fn, ln, em, convertMemDur(sy),
+				controller.addMember(fn, ln, em, convertMemDur(sy),
 						convertMemType(mt), convertYear(cy), 1);
 				mainFrame.dispose();
 			}
