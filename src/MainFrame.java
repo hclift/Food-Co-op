@@ -373,7 +373,7 @@ public class MainFrame extends JFrame {
 	}
 	
 	private String convertMemberType(int memberTypeIn){
-		String status = "default";
+		String status = "";
 		if(memberTypeIn==0){
 			status = "Ordinary";
 		}else if(memberTypeIn==1){
