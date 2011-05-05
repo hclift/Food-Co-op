@@ -30,7 +30,6 @@ public class UpdateMemberTest {
 	assertEquals(5, original.getAvailableDiscounts() );
 	assertEquals(2.0, original.getIouAmount(), .1);
 	assertEquals(true, original.getActive());
-	assertEquals(false, original.getReceiveEmail());
 	
 	}
 }
