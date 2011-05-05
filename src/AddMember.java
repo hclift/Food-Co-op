@@ -52,7 +52,8 @@ public class AddMember
 
 
 
-	public AddMember(){
+	public AddMember(Controller c){
+		this.controller = c;
 		mainFrame = new JFrame("Add Member");
 		mainFrame.setBounds(275, 150, 450, 250);
 		//mainFrame.setFocusableWindowState(false);
