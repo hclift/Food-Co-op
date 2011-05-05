@@ -525,7 +525,7 @@ public class MainFrame extends JFrame {
 				new UpdateMemberFrame(controller, m);
 
 			}else if(e.getSource().equals(addMemberButton)){
-				new AddMember();
+				new AddMember(controller);
 
 			}else if(e.getSource().equals(signIntoStoreButton)){
 				int memberIndex = generalLookup.getSelectedIndex();

@@ -32,11 +32,12 @@ private JButton cancelButton, okButton;
 private JComboBox addSemYearComboBox;
 
 private JComboBox currentYearBox, membershipTypeBox;
+private Controller controller;
 
 
-
-	public AddMember(){
-		mainFrame = new JFrame("Add Member");
+	public AddMember(Controller c)
+	{
+		controller = c;
 		mainFrame.setBounds(275, 150, 450, 250);
 		//mainFrame.setFocusableWindowState(false);
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -242,8 +243,9 @@ private JComboBox currentYearBox, membershipTypeBox;
 					}
 				}
 
-				DatabaseAbstraction.addMember(fn, ln, em, convertMemDur(sy), convertMemType(mt), convertYear(cy), 1);
-
+					// add member to database and close window
+					controller.addMember(fn, ln, em, convertMemDur(sy),
+					convertMemType(mt), convertYear(cy), 1);
 
 
 				mainFrame.dispose();
