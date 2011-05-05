@@ -34,7 +34,7 @@ public class Model
 	// Shift length cutoff for receiving 2 discount units (In Minutes).
 	private final int TWO_DISCOUNT_CUTOFF_MINS = 90;
 
-	private int shiftLength;
+	private long shiftLength;
 
 	/**
 	 * @author Ashley Chin
@@ -43,7 +43,7 @@ public class Model
 	 *          Getter for shift length
 	 * @return Shift Length of the member
 	 */
-	public int getShiftLength() {
+	public long getShiftLength() {
 		return shiftLength;
 	}
 
@@ -55,7 +55,7 @@ public class Model
 	 * @param shiftLengthIn
 	 *            Shift Length being passed in
 	 */
-	public void setShiftLength(final int shiftLengthIn) {
+	public void setShiftLength(long shiftLengthIn) {
 		this.shiftLength = shiftLengthIn;
 	}
 

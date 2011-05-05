@@ -189,10 +189,10 @@ public class Controller
 	 *            shift length in minutes
 	 * @return New shift length after reconciliation.
 	 */
-    public int reconcileShiftLength(final int reconciledShiftLength)
+    public long reconcileShiftLength(long reconciledShiftLength)
     {
-    	// FIXME: implement in MainFrame class
-    	// return mainFrame.reconcileShiftLength(reconciledShiftLength);
-    	return 0;    
+    	long newShiftLength = reconciledShiftLength * 60000;
+    	model.setShiftLength(newShiftLength);
+    	return newShiftLength;    
     }
 }

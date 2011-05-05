@@ -500,8 +500,10 @@ public class MainFrame extends JFrame {
 				new AddMember();
 
 			}else if(e.getSource().equals(signIntoStoreButton)){
-				str = "Sign into store method to go here.";
-				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
+				
+				
+//				str = "Sign into store method to go here.";
+//				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
 
 			}else if(e.getSource().equals(signIntoKitchenButton)){
 				str = "Sign into kitchen method to go here.";
@@ -512,12 +514,95 @@ public class MainFrame extends JFrame {
 				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
 
 			}else if(e.getSource().equals(signOutOfStoreButton)){
-				str = "Sign out of store method to go here.";
-				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
+				if(model.getShiftLength() < 2700000 || model.getShiftLength() > 7200000){
+					str = "Worker has worked an undeterminable amount of time.\n You must manually enter the amount of hours worked.";
+					JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
+					final JFrame fixShiftLengthFrame = new JFrame("Fix shift length");
+					fixShiftLengthFrame.setBounds(490, 280, 200, 140);
+					fixShiftLengthFrame.setResizable(false);
+					fixShiftLengthFrame.setVisible(true);
+					JPanel mainPanel = new JPanel();
+					mainPanel.setLayout(null);
+					final JTextField textField = new JTextField();
+					JLabel label = new JLabel("Hours worked:");
+					JButton button = new JButton("OK");
+					label.setBounds(10, 20, 100, 25);
+					textField.setBounds(100, 20, 80, 25);
+					button.setBounds(100, 60, 80, 25);
+					button.addActionListener(new ActionListener(){
+
+						@Override
+						public void actionPerformed(ActionEvent arg0) {
+							// TODO This is where the reconcileShiftLength of model gets called
+							try{
+								int newShiftLength;
+								newShiftLength = Integer.parseInt(textField.getText());
+								controller.reconcileShiftLength(newShiftLength);
+								System.out.println("This worked!");
+								fixShiftLengthFrame.dispose();
+							}catch(Exception e){
+								str = "You need to input an integer!";
+								JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
+							}
+							
+						}
+						
+					
+					});
+					mainPanel.add(label);
+					mainPanel.add(textField);
+					mainPanel.add(button);
+					fixShiftLengthFrame.add(mainPanel);
+					fixShiftLengthFrame.validate();
+				}
+//				str = "Sign out of store method to go here.";
+//				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
 
 			}else if(e.getSource().equals(signOutOfKitchenButton)){
-				str = "Sign out of kitchen method to go here.";
-				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
+
+				if(model.getShiftLength() < 2700000 || model.getShiftLength() > 7200000){
+					str = "Worker has worked an undeterminable amount of time.\n You must manually enter the amount of hours worked.";
+					JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
+					final JFrame fixShiftLengthFrame = new JFrame("Fix shift length");
+					fixShiftLengthFrame.setBounds(490, 280, 200, 140);
+					fixShiftLengthFrame.setResizable(false);
+					fixShiftLengthFrame.setVisible(true);
+					JPanel mainPanel = new JPanel();
+					mainPanel.setLayout(null);
+					final JTextField textField = new JTextField();
+					JLabel label = new JLabel("Hours worked:");
+					JButton button = new JButton("OK");
+					label.setBounds(10, 20, 100, 25);
+					textField.setBounds(100, 20, 80, 25);
+					button.setBounds(100, 60, 80, 25);
+					button.addActionListener(new ActionListener(){
+
+						@Override
+						public void actionPerformed(ActionEvent arg0) {
+							// TODO This is where the reconcileShiftLength of model gets called
+							try{
+								int newShiftLength;
+								newShiftLength = Integer.parseInt(textField.getText());
+								controller.reconcileShiftLength(newShiftLength);
+								System.out.println("This worked!");
+								fixShiftLengthFrame.dispose();
+							}catch(Exception e){
+								str = "You need to input an integer!";
+								JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
+							}
+							
+						}
+						
+					
+					});
+					mainPanel.add(label);
+					mainPanel.add(textField);
+					mainPanel.add(button);
+					fixShiftLengthFrame.add(mainPanel);
+					fixShiftLengthFrame.validate();
+				}
+//				str = "Sign out of kitchen method to go here.";
+//				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
 
 			}else{
 				System.exit(0);
