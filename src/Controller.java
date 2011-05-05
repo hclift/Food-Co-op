@@ -19,7 +19,7 @@ public class Controller
 	 * @param model
 	 *            The model to link to the controller
 	 **/
-	public Controller(Model model)
+	public Controller(final Model model)
 	{
 		this.model = model;
 		mainFrame = new MainFrame(this, model);
@@ -35,7 +35,8 @@ public class Controller
 	 *            First name of the member being looked up
 	 * @param lastName
 	 *            Last name of the member being looked up
-	 * @return array list of members
+	 * @return searchResult
+	 * 			  An array list of members found from the search
 	 **/
 	public ArrayList<Member> lookUpMember(final String firstName, final String lastName)
 	{
