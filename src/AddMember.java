@@ -18,83 +18,151 @@ import java.awt.event.KeyListener;
 
 import javax.swing.*;
 
+/**
+ * Add Member
+ * 
+ * This file creates the pop-up window for adding a member and the various
+ * methods it uses.  To add a member, a name (both first and last) and an
+ * email address must both entered into the text fields.  Other information
+ * such as member's year in school and membership length and type are
+ * selected from drop down menus.  After all fields have been entered, press 
+ * the 'OK' button to add the member into the database.
+ */
 
-public class AddMember{
-private JFrame mainFrame;
-private JPanel mainPanel;
-private JLabel firstNameLabel, lastNameLabel, emailLabel, yearLabel, 
-	membershipTypeLabel, expirationLabel,discountsLabel, IOULabel, membershipDurationLabel;
+public class AddMember
+{
+	private JFrame mainFrame;
+	private JPanel mainPanel;
+	private JLabel firstNameLabel, lastNameLabel, emailLabel, yearLabel, 
+		membershipTypeLabel, discountsLabel, IOULabel, membershipDurationLabel;
 
-private JTextField firstNameTextField, lastNameTextField, 
-	emailTextField, expirationTextField, discountsTextField, IOUTextField;
+	private JTextField firstNameTextField, lastNameTextField, 
+		emailTextField, discountsTextField, IOUTextField;
 
-private JButton cancelButton, okButton;
-private JComboBox addSemYearComboBox;
+	private JButton cancelButton, okButton;
+	private JComboBox addSemYearComboBox;
 
-private JComboBox currentYearBox, membershipTypeBox;
+	private JComboBox currentYearBox, membershipTypeBox;
 
-
-
-	public AddMember(){
+	/**
+	 * Create the window
+	 * 
+	 * This method creates the window for adding a member
+	 */
+	public AddMember()
+	{
 		mainFrame = new JFrame("Add Member");
 		mainFrame.setBounds(275, 150, 450, 250);
 		//mainFrame.setFocusableWindowState(false);
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		mainFrame.setResizable(false);
 
-
-
 		addPanel();
 		mainFrame.setVisible(true);
 
 		mainFrame.validate();
-
-
-
 	}
-
-	private int convertYear(String sIn){
+		
+	/**
+	 * Convert Year
+	 * 
+	 * Converts the string for member's year into an integer,
+	 * so that it may be stored in the Member object
+	 * 
+	 * @param sIn	String to be converted
+	 * @return		The integer representation of the year
+	 */
+	private int convertYear(String sIn)
+	{
+		
+		// -1 represents an error
 		int status = -1;
-		if(sIn.equals("Freshman")){
+		
+		if(sIn.equals("Freshman"))
+		{
 			status = 0;
-		}else if(sIn.equals("Sophmore")){
+		}
+		else if(sIn.equals("Sophmore"))
+		{
 			status = 1;
-		}else if(sIn.equals("Junior")){
+		}
+		else if(sIn.equals("Junior"))
+		{
 			status = 2;
-		}else if(sIn.equals("Senior")){
+		}
+		else if(sIn.equals("Senior"))
+		{
 			status = 3;
 		}
-
+		
 		return status;
 	}
 
-	private int convertMemType(String sIn){
+	
+	/**
+	 * Convert Member Type
+	 * 
+	 * Converts the string for member's type into an integer,
+	 * so that it may be stored in the Member object
+	 * 
+	 * @param sIn	String to be converted
+	 * @return		The integer representation of the membership type
+	 */
+	private int convertMemType(String sIn)
+	{
+		
+		// -1 represents an error
 		int status = -1;
-		if(sIn.equals("Ordinary")){
+		
+		if(sIn.equals("Ordinary"))
+		{
 			status = 0;
-		}else if(sIn.equals("Working")){
+		}
+		else if(sIn.equals("Working"))
+		{
 			status = 1;
-		}else if(sIn.equals("Core")){
+		}
+		else if(sIn.equals("Core"))
+		{
 			status = 2;
-		}else if(sIn.equals("Coordinator")){
+		}
+		else if(sIn.equals("Coordinator"))
+		{
 			status = 3;
 		}
-
+		
 		return status;
 	}
-
-	private int convertMemDur(String sIn){
+	
+	/**
+	 * Convert Member Duration
+	 * 
+	 * Converts the string for member's length into an integer,
+	 * so that it may be stored in the Member object
+	 * 
+	 * @param sIn	String to be converted
+	 * @return		The integer representation of the membership length
+	 */
+	private int convertMemDur(String sIn)
+	{
+		
+		// -1 represents an error
 		int status = -1;
-		if(sIn.equals("Semester")){
+		
+		if(sIn.equals("Semester"))
+		{
 			status = 0;
-		}else if(sIn.equals("Year")){
+		}
+		else if(sIn.equals("Year"))
+		{
 			status = 1;
 		}
-
+		
 		return status;
 	}
 
-	private void addPanel(){
+	private void addPanel()
+	{
 		mainPanel = new JPanel();
 		mainPanel.setLayout(null);
 
@@ -148,8 +216,8 @@ private JComboBox currentYearBox, membershipTypeBox;
 		membershipTypeBox = new JComboBox();
 		membershipTypeBox.setBounds(310, 100, 120, 25);
 		membershipTypeBox.addItem("Ordinary");
-		membershipTypeBox.addItem("Working Member");
-		membershipTypeBox.addItem("Core Member");
+		membershipTypeBox.addItem("Working");
+		membershipTypeBox.addItem("Core");
 		membershipTypeBox.addItem("Coordinator");
 
 		/*
@@ -158,6 +226,7 @@ private JComboBox currentYearBox, membershipTypeBox;
 		expirationTextField.setEditable(false);
 		expirationTextField.setText("12/12/2011");
 		*/
+		
 		membershipDurationLabel = new JLabel("Member Duration: ");
 		membershipDurationLabel.setBounds(205, 140, 120, 20);
 
@@ -174,8 +243,7 @@ private JComboBox currentYearBox, membershipTypeBox;
 		cancelButton = new JButton("Cancel");
 		cancelButton.setBounds(350, 180, 80, 30);
 		cancelButton.addActionListener(new ButtonListener());
-
-
+			
 		mainPanel.add(firstNameLabel);
 		mainPanel.add(firstNameTextField);
 		mainPanel.add(lastNameLabel);
@@ -193,15 +261,19 @@ private JComboBox currentYearBox, membershipTypeBox;
 		mainPanel.add(cancelButton);
 		mainPanel.add(okButton);
 
-
 		mainPanel.setVisible(true);
 		mainFrame.add(mainPanel, BorderLayout.CENTER);
 
-		if(firstNameTextField.getText().equals("") || lastNameTextField.getText().equals("")
-				|| emailTextField.getText().equals("")){
+		// checks that all text fields have input, 
+		// OK is disabled if at least one is empty
+		if(firstNameTextField.getText().equals("") 
+				|| lastNameTextField.getText().equals("")
+				|| emailTextField.getText().equals(""))
+		{
 			okButton.setEnabled(false);
 		}
-		else{
+		else
+		{
 			okButton.setEnabled(true);
 		}
 
@@ -211,15 +283,19 @@ private JComboBox currentYearBox, membershipTypeBox;
 		emailTextField.addKeyListener(EnterListener);		
 	}
 
-
-	class ButtonListener implements ActionListener{
-
+	class ButtonListener implements ActionListener
+	{
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			if(e.getSource().equals(cancelButton)){
+		public void actionPerformed(ActionEvent e) 
+		{
+			// 'cancel' button is pressed
+			if(e.getSource().equals(cancelButton))
+			{
+				// closes the window
 				mainFrame.dispose();
-			}else if(e.getSource().equals(okButton)){
+			}
+			else if(e.getSource().equals(okButton))
+			{
 				//TODO: Implement methods for OKButton
 				String fn;
 				String ln;
@@ -243,16 +319,11 @@ private JComboBox currentYearBox, membershipTypeBox;
 				}
 
 				DatabaseAbstraction.addMember(fn, ln, em, convertMemDur(sy), convertMemType(mt), convertYear(cy), 1);
-
-
-
 				mainFrame.dispose();
 			}else{
 				System.exit(0);
 			}
 		}
-
-
 	}
 
 	class EnterListener implements KeyListener{
@@ -281,6 +352,20 @@ private JComboBox currentYearBox, membershipTypeBox;
 		public void keyTyped(KeyEvent e) {
 		}
 	}
-
-
+		public void keyReleased(KeyEvent e)
+		{
+			// at least one of the text fields is empty
+			if(firstNameTextField.getText().equals("") 
+					|| lastNameTextField.getText().equals("")
+					|| emailTextField.getText().equals(""))
+			{
+				// 'ok' button is disabled
+				okButton.setEnabled(false);
+			}
+			else
+			{
+				// 'ok' button is enabled
+				okButton.setEnabled(true);
+			}
+		}
 }

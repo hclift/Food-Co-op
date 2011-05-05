@@ -21,7 +21,7 @@ public class SignOutTest {
 		TempModel = new Model();
 		testResults = new ArrayList<Member>();
 		testMember = new Member(13132, "John", "Doe", "jdoe@binghamton.edu", 
-				new Date(1234567890), 1, 1,1,2, 1,true);
+				new Date(1234567890), 1, 1, 1, 2, 1, true);
 		testResults.add(testMember);
 		testMember = new Member(13902, "Raibi", "Jamila", "raibi1@binghamton.edu", 
 				new Date(1234567890), 1, 3,1,2, 1, true);
@@ -47,5 +47,3 @@ public class SignOutTest {
 		
 	}
 }
-    
-

@@ -29,7 +29,7 @@ public class DatabaseAbstraction
 			return null;
 		}
 	}
-	
+
 	/**
 	* Connects to the queries the database and then queries it given the input
 	* parameters
@@ -78,7 +78,7 @@ public class DatabaseAbstraction
 					rs.getDouble("iou_amount"),
 					(rs.getInt("is_active") != 0)
 				);
-				
+
 				/*(=Statement stat2 = connection.createStatement();
 				ResultSet rs2 = stat2.executeQuery(
 						"SELECT iou_amount FROM member_iou " +
@@ -97,10 +97,10 @@ public class DatabaseAbstraction
 				*/
 				memberList.add(m);
 			}
-			
-			
-			
-			
+
+
+
+
 			connection.close();
 		} 
 		catch (Exception e)
@@ -216,7 +216,6 @@ public class DatabaseAbstraction
 				ps.setInt(8, year_in_school);
 				ps.setInt(9, is_active);
 				ps.executeUpdate();
-
 				//rs.close();
 				ps.close();
 				connection.close();
@@ -226,4 +225,5 @@ public class DatabaseAbstraction
 				System.out.println(e);
 			}
 		}
-	}
+}
+
