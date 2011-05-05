@@ -44,7 +44,6 @@ public class AddMember
 
 	private JComboBox currentYearBox, membershipTypeBox;
 	private Controller controller;
-
 	/**
 	 * Create the window
 	 * 
@@ -52,9 +51,9 @@ public class AddMember
 	 */
 
 
-	public AddMember(Controller c)
-	{
-		controller = c;
+
+	public AddMember(){
+		mainFrame = new JFrame("Add Member");
 		mainFrame.setBounds(275, 150, 450, 250);
 		//mainFrame.setFocusableWindowState(false);
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
