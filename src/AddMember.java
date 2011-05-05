@@ -158,8 +158,8 @@ private JComboBox currentYearBox, membershipTypeBox;
 		expirationTextField.setEditable(false);
 		expirationTextField.setText("12/12/2011");
 		*/
-		membershipDurationLabel = new JLabel("Member Duration: ");
-		membershipDurationLabel.setBounds(205, 140, 120, 20);
+		membershipDurationLabel = new JLabel("Length of Membership: ");
+		membershipDurationLabel.setBounds(165, 140, 160, 20);
 
 		addSemYearComboBox = new JComboBox();
 		addSemYearComboBox.setBounds(310, 140, 120, 25);
