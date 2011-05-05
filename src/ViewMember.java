@@ -104,12 +104,12 @@ private JCheckBox recieveEmailCheckBox;
 		currentYearBox = new JTextField();
 		currentYearBox.setBounds(85, 100, 100, 25);
 		currentYearBox.setEditable(false);
-		currentYearBox.setText(Integer.toString(m.getYearsInSchool()));
+		currentYearBox.setText(m.getYearsInSchoolString());
 		
 		membershipTypeBox = new JTextField();
 		membershipTypeBox.setBounds(310, 100, 100, 25);
 		membershipTypeBox.setEditable(false);
-		membershipTypeBox.setText(Integer.toString(m.getMembershipType()));
+		membershipTypeBox.setText(m.getMembershipTypeString());
 		
 		expirationTextField = new JTextField();
 		expirationTextField.setBounds(100, 140, 100, 25);
