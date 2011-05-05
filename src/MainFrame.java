@@ -78,19 +78,15 @@ public class MainFrame extends JFrame {
 	//JListLookup and JList Model
 	private JList generalLookup;
 	private DefaultListModel generalLookupModel;
+	private JScrollPane generalLookupPane;
 	
 	private JList store;
 	private DefaultListModel storeModel;
+	private JScrollPane storePane;
 	
 	private JList kitchen;
 	private DefaultListModel kitchenModel;
-
-	private JTextArea storeTextArea;
-	private JScrollPane storeScrollPane;
-
-	private JTextArea kitchenTextArea;
-	private JScrollPane kitchenScrollPane;
-
+	private JScrollPane kitchenPane;
 
 	private JMenu menu;
 
@@ -200,7 +196,7 @@ public class MainFrame extends JFrame {
 		generalLookupModel = new DefaultListModel();
 		generalLookup = new JList(generalLookupModel);
 
-		JScrollPane generalLookupPane = new JScrollPane(generalLookup);
+		generalLookupPane = new JScrollPane(generalLookup);
 		//generalLookupPane.setBounds(15, 0, 410, 125);
 		
 		/**
@@ -307,7 +303,7 @@ public class MainFrame extends JFrame {
 		storeModel = new DefaultListModel();
 		store = new JList(storeModel);
 
-		JScrollPane storePane = new JScrollPane(store);
+		storePane = new JScrollPane(store);
 		storePane.setBounds(15, 30, 200, 250);
 		
 		/**
@@ -327,27 +323,11 @@ public class MainFrame extends JFrame {
 		signOutOfKitchenButton.setFont(buttonFont);
 		signOutOfKitchenButton.setBounds(135, 600, 80, 25);
 		signOutOfKitchenButton.setEnabled(false);
-
-		storeTextArea = new JTextArea();
-		storeTextArea.setFont(f2);
-		storeTextArea.setEditable(false);
-		//storeTextArea.setText("Name One\nName Two\nReallyReallyReallyLongLong AsianNameInStore\n1\n2\n3\n4\n5\n6\n7\n8\n9\n");
-
-		storeScrollPane = new JScrollPane(storeTextArea);
-		storeScrollPane.setBounds(15, 30, 200, 250);
-
-		kitchenTextArea = new JTextArea();
-		kitchenTextArea.setFont(f2);
-		kitchenTextArea.setEditable(false);
-		//storeTextArea.setText("Name One\nName Two\nReallyReallyReallyLongLong AsianNameInKitchen\n1\n2\n3\n4\n5\n6\n7\n8\n9\n");
-
-		kitchenScrollPane = new JScrollPane(kitchenTextArea);
-		kitchenScrollPane.setBounds(15, 340, 200, 250);
 		
 		kitchenModel = new DefaultListModel();
 		kitchen = new JList(kitchenModel);
 		
-		JScrollPane kitchenPane = new JScrollPane(kitchen);
+		kitchenPane = new JScrollPane(kitchen);
 		kitchenPane.setBounds(15, 340, 200, 250);
 		
 		/**
