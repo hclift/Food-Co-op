@@ -40,7 +40,7 @@ public class UpdateMemberFrame{
 	private JComboBox currentYearBox, membershipTypeBox;
 	
     // check box in main panel; for whether member wants to receive emails
-	private JCheckBox recieveEmailCheckBox;
+	//private JCheckBox recieveEmailCheckBox;
     // check box in main panel; for whether member is active
 	private JCheckBox activeMemberCheckBox;
 
