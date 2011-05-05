@@ -318,7 +318,7 @@ public class Model
 		return matches.get(index);
 	}
 
-//TODO	caused error because there is no getLastSignIn() or ReconcileShiftLength() methods
+//TODO	caused error because there is no getLastSignIn() method
 	 
 	/**
 	 * @author Ashley Chin
