@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -215,6 +217,16 @@ public class MainFrame extends JFrame {
 			}				
 		}
 		);
+		
+		// Add a listener for mouse clicks
+		generalLookup.addMouseListener(new MouseAdapter() {
+		    public void mouseClicked(MouseEvent evt) {
+		        JList list = (JList)evt.getSource();
+		        if (evt.getClickCount() == 2) {          // Double-click
+		            showViewMember();
+		        }
+		    }
+		});
 
 		generalLookupTextArea = new JTextArea();
 		generalLookupTextArea.setFont(f2);
@@ -498,6 +510,13 @@ public class MainFrame extends JFrame {
 	{
 		JOptionPane.showMessageDialog(null, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 	}
+	
+	public void showViewMember()
+	{
+		Member m = controller.getMember(generalLookup.getSelectedIndex());
+		new ViewMember(m);
+	}
+	
 	/**
 	 * 
 	 * @author Dave Wroblewski
@@ -519,8 +538,7 @@ public class MainFrame extends JFrame {
 				printSearchResult(controller.lookUpMember(firstNameTextField.getText(), lastNameTextField.getText()));
 
 			else if(e.getSource().equals(viewMemberButton)){
-				Member m = controller.getMember(generalLookup.getSelectedIndex());
-				new ViewMember(m);
+				showViewMember();
 
 			}else if(e.getSource().equals(updateMemberButton)){
 				Member m = controller.getMember(generalLookup.getSelectedIndex());
