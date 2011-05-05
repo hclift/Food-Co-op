@@ -1,4 +1,6 @@
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
 /**
@@ -19,7 +21,7 @@ public class Controller
 	 * @param model
 	 *            The model to link to the controller
 	 **/
-	public Controller(Model model)
+	public Controller(final Model model)
 	{
 		this.model = model;
 		mainFrame = new MainFrame(this, model);
@@ -35,7 +37,8 @@ public class Controller
 	 *            First name of the member being looked up
 	 * @param lastName
 	 *            Last name of the member being looked up
-	 * @return array list of members
+	 * @return searchResult
+	 * 			  An array list of members found from the search
 	 **/
 	public ArrayList<Member> lookUpMember(final String firstName, final String lastName)
 	{
@@ -52,6 +55,39 @@ public class Controller
 		}
 		model.setLastLookupMemberResults(searchResult);
 		return searchResult;
+	}
+	
+	/**
+	* Adds a member to the database.  Uses a PreparedStatement.
+	* @param first_name			First name of the member to look for
+	* @param last_name			Last name of the member to look for
+	* @param membership_length	Length of member's membership, 0 for
+									half semester, 1 for full ??
+	* @param membership_type	Membership type ??
+	* @param year_in_school		Member's year in school 0 for freshman
+									1 for sophomore, 2 for junior,
+									3 for senior, 4 for graduate,
+									5 for faculty ??
+	* @param receive_email		Can the member receive emails from the
+									Food Co-op?
+	* @param is_active			Is this member active?
+	*/
+	public void addMember(String first_name, 
+		String last_name,
+		String email_address,
+		int membership_length,
+		int membership_type,
+		int year_in_school,
+		int is_active)
+	{
+		try
+		{
+			model.addMember(first_name, last_name, email_address, membership_length, membership_type, year_in_school, is_active);
+		} 
+		catch (Exception e)
+		{
+			mainFrame.displayException(e.getMessage());
+		}
 	}
 	
 	/**
@@ -77,38 +113,6 @@ public class Controller
 		
 		return signedIntoKitchen;
 	}
-	/**
-	* Adds a member to the database. Uses a PreparedStatement.
-	* @param first_name First name of the member to look for
-	* @param last_name Last name of the member to look for
-	* @param membership_length Length of member's membership, 0 for
-	half semester, 1 for full ??
-	* @param membership_type Membership type ??
-	* @param year_in_school Member's year in school 0 for freshman
-	1 for sophomore, 2 for junior,
-	3 for senior, 4 for graduate,
-	5 for faculty ??
-	* @param receive_email Can the member receive emails from the
-	Food Co-op?
-	* @param is_active Is this member active?
-	*/
-public void addMember(String first_name,
-	String last_name,
-	String email_address,
-	int membership_length,
-	int membership_type,
-	int year_in_school,
-	int is_active)
-	{
-		try
-		{
-			model.addMember(first_name, last_name, email_address, membership_length, membership_type, year_in_school, is_active);
-		}
-		catch (Exception e)
-		{
-			mainFrame.displayException(e.getMessage());
-		}
-}
 	
 	/**
 	 * Try Catch Method.
@@ -225,10 +229,10 @@ public void addMember(String first_name,
 	 *            shift length in minutes
 	 * @return New shift length after reconciliation.
 	 */
-    public int reconcileShiftLength(final int reconciledShiftLength)
+    public long reconcileShiftLength(long reconciledShiftLength)
     {
-    	// FIXME: implement in MainFrame class
-    	// return mainFrame.reconcileShiftLength(reconciledShiftLength);
-    	return 0;    
+    	long newShiftLength = reconciledShiftLength * 60000;
+    	model.setShiftLength(newShiftLength);
+    	return newShiftLength;    
     }
 }

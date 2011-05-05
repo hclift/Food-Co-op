@@ -29,8 +29,6 @@ import javax.swing.event.ListSelectionListener;
  * 
  * Code reviewed by Raanan Korinow
  * 
- * 
- * 
  */
 public class MainFrame extends JFrame {
 
@@ -198,7 +196,7 @@ public class MainFrame extends JFrame {
 
 		generalLookupPane = new JScrollPane(generalLookup);
 		//generalLookupPane.setBounds(15, 0, 410, 125);
-		
+
 		/**
 		 * This listener will wait to see if a member has been looked up.
 		 */
@@ -234,6 +232,7 @@ public class MainFrame extends JFrame {
 		middleWestPanel.add(generalLookupPane);
 		
 		generalLookupPane.setBounds(5, 20, 795, 205);
+
 
 //==============================================================
 
@@ -465,14 +464,16 @@ public class MainFrame extends JFrame {
 		generalLookup.clearSelection();
 		generalLookupModel.clear();
 		
-		if (searchResult.size() < 1){
+		if (searchResult.size() < 1)
+		{
+
 			disableButtons();
 		}
 		else
 		{
 			for(int j = 0; j < searchResult.size(); j++){
 				String string  = new String((searchResult.get(j).getFirstName()+ "     "+ searchResult.get(j).getLastName()+ "    "
-												+ searchResult.get(j).getMembershipTypeString() + "    "
+												+ searchResult.get(j).getMembershipType() + "    "
 												+ searchResult.get(j).getEmailAddress()+ "    ")); 
 				generalLookupModel.addElement(string);
 			}
@@ -523,15 +524,12 @@ public class MainFrame extends JFrame {
 			}else if(e.getSource().equals(updateMemberButton)){
 				Member m = controller.getMember(generalLookup.getSelectedIndex());
 				new UpdateMemberFrame(controller, m);
-
 			}else if(e.getSource().equals(addMemberButton)){
 				new AddMember(controller);
-
 			}else if(e.getSource().equals(signIntoStoreButton)){
 				int memberIndex = generalLookup.getSelectedIndex();
 				ArrayList<Member> members = controller.signIntoStore(memberIndex);
 				printStore(members);
-				
 			}else if(e.getSource().equals(signIntoKitchenButton)){
 				int memberIndex = generalLookup.getSelectedIndex();
 				ArrayList<Member> members = controller.signIntoKitchen(memberIndex);
@@ -543,12 +541,94 @@ public class MainFrame extends JFrame {
 
 			}else if(e.getSource().equals(signOutOfStoreButton)){
 				ArrayList<Member> members = controller.signOutOfStore(store.getSelectedIndex());
-				printStore(members);
+				if(model.getShiftLength() < 2700000 || model.getShiftLength() > 7200000){
+					str = "Worker has worked an undeterminable amount of time.\n You must manually enter the amount of hours worked.";
+					JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
+					final JFrame fixShiftLengthFrame = new JFrame("Fix shift length");
+					fixShiftLengthFrame.setBounds(490, 280, 200, 140);
+					fixShiftLengthFrame.setResizable(false);
+					fixShiftLengthFrame.setVisible(true);
+					JPanel mainPanel = new JPanel();
+					mainPanel.setLayout(null);
+					final JTextField textField = new JTextField();
+					JLabel label = new JLabel("Minuets worked:");
+					JButton button = new JButton("OK");
+					label.setBounds(10, 20, 100, 25);
+					textField.setBounds(100, 20, 80, 25);
+					button.setBounds(100, 60, 80, 25);
+					button.addActionListener(new ActionListener(){
 
+						@Override
+						public void actionPerformed(ActionEvent arg0) {
+							// TODO This is where the reconcileShiftLength of model gets called
+							try{
+								int newShiftLength;
+								newShiftLength = Integer.parseInt(textField.getText());
+								controller.reconcileShiftLength(newShiftLength);
+								System.out.println("This worked!");
+								fixShiftLengthFrame.dispose();
+							}catch(Exception e){
+								str = "You need to input an integer!";
+								JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
+							}
+							
+						}
+						
+					
+					});
+					mainPanel.add(label);
+					mainPanel.add(textField);
+					mainPanel.add(button);
+					fixShiftLengthFrame.add(mainPanel);
+					fixShiftLengthFrame.validate();
+					//ArrayList<Member> members = controller.signOutOfStore(store.getSelectedIndex());
+					//printStore(members);
+				}
+				printStore(members);
 			}else if(e.getSource().equals(signOutOfKitchenButton)){
 				ArrayList<Member> members = controller.signOutOfKitchen(kitchen.getSelectedIndex());
-				printKitchen(members);
+				if(model.getShiftLength() < 2700000 || model.getShiftLength() > 7200000){
+					str = "Worker has worked an undeterminable amount of time.\n You must manually enter the amount of hours worked.";
+					JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
+					final JFrame fixShiftLengthFrame = new JFrame("Fix shift length");
+					fixShiftLengthFrame.setBounds(490, 280, 200, 140);
+					fixShiftLengthFrame.setResizable(false);
+					fixShiftLengthFrame.setVisible(true);
+					JPanel mainPanel = new JPanel();
+					mainPanel.setLayout(null);
+					final JTextField textField = new JTextField();
+					JLabel label = new JLabel("Minuets worked:");
+					JButton button = new JButton("OK");
+					label.setBounds(10, 20, 100, 25);
+					textField.setBounds(100, 20, 80, 25);
+					button.setBounds(100, 60, 80, 25);
+					button.addActionListener(new ActionListener(){
 
+						@Override
+						public void actionPerformed(ActionEvent arg0) {
+							// TODO This is where the reconcileShiftLength of model gets called
+							try{
+								int newShiftLength;
+								newShiftLength = Integer.parseInt(textField.getText());
+								controller.reconcileShiftLength(newShiftLength);
+								System.out.println("This worked!");
+								fixShiftLengthFrame.dispose();
+							}catch(Exception e){
+								str = "You need to input an integer!";
+								JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
+							}
+							
+						}
+						
+					
+					});
+					mainPanel.add(label);
+					mainPanel.add(textField);
+					mainPanel.add(button);
+					fixShiftLengthFrame.add(mainPanel);
+					fixShiftLengthFrame.validate();
+				}
+				printKitchen(members);
 			}else{
 				System.exit(0);
 			}	
