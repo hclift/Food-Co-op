@@ -27,8 +27,6 @@ import javax.swing.event.ListSelectionListener;
  * 
  * Code reviewed by Raanan Korinow
  * 
- * 
- * 
  */
 public class MainFrame extends JFrame {
 
