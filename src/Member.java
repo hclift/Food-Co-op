@@ -218,6 +218,30 @@ public class Member
 	}
 	
 	/**
+	 * Return the member's year in school
+	 * 
+	 * @return	year in school of the member
+	 */
+	public String getYearsInSchoolString()
+	{		
+		String yearInSchoolString;
+		switch (yearInSchool)
+		{
+			case 1: yearInSchoolString = "Freshman 1"; 				break;
+			case 2: yearInSchoolString = "Freshman 2"; 				break;
+			case 3: yearInSchoolString = "Sophomore 1"; 			break;
+			case 4: yearInSchoolString = "Sophomore 2"; 			break;
+			case 5: yearInSchoolString = "Junior 1"; 				break;
+			case 6: yearInSchoolString = "Junior 2"; 				break;
+			case 7: yearInSchoolString = "Senior 1"; 				break;
+			case 8: yearInSchoolString = "Senior 2"; 				break;
+			default: yearInSchoolString = "Invalid Year Provided"; 	break;
+		}
+		
+		return yearInSchoolString;
+	}
+	
+	/**
 	 * Returns the member's IOU amount
 	 * 
 	 * @return	amount owed by the member
