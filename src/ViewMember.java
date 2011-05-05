@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
 import java.text.SimpleDateFormat;
-
+import java.text.DecimalFormat;
 
 import javax.swing.*;
 
@@ -78,10 +78,11 @@ private JCheckBox recieveEmailCheckBox;
 		IOULabel = new JLabel("IOU Amount: ");
 		IOULabel.setBounds(240, 180, 80, 20);
 		
+		DecimalFormat df = new DecimalFormat("0.00");
 		IOUTextField = new JTextField();
 		IOUTextField.setBounds(320, 180, 80, 25);
 		IOUTextField.setEditable(false);
-		IOUTextField.setText(Double.toString(m.getIouAmount()));
+		IOUTextField.setText(df.format(m.getIouAmount()));
 		
 		firstNameTextField = new JTextField();
 		firstNameTextField.setBounds(80, 5, 350, 25);

@@ -182,6 +182,27 @@ public class Member
 	}
 	
 	/**
+	 * Returns the member's membership type
+	 * 
+	 * @return	membership type of the member
+	 */
+	public String getMembershipTypeString()
+	{
+		String membershipTypeString;
+		
+		switch (membershipType)
+		{
+			case 1: membershipTypeString = "Ordinary"; 							break;
+			case 2: membershipTypeString = "Working"; 							break;
+			case 3: membershipTypeString = "Core"; 								break;
+			case 4: membershipTypeString = "Coordinator"; 						break;
+			default: membershipTypeString = "Invalid Membership Type Provided"; break;
+		}
+		
+		return membershipTypeString;
+	}
+	
+	/**
 	 * Returns the member's membership length
 	 * 
 	 * @return	membership length of the member
