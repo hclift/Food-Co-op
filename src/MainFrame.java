@@ -497,7 +497,7 @@ public class MainFrame extends JFrame {
 
 			}else if(e.getSource().equals(addMemberButton)){
 
-				new AddMember();
+				new AddMember(controller);
 
 			}else if(e.getSource().equals(signIntoStoreButton)){
 				
