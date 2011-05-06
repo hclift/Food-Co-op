@@ -65,7 +65,7 @@ public class UpdateMemberFrame{
 		tempIOU = member.getIouAmount();
 		tempAvailDiscounts = (int)tempIOU;
 		mainFrame = new JFrame("Update Member");
-		mainFrame.setBounds(375, 200, 450, 310);
+		mainFrame.setBounds(375, 200, 520, 310);
 		//mainFrame.setFocusableWindowState(false);
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		//mainFrame.setResizable(false);
@@ -180,11 +180,11 @@ public class UpdateMemberFrame{
 		expirationTextField.setText("12/12/2011");
 		
 		addIOUButton = new JButton("Add to IOU Amount");
-		addIOUButton.setBounds(200, 140, 160, 25);
+		addIOUButton.setBounds(205, 140, 160, 25);
 		addIOUButton.addActionListener(new OKCancelButtonListener());
 		
 		applyDiscountButton = new JButton("Apply Discount");
-		applyDiscountButton.setBounds(305, 140, 120, 25);
+		applyDiscountButton.setBounds(370, 140, 120, 25);
 		applyDiscountButton.addActionListener(new OKCancelButtonListener());
 		if(member.getMembershipType() == 0 || member.getIouAmount() < 1)
 		{
