@@ -118,12 +118,9 @@ public class Member
 		return firstName;
 	}
 	
-	/*
-	 * TODO: Add member
-	 */
-	public void addMember() 
+	public boolean canHaveIou()
 	{
-		
+		return (membershipType >= 2);
 	}
 
 	/**

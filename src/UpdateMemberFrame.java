@@ -193,12 +193,15 @@ public class UpdateMemberFrame{
 		addIOUButton.setBounds(205, 140, 160, 25);
 		addIOUButton.addActionListener(new OKCancelButtonListener());
 		
+		if (!member.canHaveIou())
+			addIOUButton.setEnabled(false);
+		
 		applyDiscountButton = new JButton("Apply Discount");
 		applyDiscountButton.setBounds(370, 140, 120, 25);
 		applyDiscountButton.addActionListener(new OKCancelButtonListener());
 		
-		if (member.getAvailableDiscounts() > 0)
-			applyDiscountButton.setEnabled(true);
+		if (member.getAvailableDiscounts() == 0)
+			applyDiscountButton.setEnabled(false);
 		
 		saveButton = new JButton("SAVE");
 		saveButton.setBounds(250, 230, 80, 30);

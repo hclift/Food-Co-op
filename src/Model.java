@@ -280,11 +280,11 @@ public class Model
 	 * @throws Exception (variable, based on conditions set by client and outlined in specs)
 	 */
 	public double addToIou(int currentYear, int membershipType, double oldAmount, double adjustment) throws Exception
-	{
+	{	
 		if(adjustment <= 0)
 			throw new Exception("Adjustment must be a positive number");
-		else if(membershipType == 0)
-			throw new Exception("Must be a working member");
+		else if(membershipType >= 2)
+			throw new Exception("Must be a core member or coordinator.");
 		else if(adjustment + oldAmount > 100)
 			throw new Exception("IOU cannot exceed $100");
 		else if(currentYear == 7 && oldAmount + adjustment > 50)
