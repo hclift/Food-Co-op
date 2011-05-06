@@ -77,25 +77,39 @@ public class AddMember
 	 */
 	private int convertYear(String sIn)
 	{
+		int status = 0;
 		
-		// -1 represents an error
-		int status = -1;
-		
-		if(sIn.equals("Freshman"))
+		if(sIn.equals("Freshman 1"))
 		{
 			status = 0;
 		}
-		else if(sIn.equals("Sophmore"))
+		else if(sIn.equals("Freshman 2"))
 		{
 			status = 1;
 		}
-		else if(sIn.equals("Junior"))
+		else if(sIn.equals("Sophmore 1"))
 		{
 			status = 2;
 		}
-		else if(sIn.equals("Senior"))
+		else if(sIn.equals("Sophmore 2"))
 		{
 			status = 3;
+		}
+		else if(sIn.equals("Junior 1"))
+		{
+			status = 4;
+		}
+		else if(sIn.equals("Junior 2"))
+		{
+			status = 5;
+		}
+		else if(sIn.equals("Senior 1"))
+		{
+			status = 6;
+		}
+		else if(sIn.equals("Senior 2"))
+		{
+			status = 7;
 		}
 		
 		return status;
@@ -211,10 +225,14 @@ public class AddMember
 
 		currentYearBox = new JComboBox();
 		currentYearBox.setBounds(85, 100, 100, 25);
-		currentYearBox.addItem("Freshman");
-		currentYearBox.addItem("Sophmore");
-		currentYearBox.addItem("Junior");
-		currentYearBox.addItem("Senior");
+		currentYearBox.addItem("Freshman 1");
+		currentYearBox.addItem("Freshman 2");
+		currentYearBox.addItem("Sophmore 1");
+		currentYearBox.addItem("Sophmore 2");
+		currentYearBox.addItem("Junior 1");
+		currentYearBox.addItem("Junior 2");
+		currentYearBox.addItem("Senior 1");
+		currentYearBox.addItem("Senior 2");
 
 		membershipTypeBox = new JComboBox();
 		membershipTypeBox.setBounds(310, 100, 120, 25);

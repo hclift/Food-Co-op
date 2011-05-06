@@ -6,7 +6,7 @@ import org.junit.Test;
 
 
 /**
- * @author Jonathan
+ * @author
  *
  */
 public class DatabaseAbstractionTest{
