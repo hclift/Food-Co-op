@@ -161,7 +161,7 @@ public class MainFrame extends JFrame {
 		searchButton = new JButton("Search");
 		searchButton.setFont(buttonFont);
 		searchButton.setBounds(515, 146, 80, 25);
-		searchButton.setEnabled(false);
+		searchButton.setEnabled(true);
 
 		topWestPanel.add(firstNameLabel);
 		topWestPanel.add(lastNameLabel);
@@ -502,6 +502,7 @@ public class MainFrame extends JFrame {
 		
 		if (searchResult.size() < 1)
 		{
+			JOptionPane.showMessageDialog(null, "No results found.");
 			disableButtons();
 		}
 		else
@@ -691,19 +692,21 @@ public class MainFrame extends JFrame {
 		boolean TextFieldStatus = false;
 		public void keyPressed(KeyEvent e) {
 			int key = e.getKeyCode();
-			if ((key == KeyEvent.VK_ENTER) && !(firstNameTextField.getText().equals("") || lastNameTextField.getText().equals(""))) {
+			if ((key == KeyEvent.VK_ENTER)) {
 				//System.out.println("First Name: " + firstNameTextField.getText() + "\nLastName: " + lastNameTextField.getText());
 				printSearchResult(controller.lookUpMember(firstNameTextField.getText(), lastNameTextField.getText()));
 			}
 		}
 
 		public void keyReleased(KeyEvent e) {
+			/*
 			if(firstNameTextField.getText().equals("") || lastNameTextField.getText().equals("")){
 				searchButton.setEnabled(false);
 			}
 			else{
 				searchButton.setEnabled(true);
 			}
+			*/
 		}
 
 		public void keyTyped(KeyEvent e) {
