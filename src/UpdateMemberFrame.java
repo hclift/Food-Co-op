@@ -63,7 +63,7 @@ public class UpdateMemberFrame{
 		this.member = member;
 		this.controller = controller;
 		tempIOU = member.getIouAmount();
-		tempAvailDiscounts = (int)tempIOU;
+		tempAvailDiscounts = member.getAvailableDiscounts();
 		mainFrame = new JFrame("Update Member");
 		mainFrame.setBounds(375, 200, 520, 310);
 		//mainFrame.setFocusableWindowState(false);
@@ -186,10 +186,9 @@ public class UpdateMemberFrame{
 		applyDiscountButton = new JButton("Apply Discount");
 		applyDiscountButton.setBounds(370, 140, 120, 25);
 		applyDiscountButton.addActionListener(new OKCancelButtonListener());
-		if(member.getMembershipType() == 0 || member.getIouAmount() < 1)
-		{
-			applyDiscountButton.setVisible(false);
-		}
+		
+		if (member.getAvailableDiscounts() > 0)
+			applyDiscountButton.setEnabled(true);
 		
 		saveButton = new JButton("SAVE");
 		saveButton.setBounds(250, 230, 80, 30);
@@ -273,18 +272,10 @@ public class UpdateMemberFrame{
 			}
 			else if(e.getSource().equals(applyDiscountButton))
 			{
-				tempIOU = controller.subtractFromIou(
-						currentYearBox.getSelectedIndex(),
-						membershipTypeBox.getSelectedIndex(), tempIOU, 1);
-				tempAvailDiscounts = (int)tempIOU;
-				int twoplaces = (int) (tempIOU * 100);
-				tempIOU = ((double)twoplaces)/100;
-				IOUTextField.setText("" + tempIOU);
-				discountsTextField.setText(""+tempAvailDiscounts);
-				if(tempIOU < 1 || membershipTypeBox.getSelectedIndex() == 0)
-				{
-					applyDiscountButton.setVisible(false);
-				}
+				--tempAvailDiscounts;
+				discountsTextField.setText("" + tempAvailDiscounts);
+			
+				applyDiscountButton.setEnabled(false);
 			}
 			else if(e.getSource().equals(addIOUButton))
 			{
@@ -295,18 +286,18 @@ public class UpdateMemberFrame{
 				{
 					try
 					{
-					 String value = 	JOptionPane.showInputDialog(null,
-								 "Adjustment to be made" , "Add" ,
-								 JOptionPane.OK_OPTION);
-					if (value == null)
-					{
-						accept = true;
-					}
-					else
-					{
-						adjustment = Double.parseDouble(value);
-						accept = true;
-					}					 
+						String value = 	JOptionPane.showInputDialog(null,
+									 "Adjustment to be made" , "Add" ,
+									 JOptionPane.OK_OPTION);
+						if (value == null)
+						{
+							accept = true;
+						}
+						else
+						{
+							adjustment = Double.parseDouble(value);
+							accept = true;
+						}					 
 					}
 					catch(Exception exception)
 					{
@@ -323,16 +314,17 @@ public class UpdateMemberFrame{
 							currentYearBox.getSelectedIndex(),
 							membershipTypeBox.getSelectedIndex(),
 							tempIOU , adjustment);
-					tempAvailDiscounts = (int)tempIOU;
+
 					int twoplaces = (int) (tempIOU * 100);
 					tempIOU = ((double)twoplaces)/100;
 					IOUTextField.setText(""+tempIOU);
-					discountsTextField.setText(""+tempAvailDiscounts);
-					if(tempIOU >= 1 && membershipTypeBox.getSelectedIndex() > 0)
+					//discountsTextField.setText(""+tempAvailDiscounts);
+					if(tempIOU > 0)
 					{
-						applyDiscountButton.setVisible(true);
+						applyDiscountButton.setEnabled(true);
 					}
 				}
+				
 			}
 			else if(e.getSource().equals(activeMemberCheckBox))
 			{
