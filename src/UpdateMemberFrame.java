@@ -53,14 +53,16 @@ public class UpdateMemberFrame{
 	// holds member's IOU amount; changes when discount applied or IOU added
 	double tempIOU;
 	int	tempAvailDiscounts;
+	MainFrame parentWindow;
 	
 	/**
 	 * Explicit value constructor for UpdateMemberFrame.
 	 * Takes in controller and member as parameters.
 	 * @param controller, member
 	 **/
-	public UpdateMemberFrame(Controller controller, Member member)
+	public UpdateMemberFrame(MainFrame parentWindow, Controller controller, Member member)
 	{
+		this.parentWindow = parentWindow;
 		this.member = member;
 		this.controller = controller;
 		tempIOU = member.getIouAmount();
@@ -260,6 +262,7 @@ public class UpdateMemberFrame{
 				
 				if(result)
 				{
+					parentWindow.clearSearchResults();
 					mainFrame.dispose();
 				}
 				else

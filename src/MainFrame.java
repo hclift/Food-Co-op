@@ -559,10 +559,10 @@ public class MainFrame extends JFrame {
 
 			}else if(e.getSource().equals(updateMemberButton)){
 				Member m = controller.getMember(generalLookup.getSelectedIndex());
-				generalLookupModel.clear();
+
 				disableButtons();
-				new UpdateMemberFrame(controller, m);
-				generalLookup.clearSelection();
+				new UpdateMemberFrame(MainFrame.this, controller, m);
+	
 			}else if(e.getSource().equals(addMemberButton)){
 				new AddMember(controller);
 			}else if(e.getSource().equals(signIntoStoreButton)){
@@ -756,5 +756,11 @@ public class MainFrame extends JFrame {
 			}
 		}
 		return reconciledShiftLength;		
+	}
+	
+	public void clearSearchResults()
+	{
+		generalLookupModel.clear();
+		generalLookup.clearSelection();
 	}
 }
