@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import java.text.DecimalFormat;
 
 public class UpdateMemberFrame{
 	// main frame of update member; changes on creation and closing
@@ -125,7 +126,7 @@ public class UpdateMemberFrame{
 		discountsTextField.setBounds(130, 180, 80, 25);
 		discountsTextField.setEditable(false);
 		
-		IOULabel = new JLabel("IOU Amount: ");
+		IOULabel = new JLabel("IOU Amount: $");
 		IOULabel.setBounds(240, 180, 80, 20);
 		
 		IOUTextField = new JTextField(""+member.getIouAmount());
@@ -315,10 +316,9 @@ public class UpdateMemberFrame{
 							membershipTypeBox.getSelectedIndex(),
 							tempIOU , adjustment);
 
-					int twoplaces = (int) (tempIOU * 100);
-					tempIOU = ((double)twoplaces)/100;
-					IOUTextField.setText(""+tempIOU);
-					//discountsTextField.setText(""+tempAvailDiscounts);
+					DecimalFormat df = new DecimalFormat("0.00");
+					IOUTextField.setText(""+df.format(tempIOU));
+
 					if(tempIOU > 0)
 					{
 						applyDiscountButton.setEnabled(true);
@@ -332,15 +332,7 @@ public class UpdateMemberFrame{
 			}
 			else if(e.getSource().equals(membershipTypeBox))
 			{
-				if(membershipTypeBox.getSelectedIndex() == 0 || 
-						member.getIouAmount() < 1)
-				{
-					applyDiscountButton.setVisible(false);
-				}
-				else
-				{
-					applyDiscountButton.setVisible(true);
-				}
+				
 			}
 			else
 			{
