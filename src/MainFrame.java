@@ -207,7 +207,11 @@ public class MainFrame extends JFrame {
 			 * buttons.
 			 */
 			public void valueChanged(ListSelectionEvent e){
-				enableButtons();
+				if (e.getValueIsAdjusting() == false) {
+					if (generalLookup.getSelectedIndex() != -1) {
+						enableButtons();
+					}
+				}
 			}				
 		}
 		);
@@ -313,7 +317,11 @@ public class MainFrame extends JFrame {
 			 * 
 			 */
 			public void valueChanged(ListSelectionEvent e){
-				signOutOfStoreButton.setEnabled(true);
+				if (e.getValueIsAdjusting() == false) {
+					if (store.getSelectedIndex() != -1) {
+						signOutOfStoreButton.setEnabled(true);
+					}
+				}
 			}				
 		}
 		);
@@ -337,7 +345,11 @@ public class MainFrame extends JFrame {
 			 * 
 			 */
 			public void valueChanged(ListSelectionEvent e){
-				signOutOfKitchenButton.setEnabled(true);
+				if (e.getValueIsAdjusting() == false) {
+					if (kitchen.getSelectedIndex() != -1) {
+						signOutOfKitchenButton.setEnabled(true);
+					}
+				}
 			}				
 		}
 		);
@@ -394,15 +406,39 @@ public class MainFrame extends JFrame {
 	/** 
 	 * 
 	 * Enable View Member, Update Member, Sign Into Store, and Sign Into Kitchen Button
-	 * 
+	 * if Member selected in generalLookup is currently signed into the store or kitchen
+	 * then they can't sign into store/kitchen again (though it is caught if they somehow do)
+	 *
 	 */
 
 	private void enableButtons(){
-		viewMemberButton.setEnabled(true);
-		updateMemberButton.setEnabled(true);
-		signIntoStoreButton.setEnabled(true);
-		signIntoKitchenButton.setEnabled(true);
-
+		int membersInStore = storeModel.getSize();
+		int membersInKitchen = kitchenModel.getSize();
+		int contained = 0;
+		for (int i=0; i < (membersInKitchen + membersInStore); i++)
+		{
+			if (generalLookupModel.getSize() > 0)
+			{
+				String selectedMemberName = new String(
+					controller.getMember(generalLookup.getSelectedIndex()).getFirstName() +
+					" " + 
+					controller.getMember(generalLookup.getSelectedIndex()).getLastName()
+				);
+				if (storeModel.contains(selectedMemberName) || kitchenModel.contains(selectedMemberName))
+				{
+					viewMemberButton.setEnabled(true);
+					updateMemberButton.setEnabled(true);
+					contained = 1;
+				}
+			}
+		}
+		if (contained != 1)
+		{
+			viewMemberButton.setEnabled(true);
+			updateMemberButton.setEnabled(true);
+			signIntoStoreButton.setEnabled(true);
+			signIntoKitchenButton.setEnabled(true);
+		}
 	}
 
 	/**
@@ -466,14 +502,13 @@ public class MainFrame extends JFrame {
 		
 		if (searchResult.size() < 1)
 		{
-
 			disableButtons();
 		}
 		else
 		{
 			for(int j = 0; j < searchResult.size(); j++){
 				String string  = new String((searchResult.get(j).getFirstName()+ "     "+ searchResult.get(j).getLastName()+ "    "
-												+ searchResult.get(j).getMembershipType() + "    "
+												+ searchResult.get(j).getMembershipTypeString() + "    "
 												+ searchResult.get(j).getEmailAddress()+ "    ")); 
 				generalLookupModel.addElement(string);
 			}
@@ -524,16 +559,23 @@ public class MainFrame extends JFrame {
 			}else if(e.getSource().equals(updateMemberButton)){
 				Member m = controller.getMember(generalLookup.getSelectedIndex());
 				new UpdateMemberFrame(controller, m);
+				generalLookup.clearSelection();
+				generalLookupModel.clear();
+				disableButtons();
 			}else if(e.getSource().equals(addMemberButton)){
 				new AddMember(controller);
 			}else if(e.getSource().equals(signIntoStoreButton)){
 				int memberIndex = generalLookup.getSelectedIndex();
 				ArrayList<Member> members = controller.signIntoStore(memberIndex);
 				printStore(members);
+				signIntoStoreButton.setEnabled(false);
+				signIntoKitchenButton.setEnabled(false);
 			}else if(e.getSource().equals(signIntoKitchenButton)){
 				int memberIndex = generalLookup.getSelectedIndex();
 				ArrayList<Member> members = controller.signIntoKitchen(memberIndex);
 				printKitchen(members);
+				signIntoStoreButton.setEnabled(false);
+				signIntoKitchenButton.setEnabled(false);
 				
 			}else if(e.getSource().equals(viewScheduleButton)){
 				str = "View schedule method to go here.";

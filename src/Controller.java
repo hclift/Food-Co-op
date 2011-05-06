@@ -138,6 +138,26 @@ public class Controller
 		return signedIntoStore;
 	}
 	
+	/**
+	 * The getSignedIntoKitchen method is used to return 
+	 * an array of members signed into the kitchen.
+	 * 
+	 * @returns ArrayList of members signed into kitchen
+	 */
+	public ArrayList<Member> getSignedIntoKitchen() {
+		return model.getSignedIntoKitchen();
+	}
+	
+	/**
+	 * The getSignedIntoStore method is used to return 
+	 * an array of members signed into the store.
+	 * 
+	 * @returns ArrayList of members signed into store
+	 */
+	public ArrayList<Member> getSignedIntoStore() {
+		return model.getSignedIntoStore();
+	}
+	
 	public boolean updateMember(Member member, String firstName, String lastName, String emailAddress, int yearInSchool, int membershipType, 
 			Date expirationDate, int availableDiscounts, double iouAmount, boolean status)
 	{

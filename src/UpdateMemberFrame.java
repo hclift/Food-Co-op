@@ -179,8 +179,8 @@ public class UpdateMemberFrame{
 		expirationTextField.setEditable(false);
 		expirationTextField.setText("12/12/2011");
 		
-		addIOUButton = new JButton("Add IOU");
-		addIOUButton.setBounds(200, 140, 120, 25);
+		addIOUButton = new JButton("Add to IOU Amount");
+		addIOUButton.setBounds(200, 140, 160, 25);
 		addIOUButton.addActionListener(new OKCancelButtonListener());
 		
 		applyDiscountButton = new JButton("Apply Discount");
@@ -295,33 +295,43 @@ public class UpdateMemberFrame{
 				{
 					try
 					{
-					 adjustment = Double.parseDouble(
-							 JOptionPane.showInputDialog(null,
-									 "Adjustment to be made" , "Add" ,
-									 JOptionPane.OK_OPTION));
-					 accept = true;
+					 String value = 	JOptionPane.showInputDialog(null,
+								 "Adjustment to be made" , "Add" ,
+								 JOptionPane.OK_OPTION);
+					if (value == null)
+					{
+						accept = true;
+					}
+					else
+					{
+						adjustment = Double.parseDouble(value);
+						accept = true;
+					}					 
 					}
 					catch(Exception exception)
 					{
-						String str = "Do not enter characters";
+						String str = "You may only enter numbers.";
 						JOptionPane.showMessageDialog(null, str, "Error",
 								JOptionPane.INFORMATION_MESSAGE);
 						
 						accept = false;			
 					}
 				}
-				tempIOU = controller.addToIou(
-						currentYearBox.getSelectedIndex(),
-						membershipTypeBox.getSelectedIndex(),
-						tempIOU , adjustment);
-				tempAvailDiscounts = (int)tempIOU;
-				int twoplaces = (int) (tempIOU * 100);
-				tempIOU = ((double)twoplaces)/100;
-				IOUTextField.setText(""+tempIOU);
-				discountsTextField.setText(""+tempAvailDiscounts);
-				if(tempIOU >= 1 && membershipTypeBox.getSelectedIndex() > 0)
+				if (adjustment > 0)
 				{
-					applyDiscountButton.setVisible(true);
+					tempIOU = controller.addToIou(
+							currentYearBox.getSelectedIndex(),
+							membershipTypeBox.getSelectedIndex(),
+							tempIOU , adjustment);
+					tempAvailDiscounts = (int)tempIOU;
+					int twoplaces = (int) (tempIOU * 100);
+					tempIOU = ((double)twoplaces)/100;
+					IOUTextField.setText(""+tempIOU);
+					discountsTextField.setText(""+tempAvailDiscounts);
+					if(tempIOU >= 1 && membershipTypeBox.getSelectedIndex() > 0)
+					{
+						applyDiscountButton.setVisible(true);
+					}
 				}
 			}
 			else if(e.getSource().equals(activeMemberCheckBox))

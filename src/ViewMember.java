@@ -75,8 +75,8 @@ private JCheckBox recieveEmailCheckBox;
 		discountsTextField.setText(Integer.toString(m.getAvailableDiscounts()));
 		
 		
-		IOULabel = new JLabel("IOU Amount: ");
-		IOULabel.setBounds(240, 180, 80, 20);
+		IOULabel = new JLabel("IOU Amount: $");
+		IOULabel.setBounds(230, 180, 100, 20);
 		
 		DecimalFormat df = new DecimalFormat("0.00");
 		IOUTextField = new JTextField();
