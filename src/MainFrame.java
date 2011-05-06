@@ -464,7 +464,18 @@ public class MainFrame extends JFrame {
 		updateMemberButton.setEnabled(false);
 		signIntoStoreButton.setEnabled(false);
 		signIntoKitchenButton.setEnabled(false);
-
+		addMemberButton.setEnabled(false);
+		viewScheduleButton.setEnabled(false);
+		searchButton.setEnabled(false);
+		generalLookup.setEnabled(false);
+	}
+	
+	public void reenableButtons()
+	{
+		searchButton.setEnabled(true);
+		addMemberButton.setEnabled(true);
+		viewScheduleButton.setEnabled(true);
+		generalLookup.setEnabled(true);
 	}
 
 	public void printStore(ArrayList<Member> members)
@@ -548,7 +559,7 @@ public class MainFrame extends JFrame {
 	public void showViewMember()
 	{
 		Member m = controller.getMember(generalLookup.getSelectedIndex());
-		new ViewMember(m);
+		new ViewMember(this, m);
 	}
 	
 	/**

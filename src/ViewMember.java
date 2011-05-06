@@ -2,6 +2,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.text.DecimalFormat;
@@ -23,13 +25,24 @@ private JButton workHistoryButton, okButton;
 
 private JTextField currentYearBox, membershipTypeBox;
 private JCheckBox recieveEmailCheckBox;
+private MainFrame parentWindow;
 
 
-
-	public ViewMember(Member m){
+	public ViewMember(MainFrame parentWindow, Member m){
+		this.parentWindow = parentWindow;
+		parentWindow.disableButtons();
+		
 		mainFrame = new JFrame("View Member");
 		mainFrame.setBounds(275, 200, 450, 310);
 		//mainFrame.setFocusableWindowState(false);
+		
+		mainFrame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e)
+			{
+				ViewMember.this.parentWindow.reenableButtons();
+			}
+		});
+		
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		mainFrame.setResizable(false);
 		
@@ -174,6 +187,7 @@ private JCheckBox recieveEmailCheckBox;
 			// TODO Auto-generated method stub
 			if(e.getSource().equals(okButton)){
 				mainFrame.dispose();
+				parentWindow.reenableButtons();
 			}else if(e.getSource().equals(workHistoryButton)){
 				//TODO: Implement methods for OKButton
 				

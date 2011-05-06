@@ -63,6 +63,7 @@ public class UpdateMemberFrame{
 	public UpdateMemberFrame(MainFrame parentWindow, Controller controller, Member member)
 	{
 		this.parentWindow = parentWindow;
+		parentWindow.disableButtons();
 		this.member = member;
 		this.controller = controller;
 		tempIOU = member.getIouAmount();
@@ -252,7 +253,10 @@ public class UpdateMemberFrame{
 						"you want to exit?", "Error",
 						JOptionPane.YES_NO_OPTION);
 				if(result == 0)
+				{
 					mainFrame.dispose();
+					parentWindow.reenableButtons();
+				}
 
 			}
 			else if(e.getSource().equals(saveButton))
@@ -269,7 +273,9 @@ public class UpdateMemberFrame{
 				if(result)
 				{
 					parentWindow.clearSearchResults();
+					
 					mainFrame.dispose();
+					parentWindow.reenableButtons();
 				}
 				else
 				{
@@ -278,7 +284,9 @@ public class UpdateMemberFrame{
 							"like to quit?", "", JOptionPane.YES_NO_OPTION);
 					if(choice == 0)
 					{
+						
 						mainFrame.dispose();
+						parentWindow.reenableButtons();
 					}
 				}
 			}
