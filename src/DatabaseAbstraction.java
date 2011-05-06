@@ -44,6 +44,12 @@ public class DatabaseAbstraction
 	*/
 	public static ArrayList<Member> lookupMember(String first_name, String last_name)
 	{
+		if (first_name.equals(""))
+			first_name = "%";
+		
+		if (last_name.equals(""))
+			last_name = "%";
+		
 		ArrayList<Member> memberList = new ArrayList<Member>();
 		
 		try
@@ -60,8 +66,8 @@ public class DatabaseAbstraction
 					"LEFT OUTER JOIN member_discounts " +
 					"LEFT OUTER JOIN member_iou " +
 					"ON (member_discounts.member_id = members.id AND member_iou.member_id = members.id)" +
-					" WHERE first_name='" + first_name +
-					"' AND last_name='" + last_name + "';"
+					" WHERE first_name LIKE '" + first_name +
+					"' AND last_name LIKE '" + last_name + "';"
 			);
 			while (rs.next())
 			{

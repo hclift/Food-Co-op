@@ -14,7 +14,17 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -161,7 +171,7 @@ public class MainFrame extends JFrame {
 		searchButton = new JButton("Search");
 		searchButton.setFont(buttonFont);
 		searchButton.setBounds(515, 146, 80, 25);
-		searchButton.setEnabled(false);
+		searchButton.setEnabled(true);
 
 		topWestPanel.add(firstNameLabel);
 		topWestPanel.add(lastNameLabel);
@@ -502,6 +512,7 @@ public class MainFrame extends JFrame {
 		
 		if (searchResult.size() < 1)
 		{
+			JOptionPane.showMessageDialog(null, "No results found.");
 			disableButtons();
 		}
 		else
@@ -558,10 +569,10 @@ public class MainFrame extends JFrame {
 
 			}else if(e.getSource().equals(updateMemberButton)){
 				Member m = controller.getMember(generalLookup.getSelectedIndex());
-				generalLookupModel.clear();
+
 				disableButtons();
-				new UpdateMemberFrame(controller, m);
-				generalLookup.clearSelection();
+				new UpdateMemberFrame(MainFrame.this, controller, m);
+	
 			}else if(e.getSource().equals(addMemberButton)){
 				new AddMember(controller);
 			}else if(e.getSource().equals(signIntoStoreButton)){
@@ -691,19 +702,21 @@ public class MainFrame extends JFrame {
 		boolean TextFieldStatus = false;
 		public void keyPressed(KeyEvent e) {
 			int key = e.getKeyCode();
-			if ((key == KeyEvent.VK_ENTER) && !(firstNameTextField.getText().equals("") || lastNameTextField.getText().equals(""))) {
+			if ((key == KeyEvent.VK_ENTER)) {
 				//System.out.println("First Name: " + firstNameTextField.getText() + "\nLastName: " + lastNameTextField.getText());
 				printSearchResult(controller.lookUpMember(firstNameTextField.getText(), lastNameTextField.getText()));
 			}
 		}
 
 		public void keyReleased(KeyEvent e) {
+			/*
 			if(firstNameTextField.getText().equals("") || lastNameTextField.getText().equals("")){
 				searchButton.setEnabled(false);
 			}
 			else{
 				searchButton.setEnabled(true);
 			}
+			*/
 		}
 
 		public void keyTyped(KeyEvent e) {
@@ -753,5 +766,11 @@ public class MainFrame extends JFrame {
 			}
 		}
 		return reconciledShiftLength;		
+	}
+	
+	public void clearSearchResults()
+	{
+		generalLookupModel.clear();
+		generalLookup.clearSelection();
 	}
 }

@@ -53,14 +53,16 @@ public class UpdateMemberFrame{
 	// holds member's IOU amount; changes when discount applied or IOU added
 	double tempIOU;
 	int	tempAvailDiscounts;
+	MainFrame parentWindow;
 	
 	/**
 	 * Explicit value constructor for UpdateMemberFrame.
 	 * Takes in controller and member as parameters.
 	 * @param controller, member
 	 **/
-	public UpdateMemberFrame(Controller controller, Member member)
+	public UpdateMemberFrame(MainFrame parentWindow, Controller controller, Member member)
 	{
+		this.parentWindow = parentWindow;
 		this.member = member;
 		this.controller = controller;
 		tempIOU = member.getIouAmount();
@@ -260,15 +262,18 @@ public class UpdateMemberFrame{
 				
 				if(result)
 				{
+					parentWindow.clearSearchResults();
 					mainFrame.dispose();
 				}
-				
-				int choice = JOptionPane.showConfirmDialog(null,
-						"Results not saved to the database, would you " +
-						"like to quit?", "", JOptionPane.YES_NO_OPTION);
-				if(choice == 0)
+				else
 				{
-					mainFrame.dispose();
+					int choice = JOptionPane.showConfirmDialog(null,
+							"Results not saved to the database, would you " +
+							"like to quit?", "", JOptionPane.YES_NO_OPTION);
+					if(choice == 0)
+					{
+						mainFrame.dispose();
+					}
 				}
 			}
 			else if(e.getSource().equals(applyDiscountButton))
