@@ -255,4 +255,12 @@ public class Controller
     	model.setShiftLength(newShiftLength);
     	return newShiftLength;    
     }
+    
+    public ArrayList<YearsInSchool> getYearsInSchool(){
+		return model.getYearsInSchool();
+	}
+    
+    public ArrayList<MembershipTypes> getMembershipTypes(){
+		return model.getMembershipTypes();
+	}
 }

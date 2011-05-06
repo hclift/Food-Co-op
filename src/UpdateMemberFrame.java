@@ -53,14 +53,16 @@ public class UpdateMemberFrame{
 	// holds member's IOU amount; changes when discount applied or IOU added
 	double tempIOU;
 	int	tempAvailDiscounts;
+	MainFrame parentWindow;
 	
 	/**
 	 * Explicit value constructor for UpdateMemberFrame.
 	 * Takes in controller and member as parameters.
 	 * @param controller, member
 	 **/
-	public UpdateMemberFrame(Controller controller, Member member)
+	public UpdateMemberFrame(MainFrame parentWindow, Controller controller, Member member)
 	{
+		this.parentWindow = parentWindow;
 		this.member = member;
 		this.controller = controller;
 		tempIOU = member.getIouAmount();
@@ -156,22 +158,28 @@ public class UpdateMemberFrame{
 		
 		currentYearBox = new JComboBox();
 		currentYearBox.setBounds(85, 100, 100, 25);
-		currentYearBox.addItem("Freshman 1");
+		/*currentYearBox.addItem("Freshman 1");
 		currentYearBox.addItem("Freshman 2");
 		currentYearBox.addItem("Sophmore 1");
 		currentYearBox.addItem("Sophmore 2");
 		currentYearBox.addItem("Junior 1");
 		currentYearBox.addItem("Junior 2");
 		currentYearBox.addItem("Senior 1");
-		currentYearBox.addItem("Senior 2");
+		currentYearBox.addItem("Senior 2");*/
+		for(YearsInSchool x: YearsInSchool.values()){
+			currentYearBox.addItem(x.getStrVal());
+		}
 		currentYearBox.setSelectedIndex(member.getYearsInSchool());
 		
 		membershipTypeBox = new JComboBox();
 		membershipTypeBox.setBounds(310, 100, 100, 25);
-		membershipTypeBox.addItem("Ordinary");
+		for(MembershipTypes y: MembershipTypes.values()){
+			membershipTypeBox.addItem(y.getStrVal());
+		}
+		/*membershipTypeBox.addItem("Ordinary");
 		membershipTypeBox.addItem("Working");
 		membershipTypeBox.addItem("Core");
-		membershipTypeBox.addItem("Coordinator");
+		membershipTypeBox.addItem("Coordinator");*/
 		membershipTypeBox.setSelectedIndex(member.getMembershipType());
 		membershipTypeBox.addActionListener(new OKCancelButtonListener());
 		
@@ -260,15 +268,18 @@ public class UpdateMemberFrame{
 				
 				if(result)
 				{
+					parentWindow.clearSearchResults();
 					mainFrame.dispose();
 				}
-				
-				int choice = JOptionPane.showConfirmDialog(null,
-						"Results not saved to the database, would you " +
-						"like to quit?", "", JOptionPane.YES_NO_OPTION);
-				if(choice == 0)
+				else
 				{
-					mainFrame.dispose();
+					int choice = JOptionPane.showConfirmDialog(null,
+							"Results not saved to the database, would you " +
+							"like to quit?", "", JOptionPane.YES_NO_OPTION);
+					if(choice == 0)
+					{
+						mainFrame.dispose();
+					}
 				}
 			}
 			else if(e.getSource().equals(applyDiscountButton))

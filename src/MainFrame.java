@@ -14,7 +14,17 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -161,7 +171,7 @@ public class MainFrame extends JFrame {
 		searchButton = new JButton("Search");
 		searchButton.setFont(buttonFont);
 		searchButton.setBounds(515, 146, 80, 25);
-		searchButton.setEnabled(false);
+		searchButton.setEnabled(true);
 
 		topWestPanel.add(firstNameLabel);
 		topWestPanel.add(lastNameLabel);
@@ -193,6 +203,8 @@ public class MainFrame extends JFrame {
 
 		generalLookupModel = new DefaultListModel();
 		generalLookup = new JList(generalLookupModel);
+		Font displayFont = new Font(Font.MONOSPACED, Font.PLAIN, 14);
+		generalLookup.setFont(displayFont);
 
 		generalLookupPane = new JScrollPane(generalLookup);
 		//generalLookupPane.setBounds(15, 0, 410, 125);
@@ -411,7 +423,7 @@ public class MainFrame extends JFrame {
 	 *
 	 */
 
-	private void enableButtons(){
+	public void enableButtons(){
 		int membersInStore = storeModel.getSize();
 		int membersInKitchen = kitchenModel.getSize();
 		int contained = 0;
@@ -446,7 +458,7 @@ public class MainFrame extends JFrame {
 	 * Disable View Member, Update Member, Sign Into Store, and Sign Into Kitchen Button
 	 * 
 	 */
-	private void disableButtons(){
+	public void disableButtons(){
 
 		viewMemberButton.setEnabled(false);
 		updateMemberButton.setEnabled(false);
@@ -459,6 +471,7 @@ public class MainFrame extends JFrame {
 	{
 		store.clearSelection();
 		storeModel.clear();
+		signIntoStoreButton.setEnabled(true);
 		if (members.size() < 1)
 		{
 			signOutOfStoreButton.setEnabled(false);
@@ -478,6 +491,7 @@ public class MainFrame extends JFrame {
 	{
 		kitchen.clearSelection();
 		kitchenModel.clear();
+		signIntoKitchenButton.setEnabled(true);
 		if (members.size() < 1)
 		{
 			signOutOfKitchenButton.setEnabled(false);
@@ -491,7 +505,6 @@ public class MainFrame extends JFrame {
 				kitchenModel.addElement(string);
 			}
 		}
-
 	}
 
 	public void printSearchResult(ArrayList<Member> searchResult)
@@ -502,18 +515,23 @@ public class MainFrame extends JFrame {
 		
 		if (searchResult.size() < 1)
 		{
+			JOptionPane.showMessageDialog(null, "No results found.");
 			disableButtons();
 		}
-		else
+		else 
 		{
 			for(int j = 0; j < searchResult.size(); j++){
-				String string  = new String((searchResult.get(j).getFirstName()+ "     "+ searchResult.get(j).getLastName()+ "    "
-												+ searchResult.get(j).getMembershipTypeString() + "    "
-												+ searchResult.get(j).getEmailAddress()+ "    ")); 
+				String string  = new String((String.format("%-22.21s", searchResult.get(j).getFirstName()) + 
+											 String.format("%-21.20s", searchResult.get(j).getLastName()) + " " + 
+											 String.format("%-22.21s", searchResult.get(j).getMembershipTypeString()) + 
+												searchResult.get(j).getEmailAddress()+ "    ")); 
 				generalLookupModel.addElement(string);
 			}
 		}
 	}
+	
+	// Coordinator
+	
 	/**
 	 * 
 	 * @param errorMessage a string to be displayed in the error message pop-up
@@ -558,10 +576,10 @@ public class MainFrame extends JFrame {
 
 			}else if(e.getSource().equals(updateMemberButton)){
 				Member m = controller.getMember(generalLookup.getSelectedIndex());
-				generalLookupModel.clear();
+
 				disableButtons();
-				new UpdateMemberFrame(controller, m);
-				generalLookup.clearSelection();
+				new UpdateMemberFrame(MainFrame.this, controller, m);
+	
 			}else if(e.getSource().equals(addMemberButton)){
 				new AddMember(controller);
 			}else if(e.getSource().equals(signIntoStoreButton)){
@@ -691,19 +709,21 @@ public class MainFrame extends JFrame {
 		boolean TextFieldStatus = false;
 		public void keyPressed(KeyEvent e) {
 			int key = e.getKeyCode();
-			if ((key == KeyEvent.VK_ENTER) && !(firstNameTextField.getText().equals("") || lastNameTextField.getText().equals(""))) {
+			if ((key == KeyEvent.VK_ENTER)) {
 				//System.out.println("First Name: " + firstNameTextField.getText() + "\nLastName: " + lastNameTextField.getText());
 				printSearchResult(controller.lookUpMember(firstNameTextField.getText(), lastNameTextField.getText()));
 			}
 		}
 
 		public void keyReleased(KeyEvent e) {
+			/*
 			if(firstNameTextField.getText().equals("") || lastNameTextField.getText().equals("")){
 				searchButton.setEnabled(false);
 			}
 			else{
 				searchButton.setEnabled(true);
 			}
+			*/
 		}
 
 		public void keyTyped(KeyEvent e) {
@@ -753,5 +773,11 @@ public class MainFrame extends JFrame {
 			}
 		}
 		return reconciledShiftLength;		
+	}
+	
+	public void clearSearchResults()
+	{
+		generalLookupModel.clear();
+		generalLookup.clearSelection();
 	}
 }

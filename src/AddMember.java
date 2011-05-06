@@ -225,6 +225,11 @@ public class AddMember
 
 		currentYearBox = new JComboBox();
 		currentYearBox.setBounds(85, 100, 100, 25);
+		
+		for(YearsInSchool x: YearsInSchool.values()){
+			currentYearBox.addItem(x.getStrVal());
+		}
+		/*
 		currentYearBox.addItem("Freshman 1");
 		currentYearBox.addItem("Freshman 2");
 		currentYearBox.addItem("Sophmore 1");
@@ -233,14 +238,21 @@ public class AddMember
 		currentYearBox.addItem("Junior 2");
 		currentYearBox.addItem("Senior 1");
 		currentYearBox.addItem("Senior 2");
-
+		*/
+		
+		
 		membershipTypeBox = new JComboBox();
 		membershipTypeBox.setBounds(310, 100, 120, 25);
+		for(MembershipTypes y: MembershipTypes.values()){
+			membershipTypeBox.addItem(y.getStrVal());
+		}
+		/*
+		
 		membershipTypeBox.addItem("Ordinary");
 		membershipTypeBox.addItem("Working");
 		membershipTypeBox.addItem("Core");
 		membershipTypeBox.addItem("Coordinator");
-
+		 */
 		/*
 		expirationTextField = new JTextField();
 		expirationTextField.setBounds(100, 140, 70, 25);
