@@ -11,9 +11,6 @@ public class Model
 
 	private ArrayList<Member> signedIntoKitchen = new ArrayList<Member>();
 	private ArrayList<Member> signedIntoStore = new ArrayList<Member>();
-
-
-	public enum yearInSchool {Freshman1, Freshman, Sophmore1, Sophmore2, Junior1, Junior2, Senior1, Senior2, Graduate, Faculty}
 	private ArrayList<Member> matches = new ArrayList<Member>();
 
 	
@@ -437,6 +434,22 @@ public class Model
 		signedIntoStore.clear();
 		signedIntoKitchen.clear();
 		System.exit(0);
+	}
+	
+	public ArrayList<YearsInSchool> getYearsInSchool(){
+		ArrayList<YearsInSchool> ret = new ArrayList<YearsInSchool>();
+		for(YearsInSchool x: YearsInSchool.values()){
+			ret.add(x);
+		}
+		return ret;
+	}
+	
+	public ArrayList<MembershipTypes> getMembershipTypes(){
+		ArrayList<MembershipTypes> ret = new ArrayList<MembershipTypes>();
+		for(MembershipTypes x: MembershipTypes.values()){
+			ret.add(x);
+		}
+		return ret;
 	}
 }
 

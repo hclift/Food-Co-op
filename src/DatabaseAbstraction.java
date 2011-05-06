@@ -55,20 +55,23 @@ public class DatabaseAbstraction
 		try
 		{
 			Connection connection = connectToDatabase();
-			Statement stat = connection.createStatement();
 			//ResultSet rs = stat.executeQuery(
 			//		"SELECT * FROM members, member_discounts, member_iou WHERE first_name='" + first_name +
 			//		"' AND last_name='" + last_name + "' AND members.id = member_discounts.member_id AND members.id = member_iou.member_id;"
 			//);
-			ResultSet rs = stat.executeQuery(
+			PreparedStatement ps = connection.prepareStatement(
 					"SELECT members.*	, member_discounts.discounts, member_iou.iou_amount " +
 					"FROM members " +
 					"LEFT OUTER JOIN member_discounts " +
 					"LEFT OUTER JOIN member_iou " +
 					"ON (member_discounts.member_id = members.id AND member_iou.member_id = members.id)" +
-					" WHERE first_name LIKE '" + first_name +
-					"' AND last_name LIKE '" + last_name + "';"
+					" WHERE first_name LIKE ?" +
+					" AND last_name LIKE ?;"
 			);
+			ps.setString(1, first_name);
+			ps.setString(2, last_name);
+			ResultSet rs = ps.executeQuery();
+			
 			while (rs.next())
 			{
 				Member m = new Member(
@@ -84,29 +87,10 @@ public class DatabaseAbstraction
 					rs.getDouble("iou_amount"),
 					(rs.getInt("is_active") != 0)
 				);
-
-				/*(=Statement stat2 = connection.createStatement();
-				ResultSet rs2 = stat2.executeQuery(
-						"SELECT iou_amount FROM member_iou " +
-						"WHERE member_id = '" + m.getId() + "';"
-				);
-				System.err.println(rs2.isClosed());
-				rs2.next();
-				m.setIouAmount(rs2.getDouble("iou_amount"));
-				Statement stat3 = connection.createStatement();
-				ResultSet rs3 = stat3.executeQuery(
-						"SELECT discounts FROM member_discounts " +
-						"WHERE member_id = '" + m.getId() + "';"
-				);
-				rs3.next();
-				m.setAvailableDiscounts(rs3.getInt("discounts"));
-				*/
 				memberList.add(m);
 			}
-
-
-
-
+			
+			ps.close();
 			connection.close();
 		} 
 		catch (Exception e)
