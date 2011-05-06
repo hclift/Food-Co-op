@@ -153,10 +153,6 @@ public class DatabaseAbstraction
 	//	If they exist, do an update, else do an insert
 	if (rs_iouCheck.next())
 	{
-		System.out.println("iou exists");
-		int currentIou = rs_iouCheck.getInt("iou_amount");
-		System.out.println("Current Iou: " + currentIou);
-		System.out.println("Current member Iou: " + m.getIouAmount());
 		PreparedStatement ps_iou = connection.prepareStatement(
 				"UPDATE member_iou SET " +
 				"iou_amount = ?" +
@@ -170,7 +166,6 @@ public class DatabaseAbstraction
 	}
 	else
 	{
-		System.out.println("no iou exists");
 		PreparedStatement ps_iou = connection.prepareStatement(
 				"INSERT INTO member_iou VALUES (?, ?)"
 			);
@@ -191,8 +186,6 @@ public class DatabaseAbstraction
 	//	If they exist, do an update, else do an insert
 	if (rs_discountCheck.next())
 	{
-		System.out.println("discount exists");
-		int currentDiscount = rs_discountCheck.getInt("discounts");
 		PreparedStatement ps_disc = connection.prepareStatement(
 				"UPDATE member_discounts SET " +
 				"discounts = ? " +
@@ -206,7 +199,6 @@ public class DatabaseAbstraction
 	}
 	else
 	{
-		System.out.println("no discount exists");
 		PreparedStatement ps_disc = connection.prepareStatement(
 				"INSERT INTO member_discounts VALUES (?, ?)"
 			);
