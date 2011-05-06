@@ -262,13 +262,15 @@ public class UpdateMemberFrame{
 				{
 					mainFrame.dispose();
 				}
-				
-				int choice = JOptionPane.showConfirmDialog(null,
-						"Results not saved to the database, would you " +
-						"like to quit?", "", JOptionPane.YES_NO_OPTION);
-				if(choice == 0)
+				else
 				{
-					mainFrame.dispose();
+					int choice = JOptionPane.showConfirmDialog(null,
+							"Results not saved to the database, would you " +
+							"like to quit?", "", JOptionPane.YES_NO_OPTION);
+					if(choice == 0)
+					{
+						mainFrame.dispose();
+					}
 				}
 			}
 			else if(e.getSource().equals(applyDiscountButton))
