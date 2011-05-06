@@ -129,6 +129,7 @@ private MainFrame parentWindow;
 		
 		//	Calculate expiration date
 		Date lastSignupDate = m.getLastSignupDate();
+		System.out.println(lastSignupDate);
 		int membershipLength = m.getMembershipLength();
 		long expirationDate = 0;
 		SimpleDateFormat formattedExpirationDate  = new SimpleDateFormat("MM/dd/yyyy");
