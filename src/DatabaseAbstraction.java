@@ -143,28 +143,80 @@ public class DatabaseAbstraction
 	ps.executeUpdate();
 	ps.close();
 	
-	PreparedStatement ps_iou = connection.prepareStatement(
-			"UPDATE member_iou SET " +
-			"iou_amount = ? " +
-			"WHERE member_id = ?"
-		);
-	ps_iou.setDouble(1, m.getIouAmount());
-	ps_iou.setInt(2, m.getId());
-	ps_iou.executeUpdate();
-
-	ps_iou.close();
+	//	Query if a member exists in member_iou table
+	PreparedStatement ps_iouCheck = connection.prepareStatement(
+		"SELECT * FROM member_iou WHERE member_id = ?"
+	);
+	ps_iouCheck.setInt(1, m.getId());
+	ResultSet rs_iouCheck = ps_iouCheck.executeQuery();
 	
-	PreparedStatement ps_disc = connection.prepareStatement(
-			"UPDATE member_discounts SET " +
-			"discounts = ? " +
-			"WHERE member_id = ?"
+	//	If they exist, do an update, else do an insert
+	if (rs_iouCheck.next())
+	{
+		System.out.println("iou exists");
+		int currentIou = rs_iouCheck.getInt("iou_amount");
+		System.out.println("Current Iou: " + currentIou);
+		System.out.println("Current member Iou: " + m.getIouAmount());
+		PreparedStatement ps_iou = connection.prepareStatement(
+				"UPDATE member_iou SET " +
+				"iou_amount = ?" +
+				"WHERE member_id = ? "
 		);
-	ps_disc.setInt(1, m.getAvailableDiscounts());
-	ps_disc.setInt(2, m.getId());
-	ps_disc.executeUpdate();
+		ps_iou.setDouble(1, ( m.getIouAmount()) );
+		ps_iou.setInt(2, m.getId());
+		ps_iou.executeUpdate();
 
-	ps_disc.close();
+		ps_iou.close();
+	}
+	else
+	{
+		System.out.println("no iou exists");
+		PreparedStatement ps_iou = connection.prepareStatement(
+				"INSERT INTO member_iou VALUES (?, ?)"
+			);
+		ps_iou.setInt(1, m.getId());
+		ps_iou.setDouble(2, m.getIouAmount());
+		ps_iou.executeUpdate();
+		
+		ps_iou.close();
+	}
 	
+	//	Query to see if a member exists in the member_discounts table
+	PreparedStatement ps_discountCheck = connection.prepareStatement(
+		"SELECT * FROM member_discounts WHERE member_id = ?"
+	);
+	ps_discountCheck.setInt(1, m.getId());
+	ResultSet rs_discountCheck = ps_discountCheck.executeQuery();
+	
+	//	If they exist, do an update, else do an insert
+	if (rs_discountCheck.next())
+	{
+		System.out.println("discount exists");
+		int currentDiscount = rs_discountCheck.getInt("discounts");
+		PreparedStatement ps_disc = connection.prepareStatement(
+				"UPDATE member_discounts SET " +
+				"discounts = ? " +
+				"WHERE member_id = ?"
+			);
+		ps_disc.setInt(1, ( m.getAvailableDiscounts() ));
+		ps_disc.setInt(2, m.getId());
+		ps_disc.executeUpdate();
+		ps_disc.close();
+		
+	}
+	else
+	{
+		System.out.println("no discount exists");
+		PreparedStatement ps_disc = connection.prepareStatement(
+				"INSERT INTO member_discounts VALUES (?, ?)"
+			);
+		ps_disc.setInt(1, m.getId());
+		ps_disc.setInt(2, m.getAvailableDiscounts());
+		ps_disc.executeUpdate();	
+		ps_disc.close();
+			
+	}
+
 	
 	connection.close();
 	
