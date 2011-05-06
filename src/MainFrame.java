@@ -558,10 +558,10 @@ public class MainFrame extends JFrame {
 
 			}else if(e.getSource().equals(updateMemberButton)){
 				Member m = controller.getMember(generalLookup.getSelectedIndex());
-				new UpdateMemberFrame(controller, m);
-				generalLookup.clearSelection();
 				generalLookupModel.clear();
 				disableButtons();
+				new UpdateMemberFrame(controller, m);
+				generalLookup.clearSelection();
 			}else if(e.getSource().equals(addMemberButton)){
 				new AddMember(controller);
 			}else if(e.getSource().equals(signIntoStoreButton)){
