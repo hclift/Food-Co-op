@@ -471,6 +471,7 @@ public class MainFrame extends JFrame {
 	{
 		store.clearSelection();
 		storeModel.clear();
+		signIntoStoreButton.setEnabled(true);
 		if (members.size() < 1)
 		{
 			signOutOfStoreButton.setEnabled(false);
@@ -490,6 +491,7 @@ public class MainFrame extends JFrame {
 	{
 		kitchen.clearSelection();
 		kitchenModel.clear();
+		signIntoKitchenButton.setEnabled(true);
 		if (members.size() < 1)
 		{
 			signOutOfKitchenButton.setEnabled(false);
@@ -503,7 +505,6 @@ public class MainFrame extends JFrame {
 				kitchenModel.addElement(string);
 			}
 		}
-
 	}
 
 	public void printSearchResult(ArrayList<Member> searchResult)
