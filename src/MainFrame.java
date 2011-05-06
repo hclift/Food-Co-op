@@ -203,6 +203,8 @@ public class MainFrame extends JFrame {
 
 		generalLookupModel = new DefaultListModel();
 		generalLookup = new JList(generalLookupModel);
+		Font displayFont = new Font(Font.MONOSPACED, Font.PLAIN, 14);
+		generalLookup.setFont(displayFont);
 
 		generalLookupPane = new JScrollPane(generalLookup);
 		//generalLookupPane.setBounds(15, 0, 410, 125);
@@ -515,16 +517,20 @@ public class MainFrame extends JFrame {
 			JOptionPane.showMessageDialog(null, "No results found.");
 			disableButtons();
 		}
-		else
+		else 
 		{
 			for(int j = 0; j < searchResult.size(); j++){
-				String string  = new String((searchResult.get(j).getFirstName()+ "     "+ searchResult.get(j).getLastName()+ "    "
-												+ searchResult.get(j).getMembershipTypeString() + "    "
-												+ searchResult.get(j).getEmailAddress()+ "    ")); 
+				String string  = new String((String.format("%-22.21s", searchResult.get(j).getFirstName()) + 
+											 String.format("%-21.20s", searchResult.get(j).getLastName()) + " " + 
+											 String.format("%-22.21s", searchResult.get(j).getMembershipTypeString()) + 
+												searchResult.get(j).getEmailAddress()+ "    ")); 
 				generalLookupModel.addElement(string);
 			}
 		}
 	}
+	
+	// Coordinator
+	
 	/**
 	 * 
 	 * @param errorMessage a string to be displayed in the error message pop-up
