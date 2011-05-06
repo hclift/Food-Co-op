@@ -229,7 +229,8 @@ public class AddMember
 		for(YearsInSchool x: YearsInSchool.values()){
 			currentYearBox.addItem(x.getStrVal());
 		}
-		/*currentYearBox.addItem("Freshman 1");
+		/*
+		currentYearBox.addItem("Freshman 1");
 		currentYearBox.addItem("Freshman 2");
 		currentYearBox.addItem("Sophmore 1");
 		currentYearBox.addItem("Sophmore 2");

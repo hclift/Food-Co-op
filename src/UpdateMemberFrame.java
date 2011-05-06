@@ -158,22 +158,28 @@ public class UpdateMemberFrame{
 		
 		currentYearBox = new JComboBox();
 		currentYearBox.setBounds(85, 100, 100, 25);
-		currentYearBox.addItem("Freshman 1");
+		/*currentYearBox.addItem("Freshman 1");
 		currentYearBox.addItem("Freshman 2");
 		currentYearBox.addItem("Sophmore 1");
 		currentYearBox.addItem("Sophmore 2");
 		currentYearBox.addItem("Junior 1");
 		currentYearBox.addItem("Junior 2");
 		currentYearBox.addItem("Senior 1");
-		currentYearBox.addItem("Senior 2");
+		currentYearBox.addItem("Senior 2");*/
+		for(YearsInSchool x: YearsInSchool.values()){
+			currentYearBox.addItem(x.getStrVal());
+		}
 		currentYearBox.setSelectedIndex(member.getYearsInSchool());
 		
 		membershipTypeBox = new JComboBox();
 		membershipTypeBox.setBounds(310, 100, 100, 25);
-		membershipTypeBox.addItem("Ordinary");
+		for(MembershipTypes y: MembershipTypes.values()){
+			membershipTypeBox.addItem(y.getStrVal());
+		}
+		/*membershipTypeBox.addItem("Ordinary");
 		membershipTypeBox.addItem("Working");
 		membershipTypeBox.addItem("Core");
-		membershipTypeBox.addItem("Coordinator");
+		membershipTypeBox.addItem("Coordinator");*/
 		membershipTypeBox.setSelectedIndex(member.getMembershipType());
 		membershipTypeBox.addActionListener(new OKCancelButtonListener());
 		

@@ -8,8 +8,8 @@
 public enum YearsInSchool {
 	FRESHMAN1(0, "Freshman 1"), 
 	FRESHMAN2(1, "Freshman 2"), 
-	SOPHMORE1(2, "Sophmore 1"), 
-	SOPHMORE2(3, "Sophmore 2"), 
+	SOPHOMORE1(2, "Sophomore 1"), 
+	SOPHOMORE2(3, "Sophomore 2"), 
 	JUNIOR1(4, "Junior 1"), 
 	JUNIOR2(5, "Junior 2"), 
 	SENIOR1(6, "Senior 1"), 
