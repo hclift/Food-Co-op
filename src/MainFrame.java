@@ -423,7 +423,7 @@ public class MainFrame extends JFrame {
 	 *
 	 */
 
-	private void enableButtons(){
+	public void enableButtons(){
 		int membersInStore = storeModel.getSize();
 		int membersInKitchen = kitchenModel.getSize();
 		int contained = 0;
@@ -458,7 +458,7 @@ public class MainFrame extends JFrame {
 	 * Disable View Member, Update Member, Sign Into Store, and Sign Into Kitchen Button
 	 * 
 	 */
-	private void disableButtons(){
+	public void disableButtons(){
 
 		viewMemberButton.setEnabled(false);
 		updateMemberButton.setEnabled(false);
