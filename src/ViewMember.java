@@ -57,6 +57,29 @@ private MainFrame parentWindow;
 		
 	}
 	
+	/*
+	 * Date lastSignupDate = m.getLastSignupDate();
+	   int membershipLength = m.getMembershipLength();
+	   long expirationDate = 0;
+	 */
+	
+	public void handleExpiration(Date dIn, int iIn, long lIn, JTextField jtfIn){
+		SimpleDateFormat formattedExpirationDate  = new SimpleDateFormat("MM/dd/yyyy");
+		if (iIn == 0)
+		{
+			//	183 is 365 / 2
+			long milliseconds_in_half_year = 15778463000L;
+			lIn = dIn.getTime() + 183 + milliseconds_in_half_year;
+		}
+		else if (iIn == 1)
+		{
+			// 365 is one year
+			long milliseconds_in_year = 31556926000L;
+			lIn = dIn.getTime() + 365 + milliseconds_in_year;
+		}
+		jtfIn.setText(formattedExpirationDate.format(lIn));
+	}
+	
 	private void addPanel(Member m){
 		mainPanel = new JPanel();
 		mainPanel.setLayout(null);
@@ -128,10 +151,12 @@ private MainFrame parentWindow;
 		expirationTextField.setEditable(false);
 		
 		//	Calculate expiration date
+		
 		Date lastSignupDate = m.getLastSignupDate();
 		int membershipLength = m.getMembershipLength();
 		long expirationDate = 0;
-		SimpleDateFormat formattedExpirationDate  = new SimpleDateFormat("MM/dd/yyyy");
+		handleExpiration(lastSignupDate, membershipLength,expirationDate,expirationTextField);
+		/*SimpleDateFormat formattedExpirationDate  = new SimpleDateFormat("MM/dd/yyyy");
 		if (membershipLength == 0)
 		{
 			//	183 is 365 / 2
@@ -143,6 +168,8 @@ private MainFrame parentWindow;
 			expirationDate = lastSignupDate.getTime() + 365 * 24 * 60 * 60;
 		}
 		expirationTextField.setText(formattedExpirationDate.format(expirationDate));
+		*/
+		
 		
 		workHistoryButton = new JButton("Display Work History");
 		workHistoryButton.setBounds(230, 140, 180, 25);

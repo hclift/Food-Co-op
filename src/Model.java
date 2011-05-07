@@ -115,9 +115,20 @@ public class Model
 		int year_in_school,
 		int is_active)
 	{
-		DatabaseAbstraction.addMember(first_name, last_name, email_address, membership_length, membership_type, year_in_school, is_active);
+		Member mem = new Member();
+		
+		mem.setActive(true);
+		mem.setYearInSchool(year_in_school);
+		mem.setMembershipType(membership_type);
+		mem.setMembershipLength(membership_length);
+		mem.setEmail(email_address);
+		mem.setLastName(last_name);
+		mem.setFirstName(first_name);
+		
+		
+		
+		DatabaseAbstraction.addMember(mem);
 	}
-	
 	
 	/**
 	 * The getSignedIntoKitchen method is used to return 

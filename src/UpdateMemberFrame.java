@@ -19,8 +19,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-public class UpdateMemberFrame{
+public class UpdateMemberFrame implements ExpirationHandler{
 	// main frame of update member; changes on creation and closing
 	private JFrame mainFrame;
 
@@ -73,7 +75,7 @@ public class UpdateMemberFrame{
 		//mainFrame.setFocusableWindowState(false);
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		//mainFrame.setResizable(false);
-		addPanel();
+		addPanel(member);
 		if(!member.getActive())
 		{
 			setButtons(false);
@@ -95,11 +97,28 @@ public class UpdateMemberFrame{
 	}
 	
 	
+	public void handleExpiration(Date dIn, int iIn, long lIn, JTextField jtfIn){
+		SimpleDateFormat formattedExpirationDate  = new SimpleDateFormat("MM/dd/yyyy");
+		if (iIn == 0)
+		{
+			//	183 is 365 / 2
+			long milliseconds_in_half_year = 15778463000L;
+			lIn = dIn.getTime() + 183 + milliseconds_in_half_year;
+		}
+		else if (iIn == 1)
+		{
+			// 365 is one year
+			long milliseconds_in_year = 31556926000L;
+			lIn = dIn.getTime() + 365 + milliseconds_in_year;
+		}
+		jtfIn.setText(formattedExpirationDate.format(lIn));
+	}
+	
 	/**
 	 * Adds the main panel into the main frame of update member.
 	 * Creates all labels, text fields, buttons, and boxes in main panel.
 	 **/
-	private void addPanel()
+	private void addPanel(Member m)
 	{
 		mainPanel = new JPanel();
 		mainPanel.setLayout(null);
@@ -186,8 +205,11 @@ public class UpdateMemberFrame{
 		
 		expirationTextField = new JTextField();
 		expirationTextField.setBounds(100, 140, 100, 25);
-		expirationTextField.setEditable(false);
-		expirationTextField.setText("12/12/2011");
+		expirationTextField.setEditable(false);		
+		Date lastSignupDate = m.getLastSignupDate();
+		int membershipLength = m.getMembershipLength();
+		long expirationDate = 0;
+		handleExpiration(lastSignupDate, membershipLength,expirationDate,expirationTextField);
 		
 		addIOUButton = new JButton("Add to IOU Amount");
 		addIOUButton.setBounds(205, 140, 160, 25);
