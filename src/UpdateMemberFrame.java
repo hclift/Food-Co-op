@@ -8,6 +8,8 @@
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -74,6 +76,12 @@ public class UpdateMemberFrame implements ExpirationHandler{
 		mainFrame.setBounds(375, 200, 520, 310);
 		//mainFrame.setFocusableWindowState(false);
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		mainFrame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e)
+			{
+				UpdateMemberFrame.this.parentWindow.reenableButtons();
+			}
+		});
 		//mainFrame.setResizable(false);
 		addPanel(member);
 		if(!member.getActive())

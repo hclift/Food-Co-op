@@ -15,6 +15,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.*;
 
@@ -28,7 +30,7 @@ import javax.swing.*;
  * selected from drop down menus.  After all fields have been entered, press 
  * the 'OK' button to add the member into the database.
  */
-
+	
 public class AddMember
 {
 	private JFrame mainFrame;
@@ -50,14 +52,23 @@ public class AddMember
 	 * This method creates the window for adding a member
 	 */
 
+	private MainFrame parentWindow;
 
-
-	public AddMember(Controller c){
+	public AddMember(Controller c, MainFrame parentWindow){
+		this.parentWindow = parentWindow;
+		parentWindow.disableButtons();
 		this.controller = c;
 		mainFrame = new JFrame("Add Member");
 		mainFrame.setBounds(275, 150, 450, 250);
 		//mainFrame.setFocusableWindowState(false);
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		mainFrame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e)
+			{
+				AddMember.this.parentWindow.reenableButtons();
+			}
+		});
+		
 		mainFrame.setResizable(false);
 
 		addPanel();
@@ -326,6 +337,7 @@ public class AddMember
 			{
 				// closes the window
 				mainFrame.dispose();
+				parentWindow.reenableButtons();
 			}
 			else if(e.getSource().equals(okButton))
 			{
@@ -354,6 +366,7 @@ public class AddMember
 					controller.addMember(fn, ln, em, convertMemDur(sy),
 					convertMemType(mt), convertYear(cy), 1);
 				mainFrame.dispose();
+				parentWindow.reenableButtons();
 			}else{
 				System.exit(0);
 			}

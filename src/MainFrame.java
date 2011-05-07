@@ -590,7 +590,7 @@ public class MainFrame extends JFrame {
 				disableButtons();
 				new UpdateMemberFrame(MainFrame.this, controller, CURRENT_MEMBER);
 			}else if(e.getSource().equals(addMemberButton)){
-				new AddMember(controller);
+				new AddMember(controller, MainFrame.this);
 			}else if(e.getSource().equals(signIntoStoreButton)){
 				int memberIndex = generalLookup.getSelectedIndex();
 				ArrayList<Member> members = controller.signIntoStore(memberIndex);
