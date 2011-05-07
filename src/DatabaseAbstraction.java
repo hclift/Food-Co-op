@@ -64,14 +64,20 @@ public class DatabaseAbstraction
 					" WHERE first_name='" + first_name +
 					"' AND last_name='" + last_name + "';"
 			);
+			
+			long s;
+			Date t2;
 			while (rs.next())
 			{
+				s = rs.getLong("last_signup_date");
+				t2 = new Date(s);
+				
 				Member m = new Member(
 					rs.getInt("id"),
 					rs.getString("first_name"),
 					rs.getString("last_name"),
 					rs.getString("email_address"),
-					new Date((long)rs.getInt("last_signup_date")),
+					t2,
 					rs.getInt("membership_length"),
 					rs.getInt("membership_type"),
 					rs.getInt("year_in_school"), 
@@ -96,6 +102,7 @@ public class DatabaseAbstraction
 				rs3.next();
 				m.setAvailableDiscounts(rs3.getInt("discounts"));
 				*/
+				
 				memberList.add(m);
 			}
 
@@ -199,7 +206,8 @@ public class DatabaseAbstraction
 			Date last_signup_date = new Date(cal.getTime().getTime());
 			m.setLastSignupDate(last_signup_date);
 			long temp_signup_date = last_signup_date.getTime();  //temp value to store sign-up date into database.
-			
+			//m.setId(java.sql.Types.INTEGER);
+			m.setLastSignIn(temp_signup_date);
 			try
 			{
 				Connection connection = connectToDatabase();

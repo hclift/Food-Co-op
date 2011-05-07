@@ -129,19 +129,19 @@ private MainFrame parentWindow;
 		
 		//	Calculate expiration date
 		Date lastSignupDate = m.getLastSignupDate();
-		System.out.println(lastSignupDate);
+		//System.out.println(lastSignupDate);
 		int membershipLength = m.getMembershipLength();
-		long expirationDate = 0;
+		long expirationDate = m.getLastSignIn();
 		SimpleDateFormat formattedExpirationDate  = new SimpleDateFormat("MM/dd/yyyy");
 		if (membershipLength == 0)
 		{
 			//	183 is 365 / 2
-			expirationDate = lastSignupDate.getTime() + 183 * 24 * 60 * 60;
+			expirationDate = lastSignupDate.getTime() + 15778463000L; //+ 183 * 24 * 60 * 60;
 		}
 		else if (membershipLength == 1)
 		{
 			// 365 is one year
-			expirationDate = lastSignupDate.getTime() + 365 * 24 * 60 * 60;
+			expirationDate = lastSignupDate.getTime()+ 31556926000L;; //+ 365 * 24 * 60 * 60;
 		}
 		expirationTextField.setText(formattedExpirationDate.format(expirationDate));
 		

@@ -41,7 +41,7 @@ import javax.swing.event.ListSelectionListener;
  * 
  */
 public class MainFrame extends JFrame {
-
+	public static Member CURRENT_MEMBER;
 
 	/**
 	 * Automatically generated serial ID 
@@ -558,8 +558,8 @@ public class MainFrame extends JFrame {
 	
 	public void showViewMember()
 	{
-		Member m = controller.getMember(generalLookup.getSelectedIndex());
-		new ViewMember(this, m);
+		CURRENT_MEMBER = controller.getMember(generalLookup.getSelectedIndex());
+		new ViewMember(this, CURRENT_MEMBER);
 	}
 	
 	/**
@@ -586,10 +586,10 @@ public class MainFrame extends JFrame {
 				showViewMember();
 
 			}else if(e.getSource().equals(updateMemberButton)){
-				Member m = controller.getMember(generalLookup.getSelectedIndex());
+				CURRENT_MEMBER = controller.getMember(generalLookup.getSelectedIndex());
 
 				disableButtons();
-				new UpdateMemberFrame(MainFrame.this, controller, m);
+				new UpdateMemberFrame(MainFrame.this, controller, CURRENT_MEMBER);
 	
 			}else if(e.getSource().equals(addMemberButton)){
 				new AddMember(controller);
