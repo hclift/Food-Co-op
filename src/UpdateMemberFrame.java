@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class UpdateMemberFrame implements ExpirationHandler{
@@ -105,21 +106,31 @@ public class UpdateMemberFrame implements ExpirationHandler{
 	}
 	
 	
-	public void handleExpiration(Date dIn, int iIn, long lIn, JTextField jtfIn){
+	public void handleExpiration(Date dIn, int iIn, long expDate, JTextField jtfIn){
+		Calendar c = Calendar.getInstance();
 		SimpleDateFormat formattedExpirationDate  = new SimpleDateFormat("MM/dd/yyyy");
 		if (iIn == 0)
-		{
+		{			
+			c.setTime(dIn);
+			c.add(Calendar.MONTH, 5);
 			//	183 is 365 / 2
-			long milliseconds_in_half_year = 15778463000L;
-			lIn = dIn.getTime() + 183 + milliseconds_in_half_year;
+			//long milliseconds_in_half_year = 15778463000L;
+			//expDate = dIn.getTime() + milliseconds_in_half_year;
+			//Date te = new Date(expDate);
+			//System.out.println(te);
+			expDate = c.getTime().getTime();
+			
 		}
 		else if (iIn == 1)
 		{
 			// 365 is one year
-			long milliseconds_in_year = 31556926000L;
-			lIn = dIn.getTime() + 365 + milliseconds_in_year;
+			//long milliseconds_in_year = 31556926000L;
+			//expDate = dIn.getTime() + milliseconds_in_year;
+			c.setTime(dIn);
+			c.add(Calendar.MONTH, 12);
+			expDate = c.getTime().getTime();
 		}
-		jtfIn.setText(formattedExpirationDate.format(lIn));
+		jtfIn.setText(formattedExpirationDate.format(expDate));
 	}
 	
 	/**

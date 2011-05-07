@@ -236,8 +236,10 @@ public class DatabaseAbstraction
 	{
 		Calendar cal = Calendar.getInstance();
 		Date last_signup_date = new Date(cal.getTime().getTime());
+		//System.out.println(last_signup_date);
 		m.setLastSignupDate(last_signup_date);
 		long temp_signup_date = last_signup_date.getTime();  //temp value to store sign-up date into database.
+		//System.out.println(temp_signup_date);
 		//m.setId(java.sql.Types.INTEGER);
 		m.setLastSignIn(temp_signup_date);
 		try
