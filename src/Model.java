@@ -294,7 +294,7 @@ public class Model
 	{	
 		if(adjustment <= 0)
 			throw new Exception("Adjustment must be a positive number");
-		else if(membershipType >= 2)
+		else if(membershipType < 2)
 			throw new Exception("Must be a core member or coordinator.");
 		else if(adjustment + oldAmount > 100)
 			throw new Exception("IOU cannot exceed $100");
