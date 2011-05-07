@@ -159,7 +159,8 @@ public class UpdateMemberFrame implements ExpirationHandler{
 		IOULabel = new JLabel("IOU Amount: $");
 		IOULabel.setBounds(240, 180, 80, 20);
 		
-		IOUTextField = new JTextField(""+member.getIouAmount());
+		DecimalFormat decimalFormat = new DecimalFormat("0.00");
+		IOUTextField = new JTextField(decimalFormat.format(member.getIouAmount()));
 		IOUTextField.setBounds(320, 180, 80, 25);
 		IOUTextField.setEditable(false);
 		
