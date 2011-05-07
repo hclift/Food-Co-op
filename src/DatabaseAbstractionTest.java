@@ -31,7 +31,7 @@ public class DatabaseAbstractionTest{
 	@Test
 	public void testAddMember() {
 		//fail("Not yet implemented");
-		/*DatabaseAbstraction.addMember("abc", "efg", "a@aol.com", 0, 0, 3, 1);
+		DatabaseAbstraction.addMember("abc", "efg", "a@aol.com", 0, 0, 3, 1);
 
 		ArrayList<Member> testList = DatabaseAbstraction.lookupMember("abc","efg");
 		if (testList.size() > 0) {
@@ -42,6 +42,6 @@ public class DatabaseAbstractionTest{
 		}else{
 			fail("Failed to add Member");
 		}
-*/
+
 	} 
 }

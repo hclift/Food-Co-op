@@ -4,7 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 public class DatabaseAbstraction
@@ -45,39 +44,42 @@ public class DatabaseAbstraction
 	*/
 	public static ArrayList<Member> lookupMember(String first_name, String last_name)
 	{
+		if (first_name.equals(""))
+			first_name = "%";
+		
+		if (last_name.equals(""))
+			last_name = "%";
+		
 		ArrayList<Member> memberList = new ArrayList<Member>();
 		
 		try
 		{
 			Connection connection = connectToDatabase();
-			Statement stat = connection.createStatement();
 			//ResultSet rs = stat.executeQuery(
 			//		"SELECT * FROM members, member_discounts, member_iou WHERE first_name='" + first_name +
 			//		"' AND last_name='" + last_name + "' AND members.id = member_discounts.member_id AND members.id = member_iou.member_id;"
 			//);
-			ResultSet rs = stat.executeQuery(
+			PreparedStatement ps = connection.prepareStatement(
 					"SELECT members.*	, member_discounts.discounts, member_iou.iou_amount " +
 					"FROM members " +
 					"LEFT OUTER JOIN member_discounts " +
 					"LEFT OUTER JOIN member_iou " +
 					"ON (member_discounts.member_id = members.id AND member_iou.member_id = members.id)" +
-					" WHERE first_name='" + first_name +
-					"' AND last_name='" + last_name + "';"
+					" WHERE first_name LIKE ?" +
+					" AND last_name LIKE ?;"
 			);
+			ps.setString(1, first_name);
+			ps.setString(2, last_name);
+			ResultSet rs = ps.executeQuery();
 			
-			long s;
-			Date t2;
 			while (rs.next())
 			{
-				s = rs.getLong("last_signup_date");
-				t2 = new Date(s);
-				
 				Member m = new Member(
 					rs.getInt("id"),
 					rs.getString("first_name"),
 					rs.getString("last_name"),
 					rs.getString("email_address"),
-					t2,
+					new Date((long)rs.getInt("last_signup_date")),
 					rs.getInt("membership_length"),
 					rs.getInt("membership_type"),
 					rs.getInt("year_in_school"), 
@@ -85,30 +87,10 @@ public class DatabaseAbstraction
 					rs.getDouble("iou_amount"),
 					(rs.getInt("is_active") != 0)
 				);
-
-				/*(=Statement stat2 = connection.createStatement();
-				ResultSet rs2 = stat2.executeQuery(
-						"SELECT iou_amount FROM member_iou " +
-						"WHERE member_id = '" + m.getId() + "';"
-				);
-				System.err.println(rs2.isClosed());
-				rs2.next();
-				m.setIouAmount(rs2.getDouble("iou_amount"));
-				Statement stat3 = connection.createStatement();
-				ResultSet rs3 = stat3.executeQuery(
-						"SELECT discounts FROM member_discounts " +
-						"WHERE member_id = '" + m.getId() + "';"
-				);
-				rs3.next();
-				m.setAvailableDiscounts(rs3.getInt("discounts"));
-				*/
-				
 				memberList.add(m);
 			}
-
-
-
-
+			
+			ps.close();
 			connection.close();
 		} 
 		catch (Exception e)
@@ -151,28 +133,72 @@ public class DatabaseAbstraction
 	ps.executeUpdate();
 	ps.close();
 	
-	PreparedStatement ps_iou = connection.prepareStatement(
-			"UPDATE member_iou SET " +
-			"iou_amount = ? " +
-			"WHERE member_id = ?"
-		);
-	ps_iou.setDouble(1, m.getIouAmount());
-	ps_iou.setInt(2, m.getId());
-	ps_iou.executeUpdate();
-
-	ps_iou.close();
+	//	Query if a member exists in member_iou table
+	PreparedStatement ps_iouCheck = connection.prepareStatement(
+		"SELECT * FROM member_iou WHERE member_id = ?"
+	);
+	ps_iouCheck.setInt(1, m.getId());
+	ResultSet rs_iouCheck = ps_iouCheck.executeQuery();
 	
-	PreparedStatement ps_disc = connection.prepareStatement(
-			"UPDATE member_discounts SET " +
-			"discounts = ? " +
-			"WHERE member_id = ?"
+	//	If they exist, do an update, else do an insert
+	if (rs_iouCheck.next())
+	{
+		PreparedStatement ps_iou = connection.prepareStatement(
+				"UPDATE member_iou SET " +
+				"iou_amount = ?" +
+				"WHERE member_id = ? "
 		);
-	ps_disc.setInt(1, m.getAvailableDiscounts());
-	ps_disc.setInt(2, m.getId());
-	ps_disc.executeUpdate();
+		ps_iou.setDouble(1, ( m.getIouAmount()) );
+		ps_iou.setInt(2, m.getId());
+		ps_iou.executeUpdate();
 
-	ps_disc.close();
+		ps_iou.close();
+	}
+	else
+	{
+		PreparedStatement ps_iou = connection.prepareStatement(
+				"INSERT INTO member_iou VALUES (?, ?)"
+			);
+		ps_iou.setInt(1, m.getId());
+		ps_iou.setDouble(2, m.getIouAmount());
+		ps_iou.executeUpdate();
+		
+		ps_iou.close();
+	}
 	
+	//	Query to see if a member exists in the member_discounts table
+	PreparedStatement ps_discountCheck = connection.prepareStatement(
+		"SELECT * FROM member_discounts WHERE member_id = ?"
+	);
+	ps_discountCheck.setInt(1, m.getId());
+	ResultSet rs_discountCheck = ps_discountCheck.executeQuery();
+	
+	//	If they exist, do an update, else do an insert
+	if (rs_discountCheck.next())
+	{
+		PreparedStatement ps_disc = connection.prepareStatement(
+				"UPDATE member_discounts SET " +
+				"discounts = ? " +
+				"WHERE member_id = ?"
+			);
+		ps_disc.setInt(1, ( m.getAvailableDiscounts() ));
+		ps_disc.setInt(2, m.getId());
+		ps_disc.executeUpdate();
+		ps_disc.close();
+		
+	}
+	else
+	{
+		PreparedStatement ps_disc = connection.prepareStatement(
+				"INSERT INTO member_discounts VALUES (?, ?)"
+			);
+		ps_disc.setInt(1, m.getId());
+		ps_disc.setInt(2, m.getAvailableDiscounts());
+		ps_disc.executeUpdate();	
+		ps_disc.close();
+			
+	}
+
 	
 	connection.close();
 	
@@ -200,28 +226,29 @@ public class DatabaseAbstraction
 										Food Co-op?
 		* @param is_active			Is this member active?
 		*/
-		public static void addMember(Member m)
+		public static void addMember(String first_name, 
+			String last_name,
+			String email_address,
+			int membership_length,
+			int membership_type,
+			int year_in_school,
+			int is_active)
 		{
-			Calendar cal = Calendar.getInstance();
-			Date last_signup_date = new Date(cal.getTime().getTime());
-			m.setLastSignupDate(last_signup_date);
-			long temp_signup_date = last_signup_date.getTime();  //temp value to store sign-up date into database.
-			//m.setId(java.sql.Types.INTEGER);
-			m.setLastSignIn(temp_signup_date);
+			Date last_signup_date = new Date();
 			try
 			{
 				Connection connection = connectToDatabase();
 				PreparedStatement ps = connection.prepareStatement(
 					"INSERT INTO members VALUES(?,?,?,?,?,?,?,?,?)");
 				ps.setNull(1, java.sql.Types.INTEGER);
-				ps.setString(2, m.getFirstName());
-				ps.setString(3, m.getLastName());
-				ps.setString(4, m.getEmailAddress());
-				ps.setLong(5, temp_signup_date); // Is setLong correct?
-				ps.setInt(6, m.getMembershipLength());
-				ps.setInt(7, m.getMembershipType());
-				ps.setInt(8, m.getYearInSchool());
-				ps.setInt(9, 1);
+				ps.setString(2, first_name);
+				ps.setString(3, last_name);
+				ps.setString(4, email_address);
+				ps.setLong(5, last_signup_date.getTime()); // Is setLong correct?
+				ps.setInt(6, membership_length);
+				ps.setInt(7, membership_type);
+				ps.setInt(8, year_in_school);
+				ps.setInt(9, is_active);
 				ps.executeUpdate();
 				//rs.close();
 				ps.close();

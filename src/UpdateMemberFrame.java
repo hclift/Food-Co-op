@@ -19,8 +19,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class UpdateMemberFrame{
 	// main frame of update member; changes on creation and closing
@@ -75,7 +73,7 @@ public class UpdateMemberFrame{
 		//mainFrame.setFocusableWindowState(false);
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		//mainFrame.setResizable(false);
-		addPanel(member);
+		addPanel();
 		if(!member.getActive())
 		{
 			setButtons(false);
@@ -101,7 +99,7 @@ public class UpdateMemberFrame{
 	 * Adds the main panel into the main frame of update member.
 	 * Creates all labels, text fields, buttons, and boxes in main panel.
 	 **/
-	private void addPanel(Member m)
+	private void addPanel()
 	{
 		mainPanel = new JPanel();
 		mainPanel.setLayout(null);
@@ -189,33 +187,21 @@ public class UpdateMemberFrame{
 		expirationTextField = new JTextField();
 		expirationTextField.setBounds(100, 140, 100, 25);
 		expirationTextField.setEditable(false);
-		Date lastSignupDate = m.getLastSignupDate();
-		//System.out.println(lastSignupDate);
-		int membershipLength = m.getMembershipLength();
-		long expirationDate = m.getLastSignIn();
-		SimpleDateFormat formattedExpirationDate  = new SimpleDateFormat("MM/dd/yyyy");
-		if (membershipLength == 0)
-		{
-			//	183 is 365 / 2
-			expirationDate = lastSignupDate.getTime() + 15778463000L; //+ 183 * 24 * 60 * 60;
-		}
-		else if (membershipLength == 1)
-		{
-			// 365 is one year
-			expirationDate = lastSignupDate.getTime()+ 31556926000L;; //+ 365 * 24 * 60 * 60;
-		}
-		expirationTextField.setText(formattedExpirationDate.format(expirationDate));
+		expirationTextField.setText("12/12/2011");
 		
 		addIOUButton = new JButton("Add to IOU Amount");
 		addIOUButton.setBounds(205, 140, 160, 25);
 		addIOUButton.addActionListener(new OKCancelButtonListener());
 		
+		if (!member.canHaveIou())
+			addIOUButton.setEnabled(false);
+		
 		applyDiscountButton = new JButton("Apply Discount");
 		applyDiscountButton.setBounds(370, 140, 120, 25);
 		applyDiscountButton.addActionListener(new OKCancelButtonListener());
 		
-		if (member.getAvailableDiscounts() > 0)
-			applyDiscountButton.setEnabled(true);
+		if (member.getAvailableDiscounts() == 0)
+			applyDiscountButton.setEnabled(false);
 		
 		saveButton = new JButton("SAVE");
 		saveButton.setBounds(250, 230, 80, 30);
