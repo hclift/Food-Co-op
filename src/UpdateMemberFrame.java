@@ -42,8 +42,8 @@ public class UpdateMemberFrame implements ExpirationHandler{
 	emailTextField, expirationTextField, discountsTextField, IOUTextField;
 
 	// buttons in main panel;  self-documenting for their purposes
-	private JButton addIOUButton, subtractIOUButton, applyDiscountButton, saveButton, 
-	cancelButton;
+	private JButton addSemesterButton, subtractSemesterButton, addIOUButton, subtractIOUButton, 
+	applyDiscountButton, saveButton, cancelButton;
 
 	// combo boxes in main panel; self-documenting for data it receives
 	private JComboBox currentYearBox, membershipTypeBox;
@@ -200,6 +200,8 @@ public class UpdateMemberFrame implements ExpirationHandler{
 		int membershipLength = m.getMembershipLength();
 		long expirationDate = 0;
 		handleExpiration(lastSignupDate, membershipLength, expirationDate, expirationTextField);
+		addSemesterButton = new JButton("Add Semester");
+		subtractSemesterButton = new JButton("Subtract Semester");
 		
 		addIOUButton = new JButton("Add to IOU Amount");
 		addIOUButton.addActionListener(new AddToIOUActionListener());
@@ -310,71 +312,71 @@ public class UpdateMemberFrame implements ExpirationHandler{
 		c.ipadx = 175;
 		mainPanel.add(currentYearBox, c);
 		
-		c.gridx = 2;
-		c.gridy = 3;
+		c.gridx = 0;
+		c.gridy = 4;
 		c.gridwidth = 1;
 		c.ipadx = 0;
 		c.anchor = GridBagConstraints.LINE_END;
 		mainPanel.add(membershipTypeLabel, c);
 		
-		c.gridx = 3;
-		c.gridy = 3;
+		c.gridx = 1;
+		c.gridy = 4;
 		c.gridwidth = 1;
 		c.anchor = GridBagConstraints.LINE_START;
 		mainPanel.add(membershipTypeBox, c);
 		
 		c.gridx = 0;
-		c.gridy = 4;
+		c.gridy = 5;
 		c.gridwidth = 1;
 		mainPanel.add(expirationLabel, c);
 		
 		c.gridx = 1;
-		c.gridy = 4;
+		c.gridy = 5;
 		c.gridwidth = 3;
 		mainPanel.add(expirationTextField, c);
 		
 		c.gridx = 0;
-		c.gridy = 5;
+		c.gridy = 6;
 		c.gridwidth = 1;
 		mainPanel.add(discountsLabel, c);
 		
 		c.gridx = 1;
-		c.gridy = 5;
+		c.gridy = 6;
 		c.gridwidth = 2;
 		mainPanel.add(discountsTextField, c);
 		
 		c.gridx = 3;
-		c.gridy = 5;
+		c.gridy = 6;
 		c.gridwidth = 1;
 		mainPanel.add(applyDiscountButton, c);
 		
 		c.gridx = 0;
-		c.gridy = 6;
+		c.gridy = 7;
 		c.gridwidth = 1;
 		mainPanel.add(IOULabel, c);
 		
 		c.gridx = 1;
-		c.gridy = 6;
+		c.gridy = 7;
 		c.gridwidth = 1;
 		mainPanel.add(IOUTextField, c);
 		
 		c.gridx = 2;
-		c.gridy = 6;
+		c.gridy = 7;
 		c.gridwidth = 1;
 		mainPanel.add(addIOUButton, c);
 		
 		c.gridx = 3;
-		c.gridy = 6;
+		c.gridy = 7;
 		c.gridwidth = 1;
 		mainPanel.add(subtractIOUButton, c);
 		
 		c.gridx = 0;
-		c.gridy = 7;
+		c.gridy = 8;
 		c.gridwidth = 1;
 		mainPanel.add(activeMemberLabel, c);
 		
 		c.gridx = 1;
-		c.gridy = 7;
+		c.gridy = 8;
 		c.gridwidth = 1;
 		mainPanel.add(activeMemberCheckBox, c);
 		
@@ -391,6 +393,7 @@ public class UpdateMemberFrame implements ExpirationHandler{
 		
 		mainFrame.add(mainPanel, BorderLayout.NORTH);
 		mainFrame.pack();
+		mainFrame.setLocation(350, 150);
 		mainFrame.setResizable(false);
 		mainFrame.setVisible(true);
 		mainFrame.validate();
@@ -411,6 +414,23 @@ public class UpdateMemberFrame implements ExpirationHandler{
 		{
 			
 		}		
+	}
+	
+	class AddSemesterListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			//Code here
+		}
+		
+	}
+	
+	class SubtractSemesterListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			//Code here
+		}
 	}
 	
 	class ApplyDiscountActionListener implements ActionListener
