@@ -527,7 +527,7 @@ public class MainFrame extends JFrame {
 		if (searchResult.size() < 1)
 		{
 			JOptionPane.showMessageDialog(null, "No results found.");
-			disableButtons();
+			
 		}
 		else 
 		{
