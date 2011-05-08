@@ -1,8 +1,4 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -61,18 +57,19 @@ public class DatabaseAbstraction
 			//		"' AND last_name='" + last_name + "' AND members.id = member_discounts.member_id AND members.id = member_iou.member_id;"
 			//);
 			PreparedStatement ps = connection.prepareStatement(
-					"SELECT members.*	, member_discounts.discounts, member_iou.iou_amount " +
+					"SELECT members.*, member_discounts.discounts, member_iou.iou_amount " +
 					"FROM members " +
-					"LEFT OUTER JOIN member_discounts " +
-					"LEFT OUTER JOIN member_iou " +
-					"ON (member_discounts.member_id = members.id AND member_iou.member_id = members.id)" +
-					" WHERE first_name LIKE ?" +
-					" AND last_name LIKE ?;"
+					"INNER JOIN member_discounts " +
+					"INNER JOIN member_iou " +
+					"ON (member_discounts.member_id = members.id AND " +
+					"member_iou.member_id = members.id) " +
+					"WHERE first_name LIKE ? " +
+					"AND last_name LIKE ?;"
 			);
 			ps.setString(1, first_name);
 			ps.setString(2, last_name);
 			ResultSet rs = ps.executeQuery();
-			
+						
 			long s;
 			Date t2;
 			while (rs.next())
@@ -259,6 +256,21 @@ public class DatabaseAbstraction
 			ps.executeUpdate();
 			//rs.close();
 			ps.close();
+			
+			ps = connection.prepareStatement(
+				"INSERT INTO member_iou VALUES(?,?)");
+			ps.setNull(1, java.sql.Types.INTEGER);
+			ps.setDouble(2, m.getIouAmount());
+			ps.executeUpdate();
+			ps.close();
+			
+			ps = connection.prepareStatement(
+				"INSERT INTO member_discounts VALUES(?,?)");
+			ps.setNull(1, java.sql.Types.INTEGER);
+			ps.setDouble(2, m.getAvailableDiscounts());
+			ps.executeUpdate();
+			ps.close();
+			
 			connection.close();
 		} 
 		catch (Exception e)

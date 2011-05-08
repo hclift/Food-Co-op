@@ -401,7 +401,7 @@ public class Member
 	
 	public boolean canSignIn()
 	{
-		if(membershipType > 0)
+		if(membershipType > 0 && isActive)
 		{
 			return true;
 		}
