@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DatabaseAbstraction
@@ -72,14 +73,19 @@ public class DatabaseAbstraction
 			ps.setString(2, last_name);
 			ResultSet rs = ps.executeQuery();
 			
+			long s;
+			Date t2;
 			while (rs.next())
 			{
+				s = rs.getLong("last_signup_date");
+				t2 = new Date(s);
+				
 				Member m = new Member(
 					rs.getInt("id"),
 					rs.getString("first_name"),
 					rs.getString("last_name"),
 					rs.getString("email_address"),
-					new Date((long)rs.getInt("last_signup_date")),
+					t2,
 					rs.getInt("membership_length"),
 					rs.getInt("membership_type"),
 					rs.getInt("year_in_school"), 
@@ -211,53 +217,54 @@ public class DatabaseAbstraction
 	return true;
 	}
 	
-		/**
-		* Adds a member to the database.  Uses a PreparedStatement.
-		* @param first_name			First name of the member to look for
-		* @param last_name			Last name of the member to look for
-		* @param membership_length	Length of member's membership, 0 for
-										half semester, 1 for full ??
-		* @param membership_type	Membership type ??
-		* @param year_in_school		Member's year in school 0 for freshman
-										1 for sophomore, 2 for junior,
-										3 for senior, 4 for graduate,
-										5 for faculty ??
-		* @param receive_email		Can the member receive emails from the
-										Food Co-op?
-		* @param is_active			Is this member active?
-		*/
-		public static void addMember(String first_name, 
-			String last_name,
-			String email_address,
-			int membership_length,
-			int membership_type,
-			int year_in_school,
-			int is_active)
+	/**
+	* Adds a member to the database.  Uses a PreparedStatement.
+	* @param first_name			First name of the member to look for
+	* @param last_name			Last name of the member to look for
+	* @param membership_length	Length of member's membership, 0 for
+									half semester, 1 for full ??
+	* @param membership_type	Membership type ??
+	* @param year_in_school		Member's year in school 0 for freshman
+									1 for sophomore, 2 for junior,
+									3 for senior, 4 for graduate,
+									5 for faculty ??
+	* @param receive_email		Can the member receive emails from the
+									Food Co-op?
+	* @param is_active			Is this member active?
+	*/
+	public static void addMember(Member m)
+	{
+		Calendar cal = Calendar.getInstance();
+		Date last_signup_date = new Date(cal.getTime().getTime());
+		//System.out.println(last_signup_date);
+		m.setLastSignupDate(last_signup_date);
+		long temp_signup_date = last_signup_date.getTime();  //temp value to store sign-up date into database.
+		//System.out.println(temp_signup_date);
+		//m.setId(java.sql.Types.INTEGER);
+		m.setLastSignIn(temp_signup_date);
+		try
 		{
-			Date last_signup_date = new Date();
-			try
-			{
-				Connection connection = connectToDatabase();
-				PreparedStatement ps = connection.prepareStatement(
-					"INSERT INTO members VALUES(?,?,?,?,?,?,?,?,?)");
-				ps.setNull(1, java.sql.Types.INTEGER);
-				ps.setString(2, first_name);
-				ps.setString(3, last_name);
-				ps.setString(4, email_address);
-				ps.setLong(5, last_signup_date.getTime()); // Is setLong correct?
-				ps.setInt(6, membership_length);
-				ps.setInt(7, membership_type);
-				ps.setInt(8, year_in_school);
-				ps.setInt(9, is_active);
-				ps.executeUpdate();
-				//rs.close();
-				ps.close();
-				connection.close();
-			} 
-			catch (Exception e)
-			{
-				System.out.println(e);
-			}
+			Connection connection = connectToDatabase();
+			PreparedStatement ps = connection.prepareStatement(
+				"INSERT INTO members VALUES(?,?,?,?,?,?,?,?,?)");
+			ps.setNull(1, java.sql.Types.INTEGER);
+			ps.setString(2, m.getFirstName());
+			ps.setString(3, m.getLastName());
+			ps.setString(4, m.getEmailAddress());
+			ps.setLong(5, temp_signup_date); // Is setLong correct?
+			ps.setInt(6, m.getMembershipLength());
+			ps.setInt(7, m.getMembershipType());
+			ps.setInt(8, m.getYearInSchool());
+			ps.setInt(9, 1);
+			ps.executeUpdate();
+			//rs.close();
+			ps.close();
+			connection.close();
+		} 
+		catch (Exception e)
+		{
+			System.out.println(e);
 		}
+	}
 }
 

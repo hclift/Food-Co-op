@@ -2,6 +2,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.Calendar;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.text.DecimalFormat;
@@ -23,13 +26,24 @@ private JButton workHistoryButton, okButton;
 
 private JTextField currentYearBox, membershipTypeBox;
 private JCheckBox recieveEmailCheckBox;
+private MainFrame parentWindow;
 
 
-
-	public ViewMember(Member m){
+	public ViewMember(MainFrame parentWindow, Member m){
+		this.parentWindow = parentWindow;
+		parentWindow.disableButtons();
+		
 		mainFrame = new JFrame("View Member");
 		mainFrame.setBounds(275, 200, 450, 310);
 		//mainFrame.setFocusableWindowState(false);
+		
+		mainFrame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e)
+			{
+				ViewMember.this.parentWindow.reenableButtons();
+			}
+		});
+		
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		mainFrame.setResizable(false);
 		
@@ -42,6 +56,39 @@ private JCheckBox recieveEmailCheckBox;
 		
 		
 		
+	}
+	
+	/*
+	 * Date lastSignupDate = m.getLastSignupDate();
+	   int membershipLength = m.getMembershipLength();
+	   long expirationDate = 0;
+	 */
+	
+	public void handleExpiration(Date dIn, int iIn, long expDate, JTextField jtfIn){
+		Calendar c = Calendar.getInstance();
+		SimpleDateFormat formattedExpirationDate  = new SimpleDateFormat("MM/dd/yyyy");
+		if (iIn == 0)
+		{			
+			c.setTime(dIn);
+			c.add(Calendar.MONTH, 5);
+			//	183 is 365 / 2
+			//long milliseconds_in_half_year = 15778463000L;
+			//expDate = dIn.getTime() + milliseconds_in_half_year;
+			//Date te = new Date(expDate);
+			//System.out.println(te);
+			expDate = c.getTime().getTime();
+			
+		}
+		else if (iIn == 1)
+		{
+			// 365 is one year
+			//long milliseconds_in_year = 31556926000L;
+			//expDate = dIn.getTime() + milliseconds_in_year;
+			c.setTime(dIn);
+			c.add(Calendar.MONTH, 12);
+			expDate = c.getTime().getTime();
+		}
+		jtfIn.setText(formattedExpirationDate.format(expDate));
 	}
 	
 	private void addPanel(Member m){
@@ -115,10 +162,12 @@ private JCheckBox recieveEmailCheckBox;
 		expirationTextField.setEditable(false);
 		
 		//	Calculate expiration date
+		
 		Date lastSignupDate = m.getLastSignupDate();
 		int membershipLength = m.getMembershipLength();
 		long expirationDate = 0;
-		SimpleDateFormat formattedExpirationDate  = new SimpleDateFormat("MM/dd/yyyy");
+		handleExpiration(lastSignupDate, membershipLength,expirationDate,expirationTextField);
+		/*SimpleDateFormat formattedExpirationDate  = new SimpleDateFormat("MM/dd/yyyy");
 		if (membershipLength == 0)
 		{
 			//	183 is 365 / 2
@@ -130,6 +179,8 @@ private JCheckBox recieveEmailCheckBox;
 			expirationDate = lastSignupDate.getTime() + 365 * 24 * 60 * 60;
 		}
 		expirationTextField.setText(formattedExpirationDate.format(expirationDate));
+		*/
+		
 		
 		workHistoryButton = new JButton("Display Work History");
 		workHistoryButton.setBounds(230, 140, 180, 25);
@@ -174,6 +225,7 @@ private JCheckBox recieveEmailCheckBox;
 			// TODO Auto-generated method stub
 			if(e.getSource().equals(okButton)){
 				mainFrame.dispose();
+				parentWindow.reenableButtons();
 			}else if(e.getSource().equals(workHistoryButton)){
 				//TODO: Implement methods for OKButton
 				

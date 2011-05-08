@@ -70,6 +70,21 @@ public class Member
 		"Coordinator"
 	};
 	
+	
+	public Member(){
+		this.id = 0;
+		this.firstName = "No";
+		this.lastName = "Name";
+		this.email = "noname@noname.com";
+		this.lastSignupDate = null;
+		this.membershipLength = 0;
+		this.membershipType = 0;
+		this.yearInSchool = 0;
+		this.availableDiscounts = 0;
+		this.IouAmount = 0;
+		this.isActive = true;
+	}
+	
 	/**
 	 * Explicit Constructor for a Member object
 	 * 
@@ -118,12 +133,9 @@ public class Member
 		return firstName;
 	}
 	
-	/*
-	 * TODO: Add member
-	 */
-	public void addMember() 
+	public boolean canHaveIou()
 	{
-		
+		return (membershipType >= 2);
 	}
 
 	/**

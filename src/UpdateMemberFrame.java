@@ -8,6 +8,8 @@
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -19,8 +21,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
-public class UpdateMemberFrame{
+public class UpdateMemberFrame implements ExpirationHandler{
 	// main frame of update member; changes on creation and closing
 	private JFrame mainFrame;
 
@@ -63,6 +68,7 @@ public class UpdateMemberFrame{
 	public UpdateMemberFrame(MainFrame parentWindow, Controller controller, Member member)
 	{
 		this.parentWindow = parentWindow;
+		parentWindow.disableButtons();
 		this.member = member;
 		this.controller = controller;
 		tempIOU = member.getIouAmount();
@@ -71,8 +77,14 @@ public class UpdateMemberFrame{
 		mainFrame.setBounds(375, 200, 520, 310);
 		//mainFrame.setFocusableWindowState(false);
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		mainFrame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e)
+			{
+				UpdateMemberFrame.this.parentWindow.reenableButtons();
+			}
+		});
 		//mainFrame.setResizable(false);
-		addPanel();
+		addPanel(member);
 		if(!member.getActive())
 		{
 			setButtons(false);
@@ -94,11 +106,38 @@ public class UpdateMemberFrame{
 	}
 	
 	
+	public void handleExpiration(Date dIn, int iIn, long expDate, JTextField jtfIn){
+		Calendar c = Calendar.getInstance();
+		SimpleDateFormat formattedExpirationDate  = new SimpleDateFormat("MM/dd/yyyy");
+		if (iIn == 0)
+		{			
+			c.setTime(dIn);
+			c.add(Calendar.MONTH, 5);
+			//	183 is 365 / 2
+			//long milliseconds_in_half_year = 15778463000L;
+			//expDate = dIn.getTime() + milliseconds_in_half_year;
+			//Date te = new Date(expDate);
+			//System.out.println(te);
+			expDate = c.getTime().getTime();
+			
+		}
+		else if (iIn == 1)
+		{
+			// 365 is one year
+			//long milliseconds_in_year = 31556926000L;
+			//expDate = dIn.getTime() + milliseconds_in_year;
+			c.setTime(dIn);
+			c.add(Calendar.MONTH, 12);
+			expDate = c.getTime().getTime();
+		}
+		jtfIn.setText(formattedExpirationDate.format(expDate));
+	}
+	
 	/**
 	 * Adds the main panel into the main frame of update member.
 	 * Creates all labels, text fields, buttons, and boxes in main panel.
 	 **/
-	private void addPanel()
+	private void addPanel(Member m)
 	{
 		mainPanel = new JPanel();
 		mainPanel.setLayout(null);
@@ -131,7 +170,8 @@ public class UpdateMemberFrame{
 		IOULabel = new JLabel("IOU Amount: $");
 		IOULabel.setBounds(240, 180, 80, 20);
 		
-		IOUTextField = new JTextField(""+member.getIouAmount());
+		DecimalFormat decimalFormat = new DecimalFormat("0.00");
+		IOUTextField = new JTextField(decimalFormat.format(member.getIouAmount()));
 		IOUTextField.setBounds(320, 180, 80, 25);
 		IOUTextField.setEditable(false);
 		
@@ -185,19 +225,25 @@ public class UpdateMemberFrame{
 		
 		expirationTextField = new JTextField();
 		expirationTextField.setBounds(100, 140, 100, 25);
-		expirationTextField.setEditable(false);
-		expirationTextField.setText("12/12/2011");
+		expirationTextField.setEditable(false);		
+		Date lastSignupDate = m.getLastSignupDate();
+		int membershipLength = m.getMembershipLength();
+		long expirationDate = 0;
+		handleExpiration(lastSignupDate, membershipLength,expirationDate,expirationTextField);
 		
 		addIOUButton = new JButton("Add to IOU Amount");
 		addIOUButton.setBounds(205, 140, 160, 25);
 		addIOUButton.addActionListener(new OKCancelButtonListener());
 		
+		if (!member.canHaveIou())
+			addIOUButton.setEnabled(false);
+		
 		applyDiscountButton = new JButton("Apply Discount");
 		applyDiscountButton.setBounds(370, 140, 120, 25);
 		applyDiscountButton.addActionListener(new OKCancelButtonListener());
 		
-		if (member.getAvailableDiscounts() > 0)
-			applyDiscountButton.setEnabled(true);
+		if (member.getAvailableDiscounts() == 0)
+			applyDiscountButton.setEnabled(false);
 		
 		saveButton = new JButton("SAVE");
 		saveButton.setBounds(250, 230, 80, 30);
@@ -252,7 +298,10 @@ public class UpdateMemberFrame{
 						"you want to exit?", "Error",
 						JOptionPane.YES_NO_OPTION);
 				if(result == 0)
+				{
 					mainFrame.dispose();
+					parentWindow.reenableButtons();
+				}
 
 			}
 			else if(e.getSource().equals(saveButton))
@@ -269,7 +318,9 @@ public class UpdateMemberFrame{
 				if(result)
 				{
 					parentWindow.clearSearchResults();
+					
 					mainFrame.dispose();
+					parentWindow.reenableButtons();
 				}
 				else
 				{
@@ -278,7 +329,9 @@ public class UpdateMemberFrame{
 							"like to quit?", "", JOptionPane.YES_NO_OPTION);
 					if(choice == 0)
 					{
+						
 						mainFrame.dispose();
+						parentWindow.reenableButtons();
 					}
 				}
 			}

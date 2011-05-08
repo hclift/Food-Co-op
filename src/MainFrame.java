@@ -42,7 +42,7 @@ import javax.swing.event.ListSelectionListener;
  */
 public class MainFrame extends JFrame {
 
-
+	public static Member CURRENT_MEMBER;
 	/**
 	 * Automatically generated serial ID 
 	 */
@@ -464,7 +464,18 @@ public class MainFrame extends JFrame {
 		updateMemberButton.setEnabled(false);
 		signIntoStoreButton.setEnabled(false);
 		signIntoKitchenButton.setEnabled(false);
-
+		addMemberButton.setEnabled(false);
+		viewScheduleButton.setEnabled(false);
+		searchButton.setEnabled(false);
+		generalLookup.setEnabled(false);
+	}
+	
+	public void reenableButtons()
+	{
+		searchButton.setEnabled(true);
+		addMemberButton.setEnabled(true);
+		viewScheduleButton.setEnabled(true);
+		generalLookup.setEnabled(true);
 	}
 
 	public void printStore(ArrayList<Member> members)
@@ -547,8 +558,8 @@ public class MainFrame extends JFrame {
 	
 	public void showViewMember()
 	{
-		Member m = controller.getMember(generalLookup.getSelectedIndex());
-		new ViewMember(m);
+		CURRENT_MEMBER = controller.getMember(generalLookup.getSelectedIndex());
+		new ViewMember(this, CURRENT_MEMBER);
 	}
 	
 	/**
@@ -575,13 +586,11 @@ public class MainFrame extends JFrame {
 				showViewMember();
 
 			}else if(e.getSource().equals(updateMemberButton)){
-				Member m = controller.getMember(generalLookup.getSelectedIndex());
-
+				CURRENT_MEMBER = controller.getMember(generalLookup.getSelectedIndex());
 				disableButtons();
-				new UpdateMemberFrame(MainFrame.this, controller, m);
-	
+				new UpdateMemberFrame(MainFrame.this, controller, CURRENT_MEMBER);
 			}else if(e.getSource().equals(addMemberButton)){
-				new AddMember(controller);
+				new AddMember(controller, MainFrame.this);
 			}else if(e.getSource().equals(signIntoStoreButton)){
 				int memberIndex = generalLookup.getSelectedIndex();
 				ArrayList<Member> members = controller.signIntoStore(memberIndex);
