@@ -319,7 +319,7 @@ public class Model
 	public double subtractFromIou(int currentYear, int membershipType, double oldAmount, double adjustment) throws Exception
 	{
 		if(oldAmount - adjustment < 0)
-			throw new Exception("Not enough working hours to apply a discount");
+			throw new Exception("Can't subtract more than what is owed");
 		else if(membershipType == 0)
 			throw new Exception("Must be a working member");
 		
