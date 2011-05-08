@@ -28,7 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class UpdateMemberFrame implements ExpirationHandler{
+public class UpdateMemberFrame {
 	// main frame of update member; changes on creation and closing
 	private JFrame mainFrame;
 
@@ -42,7 +42,7 @@ public class UpdateMemberFrame implements ExpirationHandler{
 	emailTextField, expirationTextField, discountsTextField, IOUTextField;
 
 	// buttons in main panel;  self-documenting for their purposes
-	private JButton addSemesterButton, subtractSemesterButton, addIOUButton, subtractIOUButton, 
+	private JButton addSemesterButton, addYearButton, addIOUButton, subtractIOUButton, 
 	applyDiscountButton, saveButton, cancelButton;
 
 	// combo boxes in main panel; self-documenting for data it receives
@@ -61,6 +61,9 @@ public class UpdateMemberFrame implements ExpirationHandler{
 	// holds member's IOU amount; changes when discount applied or IOU added
 	double tempIOU;
 	int	tempAvailDiscounts;
+	Date lastSignupDate;
+	
+	
 	MainFrame parentWindow;
 	
 	/**
@@ -109,31 +112,49 @@ public class UpdateMemberFrame implements ExpirationHandler{
 	}
 	
 	
-	public void handleExpiration(Date dIn, int iIn, long expDate, JTextField jtfIn){
+	public void handleExpiration(Date dIn, int iIn, JTextField jtfIn){
+		int month = dIn.getMonth();
+		int year = dIn.getYear();
+		int day = dIn.getDate();
+		
 		Calendar c = Calendar.getInstance();
-		SimpleDateFormat formattedExpirationDate  = new SimpleDateFormat("MM/dd/yyyy");
-		if (iIn == 0)
-		{			
-			c.setTime(dIn);
-			c.add(Calendar.MONTH, 5);
-			//	183 is 365 / 2
-			//long milliseconds_in_half_year = 15778463000L;
-			//expDate = dIn.getTime() + milliseconds_in_half_year;
-			//Date te = new Date(expDate);
-			//System.out.println(te);
-			expDate = c.getTime().getTime();
-			
+		c.setTime(dIn);
+		
+		//0 means add semester
+		if (iIn == 0) 
+		{
+			switch(month) 
+			{
+				case 0: c.add(Calendar.MONTH, 8); break;	//FEB, MAR, APR, MAY, SEP
+				case 1: c.add(Calendar.MONTH, 8); break;	//MAR, APR, MAY, SEP, OCT
+				case 2: c.add(Calendar.MONTH, 8); break;	//APR, MAY, SEP, OCT, NOV
+				case 3: c.add(Calendar.MONTH, 8); break;	//MAY, SEP, OCT, NOV, DEC
+				case 4: c.add(Calendar.MONTH, 8); break;	//SEP, OCT, NOV, DEC, JAN
+				case 5: c.add(Calendar.MONTH, 7); break;	//SEP, OCT, NOV, DEC, JAN
+				case 6: c.add(Calendar.MONTH, 6); break;	//SEP, OCT, NOV, DEC, JAN
+				case 7: c.add(Calendar.MONTH, 5); break;	//SEP, OCT, NOV, DEC, JAN
+				case 8: c.add(Calendar.MONTH, 5); break;	//OCT, NOV, DEC, JAN, FEB
+				case 9: c.add(Calendar.MONTH, 5); break;	//NOV, DEC, JAN, FEB, MAR
+				case 10: c.add(Calendar.MONTH, 5); break;	//DEC, JAN, FEB, MAR, APR
+				case 11: c.add(Calendar.MONTH, 5); break;	//JAN, FEB, MAR, APR, MAY
+			}
 		}
+		//1 means add year
 		else if (iIn == 1)
 		{
-			// 365 is one year
-			//long milliseconds_in_year = 31556926000L;
-			//expDate = dIn.getTime() + milliseconds_in_year;
-			c.setTime(dIn);
 			c.add(Calendar.MONTH, 12);
-			expDate = c.getTime().getTime();
 		}
-		jtfIn.setText(formattedExpirationDate.format(expDate));
+		
+		Date temp = c.getTime();
+		
+		dIn.setMonth(temp.getMonth());
+		dIn.setDate(temp.getDate());
+		dIn.setYear(temp.getYear());		
+		
+		month = dIn.getMonth();
+		day = dIn.getDate();
+		year = dIn.getYear();
+		jtfIn.setText((month+1) + "/" + day + "/" + (year+1900));
 	}
 	
 	/**
@@ -196,12 +217,13 @@ public class UpdateMemberFrame implements ExpirationHandler{
 		
 		expirationTextField = new JTextField();
 		expirationTextField.setEditable(false);		
-		Date lastSignupDate = m.getLastSignupDate();
-		int membershipLength = m.getMembershipLength();
-		long expirationDate = 0;
-		handleExpiration(lastSignupDate, membershipLength, expirationDate, expirationTextField);
+		lastSignupDate = m.getLastSignupDate();
+		//int membershipLength = m.getMembershipLength();
+		handleExpiration(lastSignupDate, 3, expirationTextField);
 		addSemesterButton = new JButton("Add Semester");
-		subtractSemesterButton = new JButton("Subtract Semester");
+		addSemesterButton.addActionListener(new AddSemesterActionListener());
+		addYearButton = new JButton("Add Year");
+		addYearButton.addActionListener(new AddYearActionListener());
 		
 		addIOUButton = new JButton("Add to IOU Amount");
 		addIOUButton.addActionListener(new AddToIOUActionListener());
@@ -332,8 +354,18 @@ public class UpdateMemberFrame implements ExpirationHandler{
 		
 		c.gridx = 1;
 		c.gridy = 5;
-		c.gridwidth = 3;
+		c.gridwidth = 1;
 		mainPanel.add(expirationTextField, c);
+		
+		c.gridx = 2;
+		c.gridy = 5;
+		c.gridwidth = 1;
+		mainPanel.add(addSemesterButton, c);
+		
+		c.gridx = 3;
+		c.gridy = 5;
+		c.gridwidth = 1;
+		mainPanel.add(addYearButton, c);
 		
 		c.gridx = 0;
 		c.gridy = 6;
@@ -416,20 +448,20 @@ public class UpdateMemberFrame implements ExpirationHandler{
 		}		
 	}
 	
-	class AddSemesterListener implements ActionListener
+	class AddSemesterActionListener implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			//Code here
+			handleExpiration(lastSignupDate, 0, expirationTextField);
 		}
 		
 	}
 	
-	class SubtractSemesterListener implements ActionListener
+	class AddYearActionListener implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			//Code here
+			handleExpiration(lastSignupDate, 1, expirationTextField);
 		}
 	}
 	
@@ -545,10 +577,7 @@ public class UpdateMemberFrame implements ExpirationHandler{
 				{
 					subtractIOUButton.setEnabled(false);
 				}
-			}
-			
-			
-			
+			}			
 			
 		}		
 	}
