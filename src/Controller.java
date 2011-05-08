@@ -17,7 +17,7 @@ public class Controller
 	 * @author Ashley Chin
 	 * @version 4/14/11
 	 * 
-	 *          Explicit Value Constructor for the controller, that takes in a model to be associated.
+	 * Explicit Value Constructor for the controller, that takes in a model to be associated.
 	 * @param model
 	 *            The model to link to the controller
 	 **/
