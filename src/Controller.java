@@ -53,7 +53,7 @@ public class Controller
 		{
 			mainFrame.displayException(e.getMessage());
 		}
-		model.setLastLookupMemberResults(searchResult);
+	
 		return searchResult;
 	}
 	

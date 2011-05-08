@@ -89,7 +89,8 @@ public class Model
 	{
 		//throw new Exception();  // Is this suppose to do anything?
 		
-		return DatabaseAbstraction.lookupMember(firstName, lastName);
+		matches = DatabaseAbstraction.lookupMember(firstName, lastName);
+		return matches;
 	}
 	
 	/**
@@ -324,23 +325,6 @@ public class Model
 			throw new Exception("Must be a working member");
 		
 		return oldAmount - adjustment;
-	}
-	
-	/**
-	 * Set matches based on results.
-	 * 
-	 * @param results 	the list of search results from the database
-	 * 
-	 */
-	public void setLastLookupMemberResults(ArrayList<Member> results)
-	{
-		//	Clear the last results.. if there are any.
-		matches.clear();
-		
-		for (int i = 0; i < results.size(); i++)
-		{
-			matches.add(results.get(i));
-		}
 	}
 	
 	/**
