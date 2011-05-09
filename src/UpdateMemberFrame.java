@@ -111,12 +111,28 @@ public class UpdateMemberFrame {
 	 **/
 	private void setButtons(boolean enabled)
 	{
-		if (!enabled && tempAvailDiscounts <= 0)
+		if (member.canHaveIou())
+		{
+			addIOUButton.setEnabled(enabled);
+			subtractIOUButton.setEnabled(enabled);
+		}
+		else
+		{
+			addIOUButton.setEnabled(false);
+			subtractIOUButton.setEnabled(false);
+		}
+		
+		addYearButton.setEnabled(enabled);
+		addSemesterButton.setEnabled(enabled);
+		
+		if (tempAvailDiscounts > 0)
 		{
 			applyDiscountButton.setEnabled(enabled);
 		}
-		addIOUButton.setEnabled(enabled);
-		subtractIOUButton.setEnabled(enabled);
+		else
+		{
+			applyDiscountButton.setEnabled(false);
+		}
 	}
 	
 	

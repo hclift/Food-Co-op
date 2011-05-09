@@ -465,16 +465,12 @@ public class MainFrame extends JFrame {
 	 * Disable View Member, Update Member, Sign Into Store, and Sign Into Kitchen Button
 	 * 
 	 */
-	public void disableButtons(){
+	public void disableSelectionButtons(){
 
 		viewMemberButton.setEnabled(false);
 		updateMemberButton.setEnabled(false);
 		signIntoStoreButton.setEnabled(false);
 		signIntoKitchenButton.setEnabled(false);
-		addMemberButton.setEnabled(false);
-		viewScheduleButton.setEnabled(false);
-		searchButton.setEnabled(false);
-		generalLookup.setEnabled(false);
 	}
 	
 	public void reenableButtons()
@@ -534,6 +530,7 @@ public class MainFrame extends JFrame {
 		if (searchResult.size() < 1)
 		{
 			JOptionPane.showMessageDialog(null, "No results found.");
+			disableSelectionButtons();
 			
 		}
 		else 
