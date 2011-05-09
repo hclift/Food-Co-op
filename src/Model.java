@@ -11,9 +11,6 @@ public class Model
 
 	private ArrayList<Member> signedIntoKitchen = new ArrayList<Member>();
 	private ArrayList<Member> signedIntoStore = new ArrayList<Member>();
-
-
-	public enum yearInSchool {Freshman1, Freshman, Sophmore1, Sophmore2, Junior1, Junior2, Senior1, Senior2, Graduate, Faculty}
 	private ArrayList<Member> matches = new ArrayList<Member>();
 
 	
@@ -34,7 +31,7 @@ public class Model
 	// Shift length cutoff for receiving 2 discount units (In Minutes).
 	private final int TWO_DISCOUNT_CUTOFF_MINS = 90;
 
-	private int shiftLength;
+	private long shiftLength;
 
 	/**
 	 * @author Ashley Chin
@@ -43,7 +40,7 @@ public class Model
 	 *          Getter for shift length
 	 * @return Shift Length of the member
 	 */
-	public int getShiftLength() {
+	public long getShiftLength() {
 		return shiftLength;
 	}
 
@@ -55,7 +52,7 @@ public class Model
 	 * @param shiftLengthIn
 	 *            Shift Length being passed in
 	 */
-	public void setShiftLength(final int shiftLengthIn) {
+	public void setShiftLength(long shiftLengthIn) {
 		this.shiftLength = shiftLengthIn;
 	}
 
@@ -94,6 +91,45 @@ public class Model
 		
 		return DatabaseAbstraction.lookupMember(firstName, lastName);
 	}
+	
+	/**
+	* Adds a member to the database.  Uses a PreparedStatement.
+	* @param first_name			First name of the member to look for
+	* @param last_name			Last name of the member to look for
+	* @param membership_length	Length of member's membership, 0 for
+									half semester, 1 for full ??
+	* @param membership_type	Membership type ??
+	* @param year_in_school		Member's year in school 0 for freshman
+									1 for sophomore, 2 for junior,
+									3 for senior, 4 for graduate,
+									5 for faculty ??
+	* @param receive_email		Can the member receive emails from the
+									Food Co-op?
+	* @param is_active			Is this member active?
+	*/
+	public void addMember(String first_name, 
+		String last_name,
+		String email_address,
+		int membership_length,
+		int membership_type,
+		int year_in_school,
+		int is_active)
+	{
+		Member mem = new Member();
+		
+		mem.setActive(true);
+		mem.setYearInSchool(year_in_school);
+		mem.setMembershipType(membership_type);
+		mem.setMembershipLength(membership_length);
+		mem.setEmail(email_address);
+		mem.setLastName(last_name);
+		mem.setFirstName(first_name);
+		
+		
+		
+		DatabaseAbstraction.addMember(mem);
+	}
+	
 	/**
 	 * The getSignedIntoKitchen method is used to return 
 	 * an array of members signed into the kitchen.
@@ -255,11 +291,11 @@ public class Model
 	 * @throws Exception (variable, based on conditions set by client and outlined in specs)
 	 */
 	public double addToIou(int currentYear, int membershipType, double oldAmount, double adjustment) throws Exception
-	{
+	{	
 		if(adjustment <= 0)
 			throw new Exception("Adjustment must be a positive number");
-		else if(membershipType == 0)
-			throw new Exception("Must be a working member");
+		else if(membershipType < 2)
+			throw new Exception("Must be a core member or coordinator.");
 		else if(adjustment + oldAmount > 100)
 			throw new Exception("IOU cannot exceed $100");
 		else if(currentYear == 7 && oldAmount + adjustment > 50)
@@ -318,7 +354,7 @@ public class Model
 		return matches.get(index);
 	}
 
-//TODO	caused error because there is no getLastSignIn() or ReconcileShiftLength() methods
+// TODO:	caused error because there is no getLastSignIn() method
 	 
 	/**
 	 * @author Ashley Chin
@@ -390,10 +426,10 @@ public class Model
 		{
 			numberOfDiscounts = 1;
 		}
-		signedIntoStore.get(index).setAvailableDiscounts(
-				signedIntoStore.get(index).getAvailableDiscounts()
+		signedIntoKitchen.get(index).setAvailableDiscounts(
+				signedIntoKitchen.get(index).getAvailableDiscounts()
 						+ numberOfDiscounts);
-		DatabaseAbstraction.updateMember(signedIntoStore.get(index));
+		DatabaseAbstraction.updateMember(signedIntoKitchen.get(index));
 		signedIntoKitchen.remove(index);
 		return signedIntoKitchen;
 	}
@@ -409,6 +445,22 @@ public class Model
 		signedIntoStore.clear();
 		signedIntoKitchen.clear();
 		System.exit(0);
+	}
+	
+	public ArrayList<YearsInSchool> getYearsInSchool(){
+		ArrayList<YearsInSchool> ret = new ArrayList<YearsInSchool>();
+		for(YearsInSchool x: YearsInSchool.values()){
+			ret.add(x);
+		}
+		return ret;
+	}
+	
+	public ArrayList<MembershipTypes> getMembershipTypes(){
+		ArrayList<MembershipTypes> ret = new ArrayList<MembershipTypes>();
+		for(MembershipTypes x: MembershipTypes.values()){
+			ret.add(x);
+		}
+		return ret;
 	}
 }
 
