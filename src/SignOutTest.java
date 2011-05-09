@@ -26,7 +26,7 @@ public class SignOutTest {
 		testMember = new Member(13902, "Raibi", "Jamila", "raibi1@binghamton.edu", 
 				new Date(1234567890), 1, 3,1,2, 1, true);
 		testResults.add(testMember);
-		TempModel.setLastLookupMemberResults(testResults);
+//TempModel.setLastLookupMemberResults(testResults);
 		TestStoreMemberList  = TempModel.signIntoStore(0);
 		TestKitchenMemberList = TempModel.signIntoKitchen(1);
 

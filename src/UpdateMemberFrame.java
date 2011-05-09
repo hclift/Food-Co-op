@@ -88,6 +88,7 @@ public class UpdateMemberFrame {
 			{
 				if (verifyClosing())
 				{
+					mainFrame.dispose();
 					UpdateMemberFrame.this.parentWindow.setEnabled(true);
 					UpdateMemberFrame.this.parentWindow.requestFocus();
 				}
