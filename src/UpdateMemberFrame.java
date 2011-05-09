@@ -188,7 +188,7 @@ public class UpdateMemberFrame {
 		//Now add the membership length before displaying
 		if (membershipLength == 0)
 		{
-			c.add(Calendar.MONTH, 6);
+			c.add(Calendar.MONTH, 5);
 		}
 		else
 		{
