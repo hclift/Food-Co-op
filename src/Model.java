@@ -13,10 +13,6 @@ public class Model
 	private ArrayList<Member> signedIntoStore = new ArrayList<Member>();
 	private ArrayList<Member> matches = new ArrayList<Member>();
 
-	
-
-
-
 	// List of members currently signed into the kitchen.
 	// List of members currently signed into the store.
 
@@ -256,7 +252,7 @@ public class Model
 	 */
 
 	public boolean updateMember(Member member, String firstName, String lastName, String emailAddress, int yearInSchool, int membershipType, 
-			Date expirationDate, int availableDiscounts, double iouAmount, boolean status)
+			int availableDiscounts, double iouAmount, boolean status)
 	{
 		
 		member.setFirstName(firstName);

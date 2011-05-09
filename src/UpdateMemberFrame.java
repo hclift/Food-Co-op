@@ -139,9 +139,9 @@ public class UpdateMemberFrame {
 	}
 	
 	
-	public void handleExpiration(Date dIn, int iIn, int membershipLength, JTextField jtfIn){
-		
-		
+	@SuppressWarnings("deprecation")
+	public void handleExpiration(Date dIn, int iIn, int membershipLength, JTextField jtfIn)
+	{
 		int month = dIn.getMonth();
 		int year = dIn.getYear();
 		int day = dIn.getDate();
@@ -174,12 +174,16 @@ public class UpdateMemberFrame {
 		{
 			c.add(Calendar.MONTH, 12);
 		}
-		
+				
 		Date temp = c.getTime();
-		//Update the member object
+		
 		dIn.setMonth(temp.getMonth());
 		dIn.setDate(temp.getDate());
 		dIn.setYear(temp.getYear());
+		
+		//Update member
+		member.setLastSignupDate(dIn);
+		
 		
 		//Now add the membership length before displaying
 		if (membershipLength == 0)
@@ -258,7 +262,7 @@ public class UpdateMemberFrame {
 		expirationTextField.setEditable(false);		
 		lastSignupDate = m.getLastSignupDate();
 		//int membershipLength = m.getMembershipLength();
-		handleExpiration(lastSignupDate, 3, expirationTextField);
+		handleExpiration(lastSignupDate, 3, member.getMembershipLength(), expirationTextField);
 		addSemesterButton = new JButton("Add Semester");
 		addSemesterButton.addActionListener(new AddSemesterActionListener());
 		addYearButton = new JButton("Add Year");
@@ -491,7 +495,7 @@ public class UpdateMemberFrame {
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			handleExpiration(lastSignupDate, 0, expirationTextField);
+			handleExpiration(lastSignupDate, 0, member.getMembershipLength(), expirationTextField);
 		}
 		
 	}
@@ -500,7 +504,7 @@ public class UpdateMemberFrame {
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			handleExpiration(lastSignupDate, 1, expirationTextField);
+			handleExpiration(lastSignupDate, 1, member.getMembershipLength(), expirationTextField);
 		}
 	}
 	
@@ -630,7 +634,7 @@ public class UpdateMemberFrame {
 					lastNameTextField.getText(),
 					emailTextField.getText(),
 					currentYearBox.getSelectedIndex(),
-					membershipTypeBox.getSelectedIndex(), null,
+					membershipTypeBox.getSelectedIndex(),
 					tempAvailDiscounts, tempIOU,
 					activeMemberCheckBox.isSelected());
 			
@@ -695,131 +699,5 @@ public class UpdateMemberFrame {
 	}
 
 }
-	
-	
-	
-	
-	/*
-	class OKCancelButtonListener implements ActionListener
-	{
-		@Override
-		public void actionPerformed(ActionEvent e) 
-		{
-			if(e.getSource().equals(cancelButton))
-			{
-				int result = JOptionPane.showConfirmDialog(null,
-						"Results will not be saved, are you sure " +
-						"you want to exit?", "Error",
-						JOptionPane.YES_NO_OPTION);
-				if(result == 0)
-				{
-					mainFrame.dispose();
-					parentWindow.reenableButtons();
-				}
-
-			}
-			else if(e.getSource().equals(saveButton))
-			{
-				boolean result = controller.updateMember(member,
-						firstNameTextField.getText(),
-						lastNameTextField.getText(),
-						emailTextField.getText(),
-						currentYearBox.getSelectedIndex(),
-						membershipTypeBox.getSelectedIndex(), null,
-						tempAvailDiscounts, tempIOU,
-						activeMemberCheckBox.isSelected());
-				
-				if(result)
-				{
-					parentWindow.clearSearchResults();
-					
-					mainFrame.dispose();
-					parentWindow.reenableButtons();
-				}
-				else
-				{
-					int choice = JOptionPane.showConfirmDialog(null,
-							"Results not saved to the database, would you " +
-							"like to quit?", "", JOptionPane.YES_NO_OPTION);
-					if(choice == 0)
-					{
-						
-						mainFrame.dispose();
-						parentWindow.reenableButtons();
-					}
-				}
-			}
-			else if(e.getSource().equals(applyDiscountButton))
-			{
-				--tempAvailDiscounts;
-				discountsTextField.setText("" + tempAvailDiscounts);
-			
-				applyDiscountButton.setEnabled(false);
-			}
-			else if(e.getSource().equals(addIOUButton))
-			{
-				double adjustment = 0;
-				boolean accept = false;
-				
-				while(!accept)
-				{
-					try
-					{
-						String value = 	JOptionPane.showInputDialog(null,
-									 "Adjustment to be made" , "Add" ,
-									 JOptionPane.OK_OPTION);
-						if (value == null)
-						{
-							accept = true;
-						}
-						else
-						{
-							adjustment = Double.parseDouble(value);
-							accept = true;
-						}					 
-					}
-					catch(Exception exception)
-					{
-						String str = "You may only enter numbers.";
-						JOptionPane.showMessageDialog(null, str, "Error",
-								JOptionPane.INFORMATION_MESSAGE);
-						
-						accept = false;			
-					}
-				}
-				if (adjustment > 0)
-				{
-					tempIOU = controller.addToIou(
-							currentYearBox.getSelectedIndex(),
-							membershipTypeBox.getSelectedIndex(),
-							tempIOU , adjustment);
-
-					DecimalFormat df = new DecimalFormat("0.00");
-					IOUTextField.setText(""+df.format(tempIOU));
-
-					if(tempIOU > 0)
-					{
-						applyDiscountButton.setEnabled(true);
-					}
-				}
-				
-			}
-			else if(e.getSource().equals(activeMemberCheckBox))
-			{
-				setButtons(activeMemberCheckBox.isSelected());
-			}
-			else if(e.getSource().equals(membershipTypeBox))
-			{
-				
-			}
-			else
-			{
-				System.exit(0);
-			}
-		}
-	}
-}
-
-*/
 
 

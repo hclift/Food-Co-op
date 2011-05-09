@@ -139,10 +139,11 @@ public class Controller
 	}
 	
 	public boolean updateMember(Member member, String firstName, String lastName, String emailAddress, int yearInSchool, int membershipType, 
-			Date expirationDate, int availableDiscounts, double iouAmount, boolean status)
+			int availableDiscounts, double iouAmount, boolean status)
 	{
 				
-		boolean retVal = model.updateMember(member, firstName, lastName, emailAddress, yearInSchool, membershipType, expirationDate, availableDiscounts, iouAmount, status);
+		boolean retVal = model.updateMember(member, firstName, lastName, emailAddress, yearInSchool, 
+				membershipType, availableDiscounts, iouAmount, status);
 		
 		return retVal;
 	}
