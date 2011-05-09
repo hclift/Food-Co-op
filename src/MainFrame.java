@@ -105,7 +105,7 @@ public class MainFrame extends JFrame {
 	private JButton addMemberButton;
 	private JButton signIntoStoreButton;
 	private JButton signIntoKitchenButton;
-	private JButton viewScheduleButton;
+	//private JButton viewScheduleButton;
 	private JButton signOutOfStoreButton;
 	private JButton signOutOfKitchenButton;
 
@@ -279,17 +279,17 @@ public class MainFrame extends JFrame {
 		signIntoKitchenButton.setBounds(325, 100, 150, 40);
 		signIntoKitchenButton.setFont(buttonFont);
 		signIntoKitchenButton.setEnabled(false);
-
+/*
 		viewScheduleButton = new JButton("View Schedule");
 		viewScheduleButton.setBounds(565, 100, 150, 40);
 		viewScheduleButton.setFont(buttonFont);
-
+*/
 		bottomWestPanel.add(viewMemberButton);
 		bottomWestPanel.add(updateMemberButton);
 		bottomWestPanel.add(addMemberButton);
 		bottomWestPanel.add(signIntoStoreButton);
 		bottomWestPanel.add(signIntoKitchenButton);
-		bottomWestPanel.add(viewScheduleButton);
+		//bottomWestPanel.add(viewScheduleButton);
 
 		//==============================================================
 		/**
@@ -406,7 +406,7 @@ public class MainFrame extends JFrame {
 		addMemberButton.addActionListener(buttonListener);
 		signIntoStoreButton.addActionListener(buttonListener);
 		signIntoKitchenButton.addActionListener(buttonListener);
-		viewScheduleButton.addActionListener(buttonListener);
+		//viewScheduleButton.addActionListener(buttonListener);
 		signOutOfStoreButton.addActionListener(buttonListener);
 		signOutOfKitchenButton.addActionListener(buttonListener);
 		//KeyListener Added
@@ -477,7 +477,7 @@ public class MainFrame extends JFrame {
 	{
 		searchButton.setEnabled(true);
 		addMemberButton.setEnabled(true);
-		viewScheduleButton.setEnabled(true);
+		//viewScheduleButton.setEnabled(true);
 		generalLookup.setEnabled(true);
 	}
 
@@ -608,10 +608,6 @@ public class MainFrame extends JFrame {
 				signIntoStoreButton.setEnabled(false);
 				signIntoKitchenButton.setEnabled(false);
 				
-			}else if(e.getSource().equals(viewScheduleButton)){
-				str = "View schedule method to go here.";
-				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
-
 			}else if(e.getSource().equals(signOutOfStoreButton)){
 				printStore(controller.signOutOfStore(store.getSelectedIndex()));
 				if (controller.getMember(generalLookup.getSelectedIndex()).canSignIn())
