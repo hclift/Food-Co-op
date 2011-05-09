@@ -74,18 +74,23 @@ public class UpdateMemberFrame {
 	public UpdateMemberFrame(MainFrame parentWindow, Controller controller, Member member)
 	{
 		this.parentWindow = parentWindow;
-		parentWindow.disableButtons();
+		parentWindow.setEnabled(false);
 		this.member = member;
 		this.controller = controller;
 		tempIOU = member.getIouAmount();
 		tempAvailDiscounts = member.getAvailableDiscounts();
 		mainFrame = new JFrame("Update Member");
 		//mainFrame.setFocusableWindowState(false);
-		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		
 		mainFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e)
 			{
-				UpdateMemberFrame.this.parentWindow.reenableButtons();
+				if (verifyClosing())
+				{
+					UpdateMemberFrame.this.parentWindow.setEnabled(true);
+					UpdateMemberFrame.this.parentWindow.requestFocus();
+				}
 			}
 		});
 		
@@ -600,7 +605,9 @@ public class UpdateMemberFrame {
 				parentWindow.clearSearchResults();
 				
 				mainFrame.dispose();
-				parentWindow.reenableButtons();
+				
+				parentWindow.setEnabled(true);
+				parentWindow.requestFocus();
 			}
 			else
 			{
@@ -611,7 +618,8 @@ public class UpdateMemberFrame {
 				{
 					
 					mainFrame.dispose();
-					parentWindow.reenableButtons();
+					parentWindow.setEnabled(true);
+					parentWindow.requestFocus();
 				}
 			}
 		}		
@@ -621,16 +629,27 @@ public class UpdateMemberFrame {
 	{
 		public void actionPerformed(ActionEvent e) 
 		{
-			int result = JOptionPane.showConfirmDialog(null,
-				"Results will not be saved, are you sure " +
-				"you want to exit?", "Error",
-				JOptionPane.YES_NO_OPTION);
-			if(result == 0)
+			if (verifyClosing())
 			{
 				mainFrame.dispose();
-				parentWindow.reenableButtons();
+				parentWindow.setEnabled(true);
+				parentWindow.requestFocus();
 			}
 		}		
+	}
+	
+	/**
+	 * Verify that the user wants to close the window.
+	 * @return true if they do, false if they don't
+	 */
+	private boolean verifyClosing()
+	{
+		int result = JOptionPane.showConfirmDialog(null,
+				"Results will not be saved.  Are you sure " +
+				"you want to exit?", "Error",
+				JOptionPane.YES_NO_OPTION);
+		
+		return (result == 0);
 	}
 	
 	class ActiveMemberActionListener implements ActionListener

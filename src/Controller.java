@@ -24,7 +24,7 @@ public class Controller
 	public Controller(final Model model)
 	{
 		this.model = model;
-		mainFrame = new MainFrame(this, model);
+		mainFrame = new MainFrame(this);
 		model.setControllerReference(this);
 	}
 
@@ -101,14 +101,14 @@ public class Controller
 	public ArrayList<Member> signIntoKitchen(int index)
 	{
 		ArrayList<Member> signedIntoKitchen = new ArrayList<Member>();
+		
 		try
 		{
 			signedIntoKitchen = model.signIntoKitchen(index);
 		}
 		catch(Exception e)
 		{
-			System.err.println(e.getMessage());
-			signedIntoKitchen = model.getSignedIntoKitchen();
+			mainFrame.displayException(e.getMessage());
 		}
 		
 		return signedIntoKitchen;
@@ -125,37 +125,17 @@ public class Controller
 	public ArrayList<Member> signIntoStore(int index)
 	{
 		ArrayList<Member> signedIntoStore = new ArrayList<Member>();
+		
 		try
 		{
 			signedIntoStore = model.signIntoStore(index);
 		}
 		catch(Exception e)
 		{
-			System.err.println(e.getMessage());
-			signedIntoStore = model.getSignedIntoStore();
+			mainFrame.displayException(e.getMessage());
 		}
 		
 		return signedIntoStore;
-	}
-	
-	/**
-	 * The getSignedIntoKitchen method is used to return 
-	 * an array of members signed into the kitchen.
-	 * 
-	 * @returns ArrayList of members signed into kitchen
-	 */
-	public ArrayList<Member> getSignedIntoKitchen() {
-		return model.getSignedIntoKitchen();
-	}
-	
-	/**
-	 * The getSignedIntoStore method is used to return 
-	 * an array of members signed into the store.
-	 * 
-	 * @returns ArrayList of members signed into store
-	 */
-	public ArrayList<Member> getSignedIntoStore() {
-		return model.getSignedIntoStore();
 	}
 	
 	public boolean updateMember(Member member, String firstName, String lastName, String emailAddress, int yearInSchool, int membershipType, 
@@ -251,9 +231,7 @@ public class Controller
 	 */
     public long reconcileShiftLength(long reconciledShiftLength)
     {
-    	long newShiftLength = reconciledShiftLength * 60000;
-    	model.setShiftLength(newShiftLength);
-    	return newShiftLength;    
+    	return mainFrame.reconcileShiftLength(reconciledShiftLength);
     }
     
     public ArrayList<YearsInSchool> getYearsInSchool(){

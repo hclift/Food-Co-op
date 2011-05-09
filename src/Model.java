@@ -26,10 +26,10 @@ public class Model
 	// controller.
 
 	// Number of milliseconds in a minute.
-	private final int MILLISECONDS_PER_MINUTE = 60000;
+	private final long MILLISECONDS_PER_MINUTE = 60000;
 
 	// Shift length cutoff for receiving 2 discount units (In Minutes).
-	private final int TWO_DISCOUNT_CUTOFF_MINS = 90;
+	private final long TWO_DISCOUNT_CUTOFF_MINS = 90;
 
 	private long shiftLength;
 
@@ -171,14 +171,14 @@ public class Model
 			{
 				if(signedIntoKitchen.get(i).equals(matches.get(index)))
 				{
-					throw new Exception("This member is already signed into the kitchen");
+					throw new Exception("The member is already signed into the kitchen.");
 				}
 			}
 			for(int i = 0; i < signedIntoStore.size(); i++)
 			{
 				if(signedIntoStore.get(i).equals(matches.get(index)))
 				{
-					throw new Exception("This member is already signed into the store");
+					throw new Exception("The member is already signed into the store.");
 				}
 			}
 			long time = System.currentTimeMillis();
@@ -351,7 +351,24 @@ public class Model
 	 **/
 	public ArrayList<Member> signOutOfStore(final int index)
 	{
+		// Time (in milliseconds) that the user signed in to the kitchen
+		long startTime = signedIntoStore.get(index).getLastSignIn();
+		// Time (in milliseconds) that the user is signing out (The current
+		// time)
+		long stopTime = System.currentTimeMillis();
+
+		// Shift length (in minutes), the difference between stopTime
+		// and startTime, converted to minutes.
+		long lengthOfShift = (stopTime - startTime) / MILLISECONDS_PER_MINUTE;
+
+		if ((lengthOfShift < 45) || (lengthOfShift > 120))
+		{
+			lengthOfShift = controllerReference.reconcileShiftLength(lengthOfShift);
+		}
+
+		DatabaseAbstraction.updateMember(signedIntoStore.get(index));
 		signedIntoStore.remove(index);
+		
 		return signedIntoStore;
 	}
 
@@ -377,43 +394,24 @@ public class Model
 
 		// Shift length (in minutes), the difference between stopTime
 		// and startTime, converted to minutes.
-		shiftLength = (int) (stopTime - startTime) / MILLISECONDS_PER_MINUTE;
+		long lengthOfShift = (stopTime - startTime) / MILLISECONDS_PER_MINUTE;
+
 		int numberOfDiscounts = 0;
 
-		if ((shiftLength < 45) || (shiftLength > 120))
+		if ((lengthOfShift < 45) || (lengthOfShift > 120))
 		{
-			/*
-			 * If shift length is under 45 or over 120 mins, the Reconcile Shift
-			 * Length window will AUTOMATICALLY open, while locking the main
-			 * window. Inside the Reconcile Shift Length window, there will be a
-			 * textbox prompting the operator to input the new shift length (I
-			 * still don't know if its going to be in minutes or hours). When
-			 * the new shift length is inputted, it will percolate back to the
-			 * model via the reconcileShiftLength() function. So yes, the int
-			 * gets passed to the controller, then passes to the model, which
-			 * will calculate the discounts. Unfortunately, I don't think the
-			 * window pop-up for reconcile shift length has been created yet, or
-			 * committed. However, I have attached the 4 new java files from the
-			 * GUI that we received last class. You may find your answer there.
-			 */
-			shiftLength = controllerReference.reconcileShiftLength(shiftLength);
+			lengthOfShift = controllerReference.reconcileShiftLength(lengthOfShift);
 		}
 
-		// If the shift length is longer than TWO_DISCOUNT_CUTOFF_MINS,
-		// user gets 2 discounts
-		if (shiftLength >= TWO_DISCOUNT_CUTOFF_MINS)
-		{
-			numberOfDiscounts = 2;
-		}
-		// Otherwise (shift shorter than 1.5hr), user gets 1 discount.
-		else
-		{
-			numberOfDiscounts = 1;
-		}
+		// TODO: ask
+		numberOfDiscounts = ((int)lengthOfShift) / 60;
+		
 		signedIntoKitchen.get(index).setAvailableDiscounts(
 				signedIntoKitchen.get(index).getAvailableDiscounts()
 						+ numberOfDiscounts);
+		
 		DatabaseAbstraction.updateMember(signedIntoKitchen.get(index));
+		
 		signedIntoKitchen.remove(index);
 		return signedIntoKitchen;
 	}

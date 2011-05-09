@@ -56,7 +56,8 @@ public class AddMember
 
 	public AddMember(Controller c, MainFrame parentWindow){
 		this.parentWindow = parentWindow;
-		parentWindow.disableButtons();
+		parentWindow.setEnabled(false);
+		parentWindow.requestFocus();
 		this.controller = c;
 		mainFrame = new JFrame("Add Member");
 		mainFrame.setBounds(275, 150, 450, 250);
@@ -65,7 +66,8 @@ public class AddMember
 		mainFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e)
 			{
-				AddMember.this.parentWindow.reenableButtons();
+				AddMember.this.parentWindow.setEnabled(true);
+				AddMember.this.parentWindow.requestFocus();
 			}
 		});
 		
@@ -337,7 +339,8 @@ public class AddMember
 			{
 				// closes the window
 				mainFrame.dispose();
-				parentWindow.reenableButtons();
+				parentWindow.setEnabled(true);
+				parentWindow.requestFocus();
 			}
 			else if(e.getSource().equals(okButton))
 			{
@@ -366,7 +369,8 @@ public class AddMember
 					controller.addMember(fn, ln, em, convertMemDur(sy),
 					convertMemType(mt), convertYear(cy), 1);
 				mainFrame.dispose();
-				parentWindow.reenableButtons();
+				parentWindow.setEnabled(true);
+				parentWindow.requestFocus();
 			}else{
 				System.exit(0);
 			}
