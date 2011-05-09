@@ -111,9 +111,12 @@ public class UpdateMemberFrame {
 	 **/
 	private void setButtons(boolean enabled)
 	{
+		if (!enabled && tempAvailDiscounts <= 0)
+		{
+			applyDiscountButton.setEnabled(enabled);
+		}
 		addIOUButton.setEnabled(enabled);
 		subtractIOUButton.setEnabled(enabled);
-		applyDiscountButton.setEnabled(enabled);
 	}
 	
 	
