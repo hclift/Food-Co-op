@@ -104,11 +104,11 @@ public class UpdateMemberFrame {
 	 * Takes in a boolean which determines whether buttons are visible.
 	 * @param visibility
 	 **/
-	private void setButtons(boolean visibility)
+	private void setButtons(boolean enabled)
 	{
-		addIOUButton.setVisible(visibility);
-		subtractIOUButton.setVisible(visibility);
-		applyDiscountButton.setVisible(visibility);
+		addIOUButton.setEnabled(enabled);
+		subtractIOUButton.setEnabled(enabled);
+		applyDiscountButton.setEnabled(enabled);
 	}
 	
 	
