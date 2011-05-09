@@ -422,41 +422,22 @@ public class MainFrame extends JFrame {
 	 *
 	 */
 
-	public void enableButtons(){
-		int membersInStore = storeModel.getSize();
-		int membersInKitchen = kitchenModel.getSize();
-		int contained = 0;
-		for (int i=0; i < (membersInKitchen + membersInStore); i++)
+	public void enableButtons()
+	{
+		viewMemberButton.setEnabled(true);
+		updateMemberButton.setEnabled(true);
+		
+		Member currentMember = controller.getMember(generalLookup.getSelectedIndex());
+
+		if (currentMember.canSignIn() && !controller.isSignedIn(currentMember))
 		{
-			if (generalLookupModel.getSize() > 0)
-			{
-				String selectedMemberName = new String(
-					controller.getMember(generalLookup.getSelectedIndex()).getFirstName() +
-					" " + 
-					controller.getMember(generalLookup.getSelectedIndex()).getLastName()
-				);
-				if (storeModel.contains(selectedMemberName) || kitchenModel.contains(selectedMemberName))
-				{
-					viewMemberButton.setEnabled(true);
-					updateMemberButton.setEnabled(true);
-					contained = 1;
-				}
-			}
+			signIntoStoreButton.setEnabled(true);
+			signIntoKitchenButton.setEnabled(true);
 		}
-		if (contained != 1)
+		else
 		{
-			viewMemberButton.setEnabled(true);
-			updateMemberButton.setEnabled(true);
-			if (controller.getMember(generalLookup.getSelectedIndex()).canSignIn())
-			{
-				signIntoStoreButton.setEnabled(true);
-				signIntoKitchenButton.setEnabled(true);
-			}
-			else
-			{
-				signIntoStoreButton.setEnabled(false);
-				signIntoKitchenButton.setEnabled(false);
-			}
+			signIntoStoreButton.setEnabled(false);
+			signIntoKitchenButton.setEnabled(false);
 		}
 	}
 

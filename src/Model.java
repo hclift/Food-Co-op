@@ -213,14 +213,14 @@ public class Model
 			{
 				if(signedIntoKitchen.get(i).equals(matches.get(index)))
 				{
-					throw new Exception("This member is already signed into the kitchen");
+					throw new Exception("This member is already signed in.");
 				}
 			}
 			for(int i = 0; i < signedIntoStore.size(); i++)
 			{
 				if(signedIntoStore.get(i).equals(matches.get(index)))
 				{
-					throw new Exception("This member is already signed into the store");
+					throw new Exception("This member is already signed in.");
 				}
 			}
 			long time = System.currentTimeMillis();
@@ -443,6 +443,11 @@ public class Model
 			ret.add(x);
 		}
 		return ret;
+	}
+	
+	public boolean isSignedIn(Member m)
+	{
+		return (signedIntoStore.contains(m) || signedIntoKitchen.contains(m));
 	}
 }
 

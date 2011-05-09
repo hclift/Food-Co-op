@@ -241,4 +241,9 @@ public class Controller
     public ArrayList<MembershipTypes> getMembershipTypes(){
 		return model.getMembershipTypes();
 	}
+    
+    public boolean isSignedIn(Member m)
+    {
+    	return model.isSignedIn(m);
+    }
 }
