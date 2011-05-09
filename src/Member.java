@@ -408,6 +408,11 @@ public class Member
 		return false;
 	}
 	
+	@Override
+	public boolean equals(Object o)
+	{
+		return (id == ((Member)o).id);
+	}
 }
 
 // TODO: Sign in

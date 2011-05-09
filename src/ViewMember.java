@@ -31,8 +31,8 @@ private MainFrame parentWindow;
 
 	public ViewMember(MainFrame parentWindow, Member m){
 		this.parentWindow = parentWindow;
-		parentWindow.disableButtons();
-		
+
+		parentWindow.setEnabled(false);
 		mainFrame = new JFrame("View Member");
 		mainFrame.setBounds(275, 200, 450, 310);
 		//mainFrame.setFocusableWindowState(false);
@@ -40,7 +40,8 @@ private MainFrame parentWindow;
 		mainFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e)
 			{
-				ViewMember.this.parentWindow.reenableButtons();
+				ViewMember.this.parentWindow.setEnabled(true);
+				ViewMember.this.parentWindow.requestFocus();
 			}
 		});
 		
@@ -225,7 +226,9 @@ private MainFrame parentWindow;
 			// TODO Auto-generated method stub
 			if(e.getSource().equals(okButton)){
 				mainFrame.dispose();
-				parentWindow.reenableButtons();
+				//parentWindow.reenableButtons();
+				parentWindow.setEnabled(true);
+				parentWindow.requestFocus();
 			}else if(e.getSource().equals(workHistoryButton)){
 				//TODO: Implement methods for OKButton
 				

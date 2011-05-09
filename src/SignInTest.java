@@ -27,7 +27,7 @@ public class SignInTest {
 				new Date(1234567890), 1, 0,1,2, 1, true);
 		testResults.add(testMember);
 		model = new Model();
-		model.setLastLookupMemberResults(testResults);
+		//model.setLastLookupMemberResults(testResults);
 	}
 	
 	@Test
