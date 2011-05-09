@@ -114,7 +114,9 @@ public class UpdateMemberFrame {
 		if (member.canHaveIou())
 		{
 			addIOUButton.setEnabled(enabled);
-			subtractIOUButton.setEnabled(enabled);
+			
+			if (tempIOU > 0)
+				subtractIOUButton.setEnabled(enabled);
 		}
 		else
 		{
