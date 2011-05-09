@@ -112,7 +112,9 @@ public class UpdateMemberFrame {
 	}
 	
 	
-	public void handleExpiration(Date dIn, int iIn, JTextField jtfIn){
+	public void handleExpiration(Date dIn, int iIn, int membershipLength, JTextField jtfIn){
+		
+		
 		int month = dIn.getMonth();
 		int year = dIn.getYear();
 		int day = dIn.getDate();
@@ -120,6 +122,7 @@ public class UpdateMemberFrame {
 		Calendar c = Calendar.getInstance();
 		c.setTime(dIn);
 		
+		//FIRST CALCULATE NEW START DATE
 		//0 means add semester
 		if (iIn == 0) 
 		{
@@ -146,15 +149,24 @@ public class UpdateMemberFrame {
 		}
 		
 		Date temp = c.getTime();
-		
+		//Update the member object
 		dIn.setMonth(temp.getMonth());
 		dIn.setDate(temp.getDate());
-		dIn.setYear(temp.getYear());		
+		dIn.setYear(temp.getYear());
 		
-		month = dIn.getMonth();
-		day = dIn.getDate();
-		year = dIn.getYear();
-		jtfIn.setText((month+1) + "/" + day + "/" + (year+1900));
+		//Now add the membership length before displaying
+		if (membershipLength == 0)
+		{
+			c.add(Calendar.MONTH, 6);
+		}
+		else
+		{
+			c.add(Calendar.MONTH, 12);
+		}
+		
+		temp = c.getTime();		
+		jtfIn.setText((temp.getMonth()+1) + "/" + temp.getDate() + "/" + (temp.getYear()+1900));
+							
 	}
 	
 	/**
