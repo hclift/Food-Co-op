@@ -1,5 +1,5 @@
 import java.sql.Connection;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
@@ -138,11 +138,11 @@ public class Controller
 		return signedIntoStore;
 	}
 	
-	public boolean updateMember(Member member, String firstName, String lastName, String emailAddress, int yearInSchool, int membershipType, 
+	public boolean updateMember(Member member, String firstName, String lastName, String emailAddress, Date expirationDate, int yearInSchool, int membershipType, 
 			int availableDiscounts, double iouAmount, boolean status)
 	{
 				
-		boolean retVal = model.updateMember(member, firstName, lastName, emailAddress, yearInSchool, 
+		boolean retVal = model.updateMember(member, firstName, lastName, emailAddress, expirationDate, yearInSchool, 
 				membershipType, availableDiscounts, iouAmount, status);
 		
 		return retVal;

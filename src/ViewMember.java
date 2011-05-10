@@ -65,31 +65,11 @@ private MainFrame parentWindow;
 	   long expirationDate = 0;
 	 */
 	
-	public void handleExpiration(Date dIn, int iIn, long expDate, JTextField jtfIn){
-		Calendar c = Calendar.getInstance();
-		SimpleDateFormat formattedExpirationDate  = new SimpleDateFormat("MM/dd/yyyy");
-		if (iIn == 0)
-		{			
-			c.setTime(dIn);
-			c.add(Calendar.MONTH, 5);
-			//	183 is 365 / 2
-			//long milliseconds_in_half_year = 15778463000L;
-			//expDate = dIn.getTime() + milliseconds_in_half_year;
-			//Date te = new Date(expDate);
-			//System.out.println(te);
-			expDate = c.getTime().getTime();
-			
-		}
-		else if (iIn == 1)
-		{
-			// 365 is one year
-			//long milliseconds_in_year = 31556926000L;
-			//expDate = dIn.getTime() + milliseconds_in_year;
-			c.setTime(dIn);
-			c.add(Calendar.MONTH, 12);
-			expDate = c.getTime().getTime();
-		}
-		jtfIn.setText(formattedExpirationDate.format(expDate));
+	@SuppressWarnings("deprecation")
+	public void handleExpiration(Date dIn, int iIn, JTextField jtfIn)
+	{
+		jtfIn.setText((dIn.getMonth()+1) + "/" + dIn.getDate() + "/" + (dIn.getYear()+1900));
+							
 	}
 	
 	private void addPanel(Member m){
@@ -164,10 +144,7 @@ private MainFrame parentWindow;
 		
 		//	Calculate expiration date
 		
-		Date lastSignupDate = m.getLastSignupDate();
-		int membershipLength = m.getMembershipLength();
-		long expirationDate = 0;
-		handleExpiration(lastSignupDate, membershipLength,expirationDate,expirationTextField);
+		handleExpiration(m.getExpirationDate(), 3, expirationTextField);
 		/*SimpleDateFormat formattedExpirationDate  = new SimpleDateFormat("MM/dd/yyyy");
 		if (membershipLength == 0)
 		{

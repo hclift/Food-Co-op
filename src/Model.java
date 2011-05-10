@@ -1,4 +1,5 @@
-import java.sql.Date;
+import java.util.Calendar;
+import java.util.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 
@@ -12,6 +13,10 @@ public class Model
 	private ArrayList<Member> signedIntoKitchen = new ArrayList<Member>();
 	private ArrayList<Member> signedIntoStore = new ArrayList<Member>();
 	private ArrayList<Member> matches = new ArrayList<Member>();
+
+	
+
+
 
 	// List of members currently signed into the kitchen.
 	// List of members currently signed into the store.
@@ -117,7 +122,24 @@ public class Model
 		mem.setActive(true);
 		mem.setYearInSchool(year_in_school);
 		mem.setMembershipType(membership_type);
-		mem.setMembershipLength(membership_length);
+		
+		Date expirationDate = new Date();
+		
+		Calendar c = Calendar.getInstance();
+		c.setTime(expirationDate);
+		
+		if (membership_length == 0)
+		{
+			c.add(Calendar.MONTH, 5);
+		}
+		else
+		{
+			c.add(Calendar.YEAR, 1);
+		}
+		
+		expirationDate = c.getTime();
+		
+		mem.setExpirationDate(expirationDate);
 		mem.setEmail(email_address);
 		mem.setLastName(last_name);
 		mem.setFirstName(first_name);
@@ -251,13 +273,14 @@ public class Model
 	 * 
 	 */
 
-	public boolean updateMember(Member member, String firstName, String lastName, String emailAddress, int yearInSchool, int membershipType, 
+	public boolean updateMember(Member member, String firstName, String lastName, String emailAddress, Date expirationDate, int yearInSchool, int membershipType, 
 			int availableDiscounts, double iouAmount, boolean status)
 	{
 		
 		member.setFirstName(firstName);
 		member.setLastName(lastName);
 		member.setEmail(emailAddress);
+		member.setExpirationDate(expirationDate);
 		member.setYearInSchool(yearInSchool);
 		member.setMembershipType(membershipType);
 		member.setAvailableDiscounts(availableDiscounts);

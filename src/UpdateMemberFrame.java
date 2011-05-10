@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -61,7 +62,7 @@ public class UpdateMemberFrame {
 	// holds member's IOU amount; changes when discount applied or IOU added
 	double tempIOU;
 	int	tempAvailDiscounts;
-	Date lastSignupDate;
+	Date expirationDate;
 	
 	
 	MainFrame parentWindow;
@@ -79,6 +80,7 @@ public class UpdateMemberFrame {
 		this.controller = controller;
 		tempIOU = member.getIouAmount();
 		tempAvailDiscounts = member.getAvailableDiscounts();
+		expirationDate = member.getExpirationDate();
 		mainFrame = new JFrame("Update Member");
 		//mainFrame.setFocusableWindowState(false);
 		mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -140,34 +142,23 @@ public class UpdateMemberFrame {
 	
 	
 	@SuppressWarnings("deprecation")
-	public void handleExpiration(Date dIn, int iIn, int membershipLength, JTextField jtfIn)
+	public void handleExpiration(Date dIn, int iIn, JTextField jtfIn)
 	{
-		int month = dIn.getMonth();
-		int year = dIn.getYear();
-		int day = dIn.getDate();
 		
 		Calendar c = Calendar.getInstance();
 		c.setTime(dIn);
 		
-		//FIRST CALCULATE NEW START DATE
+		// new expiration date calculated from current date if
+		// already expired
+		if (dIn.before(new Date()))
+		{
+			dIn = new Date();
+		}
+		
 		//0 means add semester
 		if (iIn == 0) 
 		{
-			switch(month) 
-			{
-				case 0: c.add(Calendar.MONTH, 8); break;	//FEB, MAR, APR, MAY, SEP
-				case 1: c.add(Calendar.MONTH, 8); break;	//MAR, APR, MAY, SEP, OCT
-				case 2: c.add(Calendar.MONTH, 8); break;	//APR, MAY, SEP, OCT, NOV
-				case 3: c.add(Calendar.MONTH, 8); break;	//MAY, SEP, OCT, NOV, DEC
-				case 4: c.add(Calendar.MONTH, 8); break;	//SEP, OCT, NOV, DEC, JAN
-				case 5: c.add(Calendar.MONTH, 7); break;	//SEP, OCT, NOV, DEC, JAN
-				case 6: c.add(Calendar.MONTH, 6); break;	//SEP, OCT, NOV, DEC, JAN
-				case 7: c.add(Calendar.MONTH, 5); break;	//SEP, OCT, NOV, DEC, JAN
-				case 8: c.add(Calendar.MONTH, 5); break;	//OCT, NOV, DEC, JAN, FEB
-				case 9: c.add(Calendar.MONTH, 5); break;	//NOV, DEC, JAN, FEB, MAR
-				case 10: c.add(Calendar.MONTH, 5); break;	//DEC, JAN, FEB, MAR, APR
-				case 11: c.add(Calendar.MONTH, 5); break;	//JAN, FEB, MAR, APR, MAY
-			}
+			c.add(Calendar.MONTH, 5);
 		}
 		//1 means add year
 		else if (iIn == 1)
@@ -175,28 +166,9 @@ public class UpdateMemberFrame {
 			c.add(Calendar.MONTH, 12);
 		}
 				
-		Date temp = c.getTime();
+		expirationDate = c.getTime();
 		
-		dIn.setMonth(temp.getMonth());
-		dIn.setDate(temp.getDate());
-		dIn.setYear(temp.getYear());
-		
-		//Update member
-		member.setLastSignupDate(dIn);
-		
-		
-		//Now add the membership length before displaying
-		if (membershipLength == 0)
-		{
-			c.add(Calendar.MONTH, 5);
-		}
-		else
-		{
-			c.add(Calendar.MONTH, 12);
-		}
-		
-		temp = c.getTime();		
-		jtfIn.setText((temp.getMonth()+1) + "/" + temp.getDate() + "/" + (temp.getYear()+1900));
+		jtfIn.setText((expirationDate.getMonth()+1) + "/" + expirationDate.getDate() + "/" + (expirationDate.getYear()+1900));
 							
 	}
 	
@@ -259,10 +231,9 @@ public class UpdateMemberFrame {
 		membershipTypeBox.addActionListener(new MembershipTypeActionListener());
 		
 		expirationTextField = new JTextField();
-		expirationTextField.setEditable(false);		
-		lastSignupDate = m.getLastSignupDate();
-		//int membershipLength = m.getMembershipLength();
-		handleExpiration(lastSignupDate, 3, member.getMembershipLength(), expirationTextField);
+		expirationTextField.setEditable(false);	
+		handleExpiration(expirationDate, 3, expirationTextField);
+		
 		addSemesterButton = new JButton("Add Semester");
 		addSemesterButton.addActionListener(new AddSemesterActionListener());
 		addYearButton = new JButton("Add Year");
@@ -495,7 +466,7 @@ public class UpdateMemberFrame {
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			handleExpiration(lastSignupDate, 0, member.getMembershipLength(), expirationTextField);
+			handleExpiration(expirationDate, 0, expirationTextField);
 		}
 		
 	}
@@ -504,7 +475,7 @@ public class UpdateMemberFrame {
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			handleExpiration(lastSignupDate, 1, member.getMembershipLength(), expirationTextField);
+			handleExpiration(expirationDate, 1, expirationTextField);
 		}
 	}
 	
@@ -629,10 +600,12 @@ public class UpdateMemberFrame {
 	{
 		public void actionPerformed(ActionEvent e) 
 		{
+			
 			boolean result = controller.updateMember(member,
 					firstNameTextField.getText(),
 					lastNameTextField.getText(),
 					emailTextField.getText(),
+					expirationDate,
 					currentYearBox.getSelectedIndex(),
 					membershipTypeBox.getSelectedIndex(),
 					tempAvailDiscounts, tempIOU,

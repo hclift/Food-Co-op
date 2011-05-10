@@ -27,7 +27,7 @@ public class Member
 	private String email;
 	
 	// the most recent date the member signed up
-	private Date lastSignupDate;
+	private Date expirationDate;
 	
 	// the number of available discounts for the member
 	private long lastSignIn;
@@ -76,7 +76,7 @@ public class Member
 		this.firstName = "No";
 		this.lastName = "Name";
 		this.email = "noname@noname.com";
-		this.lastSignupDate = null;
+		this.expirationDate = null;
 		this.membershipLength = 0;
 		this.membershipType = 0;
 		this.yearInSchool = 0;
@@ -104,7 +104,7 @@ public class Member
 	 */
 	public Member(int id, String firstName, String lastName, String email,
 
-			Date lastSignupDate, int membershipLength, int membershipType,
+			Date expirationDate, int membershipType,
 			int yearInSchool, int availableDiscounts, double iouAmount,
 			boolean isActive)
 	{
@@ -113,8 +113,7 @@ public class Member
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
-		this.lastSignupDate = lastSignupDate;
-		this.membershipLength = membershipLength;
+		this.expirationDate = expirationDate;
 		this.membershipType = membershipType;
 		this.yearInSchool = yearInSchool;
 
@@ -212,16 +211,6 @@ public class Member
 		}
 		
 		return membershipTypeString;
-	}
-	
-	/**
-	 * Returns the member's membership length
-	 * 
-	 * @return	membership length of the member
-	 */
-	public int getMembershipLength()
-	{
-		return membershipLength;
 	}
 	
 	/**
@@ -358,16 +347,6 @@ public class Member
 	}
 
 	/**
-	 * Changes the member's membership length
-	 * 
-	 * @param membershipLength	new membership length for the member
-	 */
-	public void setMembershipLength(int membershipLength)
-	{
-		this.membershipLength = membershipLength;
-	}
-
-	/**
 	 * Changes the member's membership type
 	 * 
 	 * @param membershipType	 new membership type for the member
@@ -376,19 +355,18 @@ public class Member
 	{
 		this.membershipType = membershipType;
 	}
-	
-	/**
-	 * @param lastSignupDate the lastSignupDate to set
-	 */
-	public void setLastSignupDate(Date lastSignupDate) {
-		this.lastSignupDate = lastSignupDate;
-	}
 
 	/**
 	 * @return the lastSignupDate
 	 */
-	public Date getLastSignupDate() {
-		return lastSignupDate;
+	public Date getExpirationDate()
+	{
+		return expirationDate;
+	}
+	
+	public void setExpirationDate(Date in)
+	{
+		expirationDate = in;
 	}
 	
 	public long getLastSignIn() {

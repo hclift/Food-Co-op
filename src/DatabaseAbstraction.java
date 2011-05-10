@@ -69,21 +69,15 @@ public class DatabaseAbstraction
 			ps.setString(1, first_name);
 			ps.setString(2, last_name);
 			ResultSet rs = ps.executeQuery();
-						
-			long s;
-			Date t2;
+
 			while (rs.next())
-			{
-				s = rs.getLong("last_signup_date");
-				t2 = new Date(s);
-				
+			{	
 				Member m = new Member(
 					rs.getInt("id"),
 					rs.getString("first_name"),
 					rs.getString("last_name"),
 					rs.getString("email_address"),
-					t2,
-					rs.getInt("membership_length"),
+					new Date(rs.getLong("expiration_date")),
 					rs.getInt("membership_type"),
 					rs.getInt("year_in_school"), 
 					rs.getInt("discounts"),
@@ -119,7 +113,7 @@ public class DatabaseAbstraction
 		"first_name = ?, " +
 		"last_name = ?, " +
 		"email_address = ?, " +
-		"membership_length = ?, " +
+		"expiration_date = ?, " +
 		"membership_type = ?, " +
 		"year_in_school = ?, " +
 		"is_active = ? " +
@@ -128,7 +122,7 @@ public class DatabaseAbstraction
 	ps.setString(1, m.getFirstName());
 	ps.setString(2, m.getLastName());
 	ps.setString(3, m.getEmailAddress());
-	ps.setInt(4, m.getMembershipLength());
+	ps.setLong(4, m.getExpirationDate().getTime());
 	ps.setInt(5, m.getMembershipType());
 	ps.setInt(6, m.getYearsInSchool());
 	ps.setBoolean(7, m.getActive());
@@ -231,28 +225,19 @@ public class DatabaseAbstraction
 	*/
 	public static void addMember(Member m)
 	{
-		Calendar cal = Calendar.getInstance();
-		Date last_signup_date = new Date(cal.getTime().getTime());
-		//System.out.println(last_signup_date);
-		m.setLastSignupDate(last_signup_date);
-		long temp_signup_date = last_signup_date.getTime();  //temp value to store sign-up date into database.
-		//System.out.println(temp_signup_date);
-		//m.setId(java.sql.Types.INTEGER);
-		m.setLastSignIn(temp_signup_date);
 		try
 		{
 			Connection connection = connectToDatabase();
 			PreparedStatement ps = connection.prepareStatement(
-				"INSERT INTO members VALUES(?,?,?,?,?,?,?,?,?)");
+				"INSERT INTO members VALUES(?,?,?,?,?,?,?,?)");
 			ps.setNull(1, java.sql.Types.INTEGER);
 			ps.setString(2, m.getFirstName());
 			ps.setString(3, m.getLastName());
 			ps.setString(4, m.getEmailAddress());
-			ps.setLong(5, temp_signup_date); // Is setLong correct?
-			ps.setInt(6, m.getMembershipLength());
-			ps.setInt(7, m.getMembershipType());
-			ps.setInt(8, m.getYearInSchool());
-			ps.setInt(9, 1);
+			ps.setLong(5, m.getExpirationDate().getTime());
+			ps.setInt(6, m.getMembershipType());
+			ps.setInt(7, m.getYearInSchool());
+			ps.setInt(8, 1);
 			ps.executeUpdate();
 			//rs.close();
 			ps.close();
