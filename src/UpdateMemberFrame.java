@@ -408,7 +408,7 @@ public class UpdateMemberFrame {
 		
 		mainFrame.add(mainPanel, BorderLayout.NORTH);
 		mainFrame.pack();
-		mainFrame.setLocation(350, 150);
+		mainFrame.setLocationRelativeTo(parentWindow);
 		mainFrame.setResizable(false);
 		mainFrame.setVisible(true);
 		mainFrame.validate();

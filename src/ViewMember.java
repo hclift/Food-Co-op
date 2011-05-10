@@ -36,7 +36,7 @@ private MainFrame parentWindow;
 
 		parentWindow.setEnabled(false);
 		mainFrame = new JFrame("View Member");
-		mainFrame.setBounds(275, 200, 450, 310);
+
 		//mainFrame.setFocusableWindowState(false);
 		
 		mainFrame.addWindowListener(new WindowAdapter() {
@@ -260,7 +260,7 @@ private MainFrame parentWindow;
 		
 		mainFrame.add(mainPanel, BorderLayout.NORTH);
 		mainFrame.pack();
-		mainFrame.setLocation(350, 150);
+		mainFrame.setLocationRelativeTo(parentWindow);
 		mainFrame.setResizable(false);
 		mainFrame.setVisible(true);
 		mainFrame.validate();

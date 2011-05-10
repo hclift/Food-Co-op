@@ -117,7 +117,9 @@ public class MainFrame extends JFrame {
 		controller = c;
 	
 
-		setExtendedState(MAXIMIZED_BOTH);
+		setSize(new Dimension(1024, 768));
+		setResizable(false);
+		
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		
 		addWindowListener(new WindowAdapter() {
