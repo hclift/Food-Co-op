@@ -12,6 +12,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
@@ -116,7 +118,26 @@ public class MainFrame extends JFrame {
 	
 
 		setExtendedState(MAXIMIZED_BOTH);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e)
+			{
+				ArrayList<Member> kitchenSignIns = controller.getSignedIntoKitchen();
+				ArrayList<Member> storeSignIns = controller.getSignedIntoStore();
+				if (kitchenSignIns.size() > 0 || storeSignIns.size() > 0)
+				{
+					JOptionPane.showConfirmDialog(null,
+						"The program cannot be closed until all members are signed out.", "Alert",
+					    JOptionPane.DEFAULT_OPTION);
+				}
+				else
+				{
+					System.exit(0);
+				}
+			}
+		});
+		
 		//setResizable(false);
 		setVisible(true);
 		setTitle("Main Menu");
