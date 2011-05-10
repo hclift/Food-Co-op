@@ -31,6 +31,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 
+
 /**
  *
  * @author Dave Wroblewski
@@ -414,30 +415,25 @@ public class MainFrame extends JFrame {
 		restoreSignIns();
 	}
 
-	/**
+	 /**
 	 * Adds the listeners to the buttons
-	 * 
-	 * 
 	 */
 	private void addListeners(){
-
-
-
-		ActionListener buttonListener = new ButtonListener();
-		searchButton.addActionListener(buttonListener);
-		viewMemberButton.addActionListener(buttonListener);
-		updateMemberButton.addActionListener(buttonListener);
-		addMemberButton.addActionListener(buttonListener);
-		signIntoStoreButton.addActionListener(buttonListener);
-		signIntoKitchenButton.addActionListener(buttonListener);
+		searchButton.addActionListener(new SearchButtonListener());
+		viewMemberButton.addActionListener(new ViewMemberListener());
+		updateMemberButton.addActionListener(new UpdateMemberListener());
+		addMemberButton.addActionListener(new AddMemberListener());
+		signIntoStoreButton.addActionListener(new SignIntoStoreListener());
+		signIntoKitchenButton.addActionListener(new SignIntoKitchenListener());
 		//viewScheduleButton.addActionListener(buttonListener);
-		signOutOfStoreButton.addActionListener(buttonListener);
-		signOutOfKitchenButton.addActionListener(buttonListener);
+		signOutOfStoreButton.addActionListener(new SignOutOfStoreListener());
+		signOutOfKitchenButton.addActionListener(new SignOutOfKitchenListener());
 		//KeyListener Added
 		KeyListener enterListener = new EnterListener();
 		firstNameTextField.addKeyListener(enterListener);
 		lastNameTextField.addKeyListener(enterListener);
 	}
+	
 	/** 
 	 * 
 	 * Enable View Member, Update Member, Sign Into Store, and Sign Into Kitchen Button
@@ -589,7 +585,7 @@ public class MainFrame extends JFrame {
 	 * 
 	 * 
 	 */
-	class ButtonListener implements ActionListener{
+	/*class ButtonListener implements ActionListener{
 
 		String str;
 
@@ -648,7 +644,7 @@ public class MainFrame extends JFrame {
 			}
 		}		
 	}
-
+*/
 	/**
 	 * 
 	 * @author Chun Hung Tseng
@@ -745,5 +741,99 @@ public class MainFrame extends JFrame {
 		updateMemberButton.setEnabled(false);
 		signIntoStoreButton.setEnabled(false);
 		signIntoKitchenButton.setEnabled(false);
+	}
+	
+	class SearchButtonListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e) 
+		{
+			printSearchResult(controller.lookUpMember(firstNameTextField.getText(), lastNameTextField.getText()));
+		}		
+	}
+	
+	class ViewMemberListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e) 
+		{
+			showViewMember();
+		}		
+	}
+	
+	class UpdateMemberListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e) 
+		{
+			CURRENT_MEMBER = controller.getMember(generalLookup.getSelectedIndex());
+			new UpdateMemberFrame(MainFrame.this, controller, CURRENT_MEMBER);
+		}		
+	}
+	
+	class AddMemberListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e) 
+		{
+			new AddMember(controller, MainFrame.this);
+		}		
+	}
+	
+	class SignIntoStoreListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e) 
+		{
+			int memberIndex = generalLookup.getSelectedIndex();
+			ArrayList<Member> members = controller.signIntoStore(memberIndex);
+			printStore(members);
+			signIntoStoreButton.setEnabled(false);
+			signIntoKitchenButton.setEnabled(false);
+		}		
+	}
+	
+	class SignIntoKitchenListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e) 
+		{
+			int memberIndex = generalLookup.getSelectedIndex();
+			ArrayList<Member> members = controller.signIntoKitchen(memberIndex);
+			printKitchen(members);
+			signIntoStoreButton.setEnabled(false);
+			signIntoKitchenButton.setEnabled(false);
+		}		
+	}
+	
+	
+	class SignOutOfStoreListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e) 
+		{
+			printStore(controller.signOutOfStore(store.getSelectedIndex()));
+			if (controller.getMember(generalLookup.getSelectedIndex()).canSignIn())
+			{
+				signIntoStoreButton.setEnabled(true);
+				signIntoKitchenButton.setEnabled(true);
+			}
+			else
+			{
+				signIntoStoreButton.setEnabled(false);
+				signIntoKitchenButton.setEnabled(false);
+			}
+		}		
+	}
+	
+	class SignOutOfKitchenListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e) 
+		{
+			printKitchen(controller.signOutOfKitchen(kitchen.getSelectedIndex()));
+			if (controller.getMember(generalLookup.getSelectedIndex()).canSignIn())
+			{
+				signIntoStoreButton.setEnabled(true);
+				signIntoKitchenButton.setEnabled(true);
+			}
+			else
+			{
+				signIntoStoreButton.setEnabled(false);
+				signIntoKitchenButton.setEnabled(false);
+			}
+		}		
 	}
 }

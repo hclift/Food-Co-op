@@ -773,45 +773,5 @@ public class MainFrame2 extends JFrame{
 			}
 		}		
 	}
-	/*
-	 * else if(e.getSource().equals(signIntoStoreButton)){
-				int memberIndex = generalLookup.getSelectedIndex();
-				ArrayList<Member> members = controller.signIntoStore(memberIndex);
-				printStore(members);
-				signIntoStoreButton.setEnabled(false);
-				signIntoKitchenButton.setEnabled(false);
-			}else if(e.getSource().equals(signIntoKitchenButton)){
-				int memberIndex = generalLookup.getSelectedIndex();
-				ArrayList<Member> members = controller.signIntoKitchen(memberIndex);
-				printKitchen(members);
-				signIntoStoreButton.setEnabled(false);
-				signIntoKitchenButton.setEnabled(false);
-				
-			}else if(e.getSource().equals(signOutOfStoreButton)){
-				printStore(controller.signOutOfStore(store.getSelectedIndex()));
-				if (controller.getMember(generalLookup.getSelectedIndex()).canSignIn())
-				{
-					signIntoStoreButton.setEnabled(true);
-					signIntoKitchenButton.setEnabled(true);
-				}
-				else
-				{
-					signIntoStoreButton.setEnabled(false);
-					signIntoKitchenButton.setEnabled(false);
-				}
-			}else if(e.getSource().equals(signOutOfKitchenButton)){
-				printKitchen(controller.signOutOfKitchen(kitchen.getSelectedIndex()));
-				if (controller.getMember(generalLookup.getSelectedIndex()).canSignIn())
-				{
-					signIntoStoreButton.setEnabled(true);
-					signIntoKitchenButton.setEnabled(true);
-				}
-				else
-				{
-					signIntoStoreButton.setEnabled(false);
-					signIntoKitchenButton.setEnabled(false);
-				}
-	 */
-    
     
 }
