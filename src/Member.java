@@ -194,27 +194,6 @@ public class Member implements Serializable
 	}
 	
 	/**
-	 * Returns the member's membership type
-	 * 
-	 * @return	membership type of the member
-	 */
-	public String getMembershipTypeString()
-	{
-		String membershipTypeString;
-		
-		switch (membershipType)
-		{
-			case 0: membershipTypeString = "Ordinary"; 							break;
-			case 1: membershipTypeString = "Working"; 							break;
-			case 2: membershipTypeString = "Core"; 								break;
-			case 3: membershipTypeString = "Coordinator"; 						break;
-			default: membershipTypeString = "Invalid Membership Type Provided"; break;
-		}
-		
-		return membershipTypeString;
-	}
-	
-	/**
 	 * Return the member's year in school
 	 * 
 	 * @return	year in school of the member
@@ -222,30 +201,6 @@ public class Member implements Serializable
 	public int getYearsInSchool()
 	{
 		return yearInSchool;
-	}
-	
-	/**
-	 * Return the member's year in school
-	 * 
-	 * @return	year in school of the member
-	 */
-	public String getYearsInSchoolString()
-	{		
-		String yearInSchoolString;
-		switch (yearInSchool)
-		{
-			case 0: yearInSchoolString = "Freshman 1"; 				break;
-			case 1: yearInSchoolString = "Freshman 2"; 				break;
-			case 2: yearInSchoolString = "Sophomore 1"; 			break;
-			case 3: yearInSchoolString = "Sophomore 2"; 			break;
-			case 4: yearInSchoolString = "Junior 1"; 				break;
-			case 5: yearInSchoolString = "Junior 2"; 				break;
-			case 6: yearInSchoolString = "Senior 1"; 				break;
-			case 7: yearInSchoolString = "Senior 2"; 				break;
-			default: yearInSchoolString = "Invalid Year Provided"; 	break;
-		}
-		
-		return yearInSchoolString;
 	}
 	
 	/**

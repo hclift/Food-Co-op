@@ -525,10 +525,11 @@ public class MainFrame extends JFrame {
 		else 
 		{
 			for(int j = 0; j < searchResult.size(); j++){
+				String membershipType = MembershipTypes.class.getEnumConstants()[searchResult.get(j).getMembershipType()].getStrVal();
 				String string  = new String((String.format("%-22.21s", searchResult.get(j).getFirstName()) + 
 											 String.format("%-21.20s", searchResult.get(j).getLastName()) + " " + 
-											 String.format("%-22.21s", searchResult.get(j).getMembershipTypeString()) + 
-												searchResult.get(j).getEmailAddress()+ "    ")); 
+											 String.format("%-22.21s", membershipType) + 
+												searchResult.get(j).getEmailAddress())); 
 				generalLookupModel.addElement(string);
 			}
 		}
