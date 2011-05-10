@@ -1,6 +1,7 @@
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Model.java:
@@ -38,12 +39,21 @@ public class Model
 
 	/**
 	 * @author Ashley Chin
-	 * @version 4/27/11
+	 * @version 5/6/11
 	 * 
 	 *          Getter for shift length
 	 * @return Shift Length of the member
 	 */
-	public long getShiftLength() {
+	public long getShiftLength(final int index) {
+		// Time (in milliseconds) that the user signed in to the kitchen
+		long startTime = signedIntoKitchen.get(index).getLastSignIn();
+		// Time (in milliseconds) that the user is signing out (The current
+		// time)
+		long stopTime = System.currentTimeMillis();
+
+		// Shift length (in minutes), the difference between stopTime
+		// and startTime, converted to minutes.
+		shiftLength = (int) (stopTime - startTime) / MILLISECONDS_PER_MINUTE;
 		return shiftLength;
 	}
 
@@ -359,17 +369,26 @@ public class Model
 	 **/
 	public ArrayList<Member> signOutOfStore(final int index)
 	{
+		Calendar cal = Calendar.getInstance();
+		int month = cal.get(Calendar.MONTH);
+		int day = cal.get(Calendar.DATE);
+		int year = cal.get(Calendar.YEAR);
+		
+		this.shiftLength = getShiftLength(index);
+		
+		DatabaseAbstraction.addShift(getMember(index),month,day,year,
+				(int)getShiftLength(index));
 		signedIntoStore.remove(index);
 		return signedIntoStore;
 	}
 
 	/**
 	 * @author Ashley Chin
-	 * @version 4/28/11
+	 * @version 5/10/11
 	 * 
 	 *          This method will sign a currently working member out of the
 	 *          kitchen. It calculates the shift length of the member, and calls
-	 *          reoncileShiftLength in the controller if the shift is shorter
+	 *          reconcileShiftLength in the controller if the shift is shorter
 	 *          than 45min or longer than 120min
 	 * @param index
 	 *            index of the member to be removed from signedIntoKitchen
@@ -377,15 +396,15 @@ public class Model
 	 */
 	public ArrayList<Member> signOutOfKitchen(final int index)
 	{
-		// Time (in milliseconds) that the user signed in to the kitchen
-		long startTime = signedIntoKitchen.get(index).getLastSignIn();
-		// Time (in milliseconds) that the user is signing out (The current
-		// time)
-		long stopTime = System.currentTimeMillis();
-
-		// Shift length (in minutes), the difference between stopTime
-		// and startTime, converted to minutes.
-		shiftLength = (int) (stopTime - startTime) / MILLISECONDS_PER_MINUTE;
+		Calendar cal = Calendar.getInstance();
+		int month = cal.get(Calendar.MONTH);
+		int day = cal.get(Calendar.DATE);
+		int year = cal.get(Calendar.YEAR);
+		
+		DatabaseAbstraction.addShift(getMember(index),month,day,year,
+				(int)getShiftLength(index));
+		
+		this.shiftLength = getShiftLength(index);
 		int numberOfDiscounts = 0;
 
 		if ((shiftLength < 45) || (shiftLength > 120))
@@ -421,6 +440,8 @@ public class Model
 		signedIntoKitchen.get(index).setAvailableDiscounts(
 				signedIntoKitchen.get(index).getAvailableDiscounts()
 						+ numberOfDiscounts);
+		
+		
 		DatabaseAbstraction.updateMember(signedIntoKitchen.get(index));
 		signedIntoKitchen.remove(index);
 		return signedIntoKitchen;
