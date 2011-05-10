@@ -31,7 +31,6 @@ private JTextField currentYearBox, membershipTypeBox;
 private JCheckBox recieveEmailCheckBox;
 private MainFrame parentWindow;
 
-
 	public ViewMember(MainFrame parentWindow, Member m){
 		this.parentWindow = parentWindow;
 
@@ -112,11 +111,13 @@ private MainFrame parentWindow;
 		
 		currentYearBox = new JTextField();
 		currentYearBox.setEditable(false);
-		currentYearBox.setText(m.getYearsInSchoolString());
+		String currentYear = YearsInSchool.class.getEnumConstants()[m.getYearsInSchool()].getStrVal();
+		currentYearBox.setText(currentYear);
 		
 		membershipTypeBox = new JTextField();
 		membershipTypeBox.setEditable(false);
-		membershipTypeBox.setText(m.getMembershipTypeString());
+		String membershipType = MembershipTypes.class.getEnumConstants()[m.getMembershipType()].getStrVal();
+		membershipTypeBox.setText(membershipType);
 		
 		expirationTextField = new JTextField();
 		expirationTextField.setEditable(false);
