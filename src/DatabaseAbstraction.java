@@ -113,6 +113,37 @@ public class DatabaseAbstraction
 	}
 	
 	/**
+	 * @author Ashley Chin
+	 * @version 5/10/11
+	 * 
+	 * Add shift ---------------------------------------------------------------------------------------------
+	 */
+	public static void addShift(Member m, int month, int day, int year, int minWorked)
+	{
+		try
+		{
+			Connection connection = connectToDatabase();
+			PreparedStatement ps = connection.prepareStatement(
+			"INSERT INTO Shifts VALUES(?,?,?,?,?,?)");
+			ps.setNull(1, java.sql.Types.INTEGER);
+			ps.setInt(2, m.getId());
+			ps.setInt(3, month);
+			ps.setInt(4, day);
+			ps.setInt(5, year); 
+			ps.setInt(6, minWorked);
+		
+			ps.executeUpdate();
+			ps.close();
+			connection.close();
+		} 
+		catch (Exception e)
+		{
+			System.out.println(e);
+		}
+	}
+
+
+	/**
 	* Updates a member in the database. Uses a PreparedStatement.
 	* @param m updated Member object.
 	*/
