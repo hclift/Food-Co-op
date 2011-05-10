@@ -70,6 +70,21 @@ public class Member
 		"Coordinator"
 	};
 	
+	
+	public Member(){
+		this.id = 0;
+		this.firstName = "No";
+		this.lastName = "Name";
+		this.email = "noname@noname.com";
+		this.lastSignupDate = null;
+		this.membershipLength = 0;
+		this.membershipType = 0;
+		this.yearInSchool = 0;
+		this.availableDiscounts = 0;
+		this.IouAmount = 0;
+		this.isActive = true;
+	}
+	
 	/**
 	 * Explicit Constructor for a Member object
 	 * 
@@ -118,12 +133,9 @@ public class Member
 		return firstName;
 	}
 	
-	/*
-	 * TODO: Add member
-	 */
-	public void addMember() 
+	public boolean canHaveIou()
 	{
-		
+		return (membershipType >= 2);
 	}
 
 	/**
@@ -182,6 +194,27 @@ public class Member
 	}
 	
 	/**
+	 * Returns the member's membership type
+	 * 
+	 * @return	membership type of the member
+	 */
+	public String getMembershipTypeString()
+	{
+		String membershipTypeString;
+		
+		switch (membershipType)
+		{
+			case 0: membershipTypeString = "Ordinary"; 							break;
+			case 1: membershipTypeString = "Working"; 							break;
+			case 2: membershipTypeString = "Core"; 								break;
+			case 3: membershipTypeString = "Coordinator"; 						break;
+			default: membershipTypeString = "Invalid Membership Type Provided"; break;
+		}
+		
+		return membershipTypeString;
+	}
+	
+	/**
 	 * Returns the member's membership length
 	 * 
 	 * @return	membership length of the member
@@ -199,6 +232,30 @@ public class Member
 	public int getYearsInSchool()
 	{
 		return yearInSchool;
+	}
+	
+	/**
+	 * Return the member's year in school
+	 * 
+	 * @return	year in school of the member
+	 */
+	public String getYearsInSchoolString()
+	{		
+		String yearInSchoolString;
+		switch (yearInSchool)
+		{
+			case 0: yearInSchoolString = "Freshman 1"; 				break;
+			case 1: yearInSchoolString = "Freshman 2"; 				break;
+			case 2: yearInSchoolString = "Sophomore 1"; 			break;
+			case 3: yearInSchoolString = "Sophomore 2"; 			break;
+			case 4: yearInSchoolString = "Junior 1"; 				break;
+			case 5: yearInSchoolString = "Junior 2"; 				break;
+			case 6: yearInSchoolString = "Senior 1"; 				break;
+			case 7: yearInSchoolString = "Senior 2"; 				break;
+			default: yearInSchoolString = "Invalid Year Provided"; 	break;
+		}
+		
+		return yearInSchoolString;
 	}
 	
 	/**

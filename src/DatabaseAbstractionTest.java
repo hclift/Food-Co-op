@@ -6,7 +6,7 @@ import org.junit.Test;
 
 
 /**
- * @author Jonathan
+ * @author
  *
  */
 public class DatabaseAbstractionTest{
@@ -28,7 +28,7 @@ public class DatabaseAbstractionTest{
 		}		
 	} 
 	
-	@Test
+	/*@Test
 	public void testAddMember() {
 		//fail("Not yet implemented");
 		DatabaseAbstraction.addMember("abc", "efg", "a@aol.com", 0, 0, 3, 1);
@@ -43,5 +43,5 @@ public class DatabaseAbstractionTest{
 			fail("Failed to add Member");
 		}
 
-	} 
+	} */
 }

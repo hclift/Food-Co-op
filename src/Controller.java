@@ -127,7 +127,7 @@ public class Controller
 		ArrayList<Member> signedIntoStore = new ArrayList<Member>();
 		try
 		{
-			signedIntoStore = model.signIntoKitchen(index);
+			signedIntoStore = model.signIntoStore(index);
 		}
 		catch(Exception e)
 		{
@@ -138,6 +138,26 @@ public class Controller
 		return signedIntoStore;
 	}
 	
+	/**
+	 * The getSignedIntoKitchen method is used to return 
+	 * an array of members signed into the kitchen.
+	 * 
+	 * @returns ArrayList of members signed into kitchen
+	 */
+	public ArrayList<Member> getSignedIntoKitchen() {
+		return model.getSignedIntoKitchen();
+	}
+	
+	/**
+	 * The getSignedIntoStore method is used to return 
+	 * an array of members signed into the store.
+	 * 
+	 * @returns ArrayList of members signed into store
+	 */
+	public ArrayList<Member> getSignedIntoStore() {
+		return model.getSignedIntoStore();
+	}
+	
 	public boolean updateMember(Member member, String firstName, String lastName, String emailAddress, int yearInSchool, int membershipType, 
 			Date expirationDate, int availableDiscounts, double iouAmount, boolean status)
 	{
@@ -145,6 +165,11 @@ public class Controller
 		boolean retVal = model.updateMember(member, firstName, lastName, emailAddress, yearInSchool, membershipType, expirationDate, availableDiscounts, iouAmount, status);
 		
 		return retVal;
+	}
+	
+	public Member getMember (int index)
+	{
+		return model.getMember(index);
 	}
 	
 	public boolean validateMembershipType(double doubleIOUAmount)
@@ -230,4 +255,12 @@ public class Controller
     	model.setShiftLength(newShiftLength);
     	return newShiftLength;    
     }
+    
+    public ArrayList<YearsInSchool> getYearsInSchool(){
+		return model.getYearsInSchool();
+	}
+    
+    public ArrayList<MembershipTypes> getMembershipTypes(){
+		return model.getMembershipTypes();
+	}
 }

@@ -10,9 +10,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -27,12 +39,10 @@ import javax.swing.event.ListSelectionListener;
  * 
  * Code reviewed by Raanan Korinow
  * 
- * 
- * 
  */
 public class MainFrame extends JFrame {
 
-
+	public static Member CURRENT_MEMBER;
 	/**
 	 * Automatically generated serial ID 
 	 */
@@ -76,13 +86,15 @@ public class MainFrame extends JFrame {
 	//JListLookup and JList Model
 	private JList generalLookup;
 	private DefaultListModel generalLookupModel;
-
-	private JTextArea storeTextArea;
-	private JScrollPane storeScrollPane;
-
-	private JTextArea kitchenTextArea;
-	private JScrollPane kitchenScrollPane;
-
+	private JScrollPane generalLookupPane;
+	
+	private JList store;
+	private DefaultListModel storeModel;
+	private JScrollPane storePane;
+	
+	private JList kitchen;
+	private DefaultListModel kitchenModel;
+	private JScrollPane kitchenPane;
 
 	private JMenu menu;
 
@@ -159,7 +171,7 @@ public class MainFrame extends JFrame {
 		searchButton = new JButton("Search");
 		searchButton.setFont(buttonFont);
 		searchButton.setBounds(515, 146, 80, 25);
-		searchButton.setEnabled(false);
+		searchButton.setEnabled(true);
 
 		topWestPanel.add(firstNameLabel);
 		topWestPanel.add(lastNameLabel);
@@ -191,47 +203,58 @@ public class MainFrame extends JFrame {
 
 		generalLookupModel = new DefaultListModel();
 		generalLookup = new JList(generalLookupModel);
+		Font displayFont = new Font(Font.MONOSPACED, Font.PLAIN, 14);
+		generalLookup.setFont(displayFont);
 
-		JScrollPane generalLookupPane = new JScrollPane(generalLookup);
+		generalLookupPane = new JScrollPane(generalLookup);
 		//generalLookupPane.setBounds(15, 0, 410, 125);
 
 		/**
 		 * This listener will wait to see if a member has been looked up.
 		 */
 		generalLookup.addListSelectionListener(new ListSelectionListener(){
-
 			/**
 			 * Every time a member has been selected by the cursor, an event will be triggered that will
 			 * enable the use of the View Member, Update Member, Sign Into Kitchen, and Sign into Store
 			 * buttons.
 			 */
 			public void valueChanged(ListSelectionEvent e){
-				enableButtons();
-			}		
+				if (e.getValueIsAdjusting() == false) {
+					if (generalLookup.getSelectedIndex() != -1) {
+						enableButtons();
+					}
+				}
+			}				
+		}
+		);
+		
+		// Add a listener for mouse clicks
+		generalLookup.addMouseListener(new MouseAdapter() {
+		    public void mouseClicked(MouseEvent evt) {
+		        JList list = (JList)evt.getSource();
+		        if (evt.getClickCount() == 2) {          // Double-click
+		            showViewMember();
+		        }
+		    }
 		});
 
 		generalLookupTextArea = new JTextArea();
 		generalLookupTextArea.setFont(f2);
 
-		generalLookupTextArea.setEditable(false);
-		generalLookupScrollPane = new JScrollPane(generalLookupTextArea);
-		generalLookupScrollPane.setBounds(5, 20, 795, 205);
 		middleWestPanel.add(firstNameScrollLabel);
 		middleWestPanel.add(lastNameScrollLabel);
 		middleWestPanel.add(membershipScrollLabel);
 		middleWestPanel.add(emailScrollLabel);
-		middleWestPanel.add(generalLookupScrollPane);
-		generalLookupPane.setBounds(5, 20, 795, 205);
-		//generalLookupScrollPane.setBounds(15, 0, 410, 125);
 		middleWestPanel.add(generalLookupPane);
-		//middleWestPanel.add(generalLookupScrollPane);
+		
+		generalLookupPane.setBounds(5, 20, 795, 205);
+
 
 //==============================================================
 
 		/**
 		 * Creates the bottom panel of buttons
 		 * the bottom most panel on westPanel
-		 * 
 		 * 
 		 */
 		viewMemberButton = new JButton("View Member");
@@ -251,10 +274,12 @@ public class MainFrame extends JFrame {
 		signIntoStoreButton = new JButton("Sign Into Store");
 		signIntoStoreButton.setBounds(65, 100, 150, 40);
 		signIntoStoreButton.setFont(buttonFont);
+		signIntoStoreButton.setEnabled(false);
 
 		signIntoKitchenButton = new JButton("Sign Into Kitchen");
 		signIntoKitchenButton.setBounds(325, 100, 150, 40);
 		signIntoKitchenButton.setFont(buttonFont);
+		signIntoKitchenButton.setEnabled(false);
 
 		viewScheduleButton = new JButton("View Schedule");
 		viewScheduleButton.setBounds(565, 100, 150, 40);
@@ -288,31 +313,63 @@ public class MainFrame extends JFrame {
 		signOutOfStoreButton = new JButton("Sign Out");
 		signOutOfStoreButton.setFont(buttonFont);
 		signOutOfStoreButton.setBounds(135, 290, 80, 25);
+		signOutOfStoreButton.setEnabled(false);
+		
+		storeModel = new DefaultListModel();
+		store = new JList(storeModel);
+
+		storePane = new JScrollPane(store);
+		storePane.setBounds(15, 30, 200, 250);
+		
+		/**
+		 * This listener will wait to see if a member has been looked up.
+		 */
+		store.addListSelectionListener(new ListSelectionListener(){
+			/**
+			 * 
+			 */
+			public void valueChanged(ListSelectionEvent e){
+				if (e.getValueIsAdjusting() == false) {
+					if (store.getSelectedIndex() != -1) {
+						signOutOfStoreButton.setEnabled(true);
+					}
+				}
+			}				
+		}
+		);
 
 		signOutOfKitchenButton = new JButton("Sign Out");
 		signOutOfKitchenButton.setFont(buttonFont);
 		signOutOfKitchenButton.setBounds(135, 600, 80, 25);
-
-		storeTextArea = new JTextArea();
-		storeTextArea.setFont(f2);
-		storeTextArea.setEditable(false);
-		//storeTextArea.setText("Name One\nName Two\nReallyReallyReallyLongLong AsianNameInStore\n1\n2\n3\n4\n5\n6\n7\n8\n9\n");
-
-		storeScrollPane = new JScrollPane(storeTextArea);
-		storeScrollPane.setBounds(15, 30, 200, 250);
-
-		kitchenTextArea = new JTextArea();
-		kitchenTextArea.setFont(f2);
-		kitchenTextArea.setEditable(false);
-		//storeTextArea.setText("Name One\nName Two\nReallyReallyReallyLongLong AsianNameInKitchen\n1\n2\n3\n4\n5\n6\n7\n8\n9\n");
-
-		kitchenScrollPane = new JScrollPane(kitchenTextArea);
-		kitchenScrollPane.setBounds(15, 340, 200, 250);
+		signOutOfKitchenButton.setEnabled(false);
+		
+		kitchenModel = new DefaultListModel();
+		kitchen = new JList(kitchenModel);
+		
+		kitchenPane = new JScrollPane(kitchen);
+		kitchenPane.setBounds(15, 340, 200, 250);
+		
+		/**
+		 * This listener will wait to see if a member has been looked up.
+		 */
+		kitchen.addListSelectionListener(new ListSelectionListener(){
+			/**
+			 * 
+			 */
+			public void valueChanged(ListSelectionEvent e){
+				if (e.getValueIsAdjusting() == false) {
+					if (kitchen.getSelectedIndex() != -1) {
+						signOutOfKitchenButton.setEnabled(true);
+					}
+				}
+			}				
+		}
+		);
 
 		eastPanel.add(storeLabel);
 		eastPanel.add(kitchenLabel);
-		eastPanel.add(storeScrollPane);
-		eastPanel.add(kitchenScrollPane);
+		eastPanel.add(storePane);
+		eastPanel.add(kitchenPane);
 		eastPanel.add(signOutOfStoreButton);
 		eastPanel.add(signOutOfKitchenButton);
 
@@ -361,15 +418,39 @@ public class MainFrame extends JFrame {
 	/** 
 	 * 
 	 * Enable View Member, Update Member, Sign Into Store, and Sign Into Kitchen Button
-	 * 
+	 * if Member selected in generalLookup is currently signed into the store or kitchen
+	 * then they can't sign into store/kitchen again (though it is caught if they somehow do)
+	 *
 	 */
 
-	private void enableButtons(){
-		viewMemberButton.setEnabled(true);
-		updateMemberButton.setEnabled(true);
-		signIntoStoreButton.setEnabled(true);
-		signIntoKitchenButton.setEnabled(true);
-
+	public void enableButtons(){
+		int membersInStore = storeModel.getSize();
+		int membersInKitchen = kitchenModel.getSize();
+		int contained = 0;
+		for (int i=0; i < (membersInKitchen + membersInStore); i++)
+		{
+			if (generalLookupModel.getSize() > 0)
+			{
+				String selectedMemberName = new String(
+					controller.getMember(generalLookup.getSelectedIndex()).getFirstName() +
+					" " + 
+					controller.getMember(generalLookup.getSelectedIndex()).getLastName()
+				);
+				if (storeModel.contains(selectedMemberName) || kitchenModel.contains(selectedMemberName))
+				{
+					viewMemberButton.setEnabled(true);
+					updateMemberButton.setEnabled(true);
+					contained = 1;
+				}
+			}
+		}
+		if (contained != 1)
+		{
+			viewMemberButton.setEnabled(true);
+			updateMemberButton.setEnabled(true);
+			signIntoStoreButton.setEnabled(true);
+			signIntoKitchenButton.setEnabled(true);
+		}
 	}
 
 	/**
@@ -377,80 +458,91 @@ public class MainFrame extends JFrame {
 	 * Disable View Member, Update Member, Sign Into Store, and Sign Into Kitchen Button
 	 * 
 	 */
-	private void disableButtons(){
+	public void disableButtons(){
 
 		viewMemberButton.setEnabled(false);
 		updateMemberButton.setEnabled(false);
 		signIntoStoreButton.setEnabled(false);
 		signIntoKitchenButton.setEnabled(false);
-
+		addMemberButton.setEnabled(false);
+		viewScheduleButton.setEnabled(false);
+		searchButton.setEnabled(false);
+		generalLookup.setEnabled(false);
 	}
-
-	/**
-	 * @param: an array list of strings
-	 * @return: none
-	 * 
-	 * Takes the result arraylist and formats it to be displayed in the generalLookupTextArea
-	 */
-	/*public void printSearchResult(ArrayList<String> searchResult)
+	
+	public void reenableButtons()
 	{
-		for(int j = 0; j < searchResult.size(); j++){
-			for(int i = 0; i < 3; i++)
-			{
-				if(i < 2){
-					searchResult.set(j,searchResult.get(j).replaceFirst(" ","\t\t"));
-				}
-				else{
-					searchResult.set(j,searchResult.get(j).replaceFirst(" ","\t\t\t"));
-				}
-
-			}
-			generalLookupTextArea.append(searchResult.get(j)+ "\t\t\t\n");
-		}
-
-
-		//generalLookupTextArea.append("Michael\t\tWang\t\tCoordinator\t\t\tmwang10@binghamton.edu\t\t\t\n");
-		//generalLookupTextArea.append("Jeremy\t\tSimpson\t\tCore\t\t\tjsimpso1@binghamton.edu\t\t\t\n");
-		//generalLookupTextArea.append("Jeremy\t\tSmith\t\tVolunteer\t\t\tjsmith1@binghamton.edu\t\t\t\n");
-		//"First Name\t\tLastName\t\tMembership Type\t\t\tE-Mail\t\t\t\n"
+		searchButton.setEnabled(true);
+		addMemberButton.setEnabled(true);
+		viewScheduleButton.setEnabled(true);
+		generalLookup.setEnabled(true);
 	}
 
-	 */
+	public void printStore(ArrayList<Member> members)
+	{
+		store.clearSelection();
+		storeModel.clear();
+		signIntoStoreButton.setEnabled(true);
+		if (members.size() < 1)
+		{
+			signOutOfStoreButton.setEnabled(false);
+		}
+		else
+		{
+			for (int i = 0; i < members.size(); i++)
+			{
+				String string = new String(members.get(i).getFirstName() +
+					" " + members.get(i).getLastName());
+				storeModel.addElement(string);
+			}
+		}
+	}
+
+	public void printKitchen(ArrayList<Member> members)
+	{
+		kitchen.clearSelection();
+		kitchenModel.clear();
+		signIntoKitchenButton.setEnabled(true);
+		if (members.size() < 1)
+		{
+			signOutOfKitchenButton.setEnabled(false);
+		}
+		else
+		{
+			for (int i = 0; i < members.size(); i++)
+			{
+				String string = new String(members.get(i).getFirstName() +
+					" " + members.get(i).getLastName());
+				kitchenModel.addElement(string);
+			}
+		}
+	}
+
 	public void printSearchResult(ArrayList<Member> searchResult)
 	{
-		generalLookupTextArea.setText(" ");
-		for(int j = 0; j < searchResult.size(); j++){
-			generalLookupTextArea.append(searchResult.get(j).getFirstName()+ "\t\t"+ searchResult.get(j).getLastName()+ "\t\t"
-					+ searchResult.get(j).getMembershipType() + "\t\t\t"
-					+ searchResult.get(j).getEmailAddress()+ "\t\t\n");
-		}
-        //       generalLookupTextArea.setText("First Name\t\tLastName\t\tMembership Type\tE-Mail\t\t\t\n");
 		//This will clear the previous Search Result automatically to prevent an event from happening.
 		generalLookup.clearSelection();
-
-
-
-		//generalLookupTextArea.append("Michael\t\tWang\t\tCoordinator\t\tmwang10@binghamton.edu\t\t\t\n");
-
-		//generalLookupTextArea.append("Michael\t\tWang\t\tCoordinator\t\tmwang10@binghamton.edu\t\t\t\n");
-		if (searchResult.size() == 0){
+		generalLookupModel.clear();
+		
+		if (searchResult.size() < 1)
+		{
+			JOptionPane.showMessageDialog(null, "No results found.");
 			disableButtons();
 		}
-		generalLookupModel.clear();
-		for(int j = 0; j < searchResult.size(); j++){
-			String string  = new String((searchResult.get(j).getFirstName()+ "     "+ searchResult.get(j).getLastName()+ "    "
-											+ searchResult.get(j).getMembershipType() + "    "
-											+ searchResult.get(j).getEmailAddress()+ "    ")); 
-			generalLookupModel.addElement(string);
-
+		else 
+		{
+			for(int j = 0; j < searchResult.size(); j++){
+				String string  = new String((String.format("%-22.21s", searchResult.get(j).getFirstName()) + 
+											 String.format("%-21.20s", searchResult.get(j).getLastName()) + " " + 
+											 String.format("%-22.21s", searchResult.get(j).getMembershipTypeString()) + 
+												searchResult.get(j).getEmailAddress()+ "    ")); 
+				generalLookupModel.addElement(string);
+			}
 		}
-
-		//generalLookupTextArea.append("Michael\t\tWang\t\tCoordinator\t\t\tmwang10@binghamton.edu\t\t\t\n");
-
-		//generalLookupTextArea.append("Jeremy\t\tSimpson\t\tCore\t\t\tjsimpso1@binghamton.edu\t\t\t\n");
-		//generalLookupTextArea.append("Jeremy\t\tSmith\t\tVolunteer\t\t\tjsmith1@binghamton.edu\t\t\t\n");
-		//"First Name\t\tLastName\t\tMembership Type\t\t\tE-Mail\t\t\t\n"
 	}
+	
+	// Coordinator
+	
 	/**
 	 * 
 	 * @param errorMessage a string to be displayed in the error message pop-up
@@ -463,6 +555,13 @@ public class MainFrame extends JFrame {
 	{
 		JOptionPane.showMessageDialog(null, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 	}
+	
+	public void showViewMember()
+	{
+		CURRENT_MEMBER = controller.getMember(generalLookup.getSelectedIndex());
+		new ViewMember(this, CURRENT_MEMBER);
+	}
+	
 	/**
 	 * 
 	 * @author Dave Wroblewski
@@ -484,36 +583,33 @@ public class MainFrame extends JFrame {
 				printSearchResult(controller.lookUpMember(firstNameTextField.getText(), lastNameTextField.getText()));
 
 			else if(e.getSource().equals(viewMemberButton)){
-				new ViewMember();
-				//str = "View member method to go here.";
-				//JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
+				showViewMember();
 
 			}else if(e.getSource().equals(updateMemberButton)){
-
-
-				Member evan = new Member(0, "Evan", "Sussman", "esussma1@binghamton.edu", null, 0, 2, 3, 3, 3.4, true);
-				new UpdateMemberFrame(controller, evan);
-
-
+				CURRENT_MEMBER = controller.getMember(generalLookup.getSelectedIndex());
+				disableButtons();
+				new UpdateMemberFrame(MainFrame.this, controller, CURRENT_MEMBER);
 			}else if(e.getSource().equals(addMemberButton)){
-
-				new AddMember(controller);
-
+				new AddMember(controller, MainFrame.this);
 			}else if(e.getSource().equals(signIntoStoreButton)){
-				
-				
-//				str = "Sign into store method to go here.";
-//				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
-
+				int memberIndex = generalLookup.getSelectedIndex();
+				ArrayList<Member> members = controller.signIntoStore(memberIndex);
+				printStore(members);
+				signIntoStoreButton.setEnabled(false);
+				signIntoKitchenButton.setEnabled(false);
 			}else if(e.getSource().equals(signIntoKitchenButton)){
-				str = "Sign into kitchen method to go here.";
-				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
-
+				int memberIndex = generalLookup.getSelectedIndex();
+				ArrayList<Member> members = controller.signIntoKitchen(memberIndex);
+				printKitchen(members);
+				signIntoStoreButton.setEnabled(false);
+				signIntoKitchenButton.setEnabled(false);
+				
 			}else if(e.getSource().equals(viewScheduleButton)){
 				str = "View schedule method to go here.";
 				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
 
 			}else if(e.getSource().equals(signOutOfStoreButton)){
+				ArrayList<Member> members = controller.signOutOfStore(store.getSelectedIndex());
 				if(model.getShiftLength() < 2700000 || model.getShiftLength() > 7200000){
 					str = "Worker has worked an undeterminable amount of time.\n You must manually enter the amount of hours worked.";
 					JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
@@ -554,12 +650,12 @@ public class MainFrame extends JFrame {
 					mainPanel.add(button);
 					fixShiftLengthFrame.add(mainPanel);
 					fixShiftLengthFrame.validate();
+					//ArrayList<Member> members = controller.signOutOfStore(store.getSelectedIndex());
+					//printStore(members);
 				}
-//				str = "Sign out of store method to go here.";
-//				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
-
+				printStore(members);
 			}else if(e.getSource().equals(signOutOfKitchenButton)){
-
+				ArrayList<Member> members = controller.signOutOfKitchen(kitchen.getSelectedIndex());
 				if(model.getShiftLength() < 2700000 || model.getShiftLength() > 7200000){
 					str = "Worker has worked an undeterminable amount of time.\n You must manually enter the amount of hours worked.";
 					JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
@@ -601,9 +697,7 @@ public class MainFrame extends JFrame {
 					fixShiftLengthFrame.add(mainPanel);
 					fixShiftLengthFrame.validate();
 				}
-//				str = "Sign out of kitchen method to go here.";
-//				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
-
+				printKitchen(members);
 			}else{
 				System.exit(0);
 			}	
@@ -624,19 +718,21 @@ public class MainFrame extends JFrame {
 		boolean TextFieldStatus = false;
 		public void keyPressed(KeyEvent e) {
 			int key = e.getKeyCode();
-			if ((key == KeyEvent.VK_ENTER) && !(firstNameTextField.getText().equals("") || lastNameTextField.getText().equals(""))) {
+			if ((key == KeyEvent.VK_ENTER)) {
 				//System.out.println("First Name: " + firstNameTextField.getText() + "\nLastName: " + lastNameTextField.getText());
 				printSearchResult(controller.lookUpMember(firstNameTextField.getText(), lastNameTextField.getText()));
 			}
 		}
 
 		public void keyReleased(KeyEvent e) {
+			/*
 			if(firstNameTextField.getText().equals("") || lastNameTextField.getText().equals("")){
 				searchButton.setEnabled(false);
 			}
 			else{
 				searchButton.setEnabled(true);
 			}
+			*/
 		}
 
 		public void keyTyped(KeyEvent e) {
@@ -686,5 +782,11 @@ public class MainFrame extends JFrame {
 			}
 		}
 		return reconciledShiftLength;		
+	}
+	
+	public void clearSearchResults()
+	{
+		generalLookupModel.clear();
+		generalLookup.clearSelection();
 	}
 }

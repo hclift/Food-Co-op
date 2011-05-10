@@ -8,6 +8,8 @@
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -18,8 +20,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-public class UpdateMemberFrame{
+public class UpdateMemberFrame implements ExpirationHandler{
 	// main frame of update member; changes on creation and closing
 	private JFrame mainFrame;
 
@@ -52,24 +57,33 @@ public class UpdateMemberFrame{
 	// holds member's IOU amount; changes when discount applied or IOU added
 	double tempIOU;
 	int	tempAvailDiscounts;
+	MainFrame parentWindow;
 	
 	/**
 	 * Explicit value constructor for UpdateMemberFrame.
 	 * Takes in controller and member as parameters.
 	 * @param controller, member
 	 **/
-	public UpdateMemberFrame(Controller controller, Member member)
+	public UpdateMemberFrame(MainFrame parentWindow, Controller controller, Member member)
 	{
+		this.parentWindow = parentWindow;
+		parentWindow.disableButtons();
 		this.member = member;
 		this.controller = controller;
 		tempIOU = member.getIouAmount();
-		tempAvailDiscounts = (int)tempIOU;
+		tempAvailDiscounts = member.getAvailableDiscounts();
 		mainFrame = new JFrame("Update Member");
-		mainFrame.setBounds(375, 200, 450, 310);
+		mainFrame.setBounds(375, 200, 520, 310);
 		//mainFrame.setFocusableWindowState(false);
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		mainFrame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e)
+			{
+				UpdateMemberFrame.this.parentWindow.reenableButtons();
+			}
+		});
 		//mainFrame.setResizable(false);
-		addPanel();
+		addPanel(member);
 		if(!member.getActive())
 		{
 			setButtons(false);
@@ -91,11 +105,28 @@ public class UpdateMemberFrame{
 	}
 	
 	
+	public void handleExpiration(Date dIn, int iIn, long lIn, JTextField jtfIn){
+		SimpleDateFormat formattedExpirationDate  = new SimpleDateFormat("MM/dd/yyyy");
+		if (iIn == 0)
+		{
+			//	183 is 365 / 2
+			long milliseconds_in_half_year = 15778463000L;
+			lIn = dIn.getTime() + 183 + milliseconds_in_half_year;
+		}
+		else if (iIn == 1)
+		{
+			// 365 is one year
+			long milliseconds_in_year = 31556926000L;
+			lIn = dIn.getTime() + 365 + milliseconds_in_year;
+		}
+		jtfIn.setText(formattedExpirationDate.format(lIn));
+	}
+	
 	/**
 	 * Adds the main panel into the main frame of update member.
 	 * Creates all labels, text fields, buttons, and boxes in main panel.
 	 **/
-	private void addPanel()
+	private void addPanel(Member m)
 	{
 		mainPanel = new JPanel();
 		mainPanel.setLayout(null);
@@ -125,10 +156,11 @@ public class UpdateMemberFrame{
 		discountsTextField.setBounds(130, 180, 80, 25);
 		discountsTextField.setEditable(false);
 		
-		IOULabel = new JLabel("IOU Amount: ");
+		IOULabel = new JLabel("IOU Amount: $");
 		IOULabel.setBounds(240, 180, 80, 20);
 		
-		IOUTextField = new JTextField(""+member.getIouAmount());
+		DecimalFormat decimalFormat = new DecimalFormat("0.00");
+		IOUTextField = new JTextField(decimalFormat.format(member.getIouAmount()));
 		IOUTextField.setBounds(320, 180, 80, 25);
 		IOUTextField.setEditable(false);
 		
@@ -155,41 +187,52 @@ public class UpdateMemberFrame{
 		
 		currentYearBox = new JComboBox();
 		currentYearBox.setBounds(85, 100, 100, 25);
-		currentYearBox.addItem("Freshman 1");
+		/*currentYearBox.addItem("Freshman 1");
 		currentYearBox.addItem("Freshman 2");
 		currentYearBox.addItem("Sophmore 1");
 		currentYearBox.addItem("Sophmore 2");
 		currentYearBox.addItem("Junior 1");
 		currentYearBox.addItem("Junior 2");
 		currentYearBox.addItem("Senior 1");
-		currentYearBox.addItem("Senior 2");
+		currentYearBox.addItem("Senior 2");*/
+		for(YearsInSchool x: YearsInSchool.values()){
+			currentYearBox.addItem(x.getStrVal());
+		}
 		currentYearBox.setSelectedIndex(member.getYearsInSchool());
 		
 		membershipTypeBox = new JComboBox();
 		membershipTypeBox.setBounds(310, 100, 100, 25);
-		membershipTypeBox.addItem("Ordinary");
+		for(MembershipTypes y: MembershipTypes.values()){
+			membershipTypeBox.addItem(y.getStrVal());
+		}
+		/*membershipTypeBox.addItem("Ordinary");
 		membershipTypeBox.addItem("Working");
 		membershipTypeBox.addItem("Core");
-		membershipTypeBox.addItem("Coordinator");
+		membershipTypeBox.addItem("Coordinator");*/
 		membershipTypeBox.setSelectedIndex(member.getMembershipType());
 		membershipTypeBox.addActionListener(new OKCancelButtonListener());
 		
 		expirationTextField = new JTextField();
-		expirationTextField.setBounds(100, 140, 70, 25);
-		expirationTextField.setEditable(false);
-		expirationTextField.setText("12/12/2011");
+		expirationTextField.setBounds(100, 140, 100, 25);
+		expirationTextField.setEditable(false);		
+		Date lastSignupDate = m.getLastSignupDate();
+		int membershipLength = m.getMembershipLength();
+		long expirationDate = 0;
+		handleExpiration(lastSignupDate, membershipLength,expirationDate,expirationTextField);
 		
-		addIOUButton = new JButton("Add IOU");
-		addIOUButton.setBounds(178, 140, 120, 25);
+		addIOUButton = new JButton("Add to IOU Amount");
+		addIOUButton.setBounds(205, 140, 160, 25);
 		addIOUButton.addActionListener(new OKCancelButtonListener());
 		
+		if (!member.canHaveIou())
+			addIOUButton.setEnabled(false);
+		
 		applyDiscountButton = new JButton("Apply Discount");
-		applyDiscountButton.setBounds(305, 140, 120, 25);
+		applyDiscountButton.setBounds(370, 140, 120, 25);
 		applyDiscountButton.addActionListener(new OKCancelButtonListener());
-		if(member.getMembershipType() == 0 || member.getIouAmount() < 1)
-		{
-			applyDiscountButton.setVisible(false);
-		}
+		
+		if (member.getAvailableDiscounts() == 0)
+			applyDiscountButton.setEnabled(false);
 		
 		saveButton = new JButton("SAVE");
 		saveButton.setBounds(250, 230, 80, 30);
@@ -244,7 +287,10 @@ public class UpdateMemberFrame{
 						"you want to exit?", "Error",
 						JOptionPane.YES_NO_OPTION);
 				if(result == 0)
+				{
 					mainFrame.dispose();
+					parentWindow.reenableButtons();
+				}
 
 			}
 			else if(e.getSource().equals(saveButton))
@@ -260,31 +306,30 @@ public class UpdateMemberFrame{
 				
 				if(result)
 				{
+					parentWindow.clearSearchResults();
+					
 					mainFrame.dispose();
+					parentWindow.reenableButtons();
 				}
-				
-				int choice = JOptionPane.showConfirmDialog(null,
-						"Results not saved to the database, would you " +
-						"like to quit?", "", JOptionPane.YES_NO_OPTION);
-				if(choice == 0)
+				else
 				{
-					mainFrame.dispose();
+					int choice = JOptionPane.showConfirmDialog(null,
+							"Results not saved to the database, would you " +
+							"like to quit?", "", JOptionPane.YES_NO_OPTION);
+					if(choice == 0)
+					{
+						
+						mainFrame.dispose();
+						parentWindow.reenableButtons();
+					}
 				}
 			}
 			else if(e.getSource().equals(applyDiscountButton))
 			{
-				tempIOU = controller.subtractFromIou(
-						currentYearBox.getSelectedIndex(),
-						membershipTypeBox.getSelectedIndex(), tempIOU, 1);
-				tempAvailDiscounts = (int)tempIOU;
-				int twoplaces = (int) (tempIOU * 100);
-				tempIOU = ((double)twoplaces)/100;
-				IOUTextField.setText("" + tempIOU);
-				discountsTextField.setText(""+tempAvailDiscounts);
-				if(tempIOU < 1 || membershipTypeBox.getSelectedIndex() == 0)
-				{
-					applyDiscountButton.setVisible(false);
-				}
+				--tempAvailDiscounts;
+				discountsTextField.setText("" + tempAvailDiscounts);
+			
+				applyDiscountButton.setEnabled(false);
 			}
 			else if(e.getSource().equals(addIOUButton))
 			{
@@ -295,34 +340,44 @@ public class UpdateMemberFrame{
 				{
 					try
 					{
-					 adjustment = Double.parseDouble(
-							 JOptionPane.showInputDialog(null,
+						String value = 	JOptionPane.showInputDialog(null,
 									 "Adjustment to be made" , "Add" ,
-									 JOptionPane.OK_OPTION));
-					 accept = true;
+									 JOptionPane.OK_OPTION);
+						if (value == null)
+						{
+							accept = true;
+						}
+						else
+						{
+							adjustment = Double.parseDouble(value);
+							accept = true;
+						}					 
 					}
 					catch(Exception exception)
 					{
-						String str = "Do not enter characters";
+						String str = "You may only enter numbers.";
 						JOptionPane.showMessageDialog(null, str, "Error",
 								JOptionPane.INFORMATION_MESSAGE);
 						
 						accept = false;			
 					}
 				}
-				tempIOU = controller.addToIou(
-						currentYearBox.getSelectedIndex(),
-						membershipTypeBox.getSelectedIndex(),
-						tempIOU , adjustment);
-				tempAvailDiscounts = (int)tempIOU;
-				int twoplaces = (int) (tempIOU * 100);
-				tempIOU = ((double)twoplaces)/100;
-				IOUTextField.setText(""+tempIOU);
-				discountsTextField.setText(""+tempAvailDiscounts);
-				if(tempIOU >= 1 && membershipTypeBox.getSelectedIndex() > 0)
+				if (adjustment > 0)
 				{
-					applyDiscountButton.setVisible(true);
+					tempIOU = controller.addToIou(
+							currentYearBox.getSelectedIndex(),
+							membershipTypeBox.getSelectedIndex(),
+							tempIOU , adjustment);
+
+					DecimalFormat df = new DecimalFormat("0.00");
+					IOUTextField.setText(""+df.format(tempIOU));
+
+					if(tempIOU > 0)
+					{
+						applyDiscountButton.setEnabled(true);
+					}
 				}
+				
 			}
 			else if(e.getSource().equals(activeMemberCheckBox))
 			{
@@ -330,15 +385,7 @@ public class UpdateMemberFrame{
 			}
 			else if(e.getSource().equals(membershipTypeBox))
 			{
-				if(membershipTypeBox.getSelectedIndex() == 0 || 
-						member.getIouAmount() < 1)
-				{
-					applyDiscountButton.setVisible(false);
-				}
-				else
-				{
-					applyDiscountButton.setVisible(true);
-				}
+				
 			}
 			else
 			{
