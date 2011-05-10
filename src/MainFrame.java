@@ -388,6 +388,7 @@ public class MainFrame extends JFrame {
 		mainPanel.add(eastPanel);
 		addListeners();
 		validate();
+		restoreSignIns();
 	}
 
 	/**
@@ -439,6 +440,13 @@ public class MainFrame extends JFrame {
 			signIntoStoreButton.setEnabled(false);
 			signIntoKitchenButton.setEnabled(false);
 		}
+	}
+
+	public void restoreSignIns()
+	{
+		controller.restoreSignIns();
+		printStore(controller.getSignedIntoStore());
+		printKitchen(controller.getSignedIntoKitchen());
 	}
 
 	/**
@@ -591,28 +599,28 @@ public class MainFrame extends JFrame {
 				
 			}else if(e.getSource().equals(signOutOfStoreButton)){
 				printStore(controller.signOutOfStore(store.getSelectedIndex()));
-				if (controller.getMember(generalLookup.getSelectedIndex()).canSignIn())
-				{
-					signIntoStoreButton.setEnabled(true);
-					signIntoKitchenButton.setEnabled(true);
-				}
-				else
-				{
-					signIntoStoreButton.setEnabled(false);
-					signIntoKitchenButton.setEnabled(false);
-				}
+//				if (controller.getMember(generalLookup.getSelectedIndex()).canSignIn())
+//				{
+//					signIntoStoreButton.setEnabled(true);
+//					signIntoKitchenButton.setEnabled(true);
+//				}
+//				else
+//				{
+//					signIntoStoreButton.setEnabled(false);
+//					signIntoKitchenButton.setEnabled(false);
+//				}
 			}else if(e.getSource().equals(signOutOfKitchenButton)){
 				printKitchen(controller.signOutOfKitchen(kitchen.getSelectedIndex()));
-				if (controller.getMember(generalLookup.getSelectedIndex()).canSignIn())
-				{
-					signIntoStoreButton.setEnabled(true);
-					signIntoKitchenButton.setEnabled(true);
-				}
-				else
-				{
-					signIntoStoreButton.setEnabled(false);
-					signIntoKitchenButton.setEnabled(false);
-				}
+//				if (controller.getMember(generalLookup.getSelectedIndex()).canSignIn())
+//				{
+//					signIntoStoreButton.setEnabled(true);
+//					signIntoKitchenButton.setEnabled(true);
+//				}
+//				else
+//				{
+//					signIntoStoreButton.setEnabled(false);
+//					signIntoKitchenButton.setEnabled(false);
+//				}
 			}
 		}		
 	}

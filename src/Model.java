@@ -2,6 +2,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.io.*;
 
 /**
  * Model.java:
@@ -467,6 +468,82 @@ public class Model
 	public boolean isSignedIn(Member m)
 	{
 		return (signedIntoStore.contains(m) || signedIntoKitchen.contains(m));
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void restoreStoreSignIns()
+	{
+		FileInputStream fis = null;
+		ObjectInputStream ois = null;
+		ArrayList<Member> restoredSignIns = new ArrayList<Member>();
+		try {
+			fis = new FileInputStream("StoreSignIns.ser");
+			ois = new ObjectInputStream(fis);
+			restoredSignIns = (ArrayList<Member>) ois.readObject();
+			fis.close();
+			ois.close();
+			signedIntoStore =  restoredSignIns;
+		}
+		catch (ClassNotFoundException e) {
+			System.out.println(e);
+		}
+		catch (IOException e) {
+			System.out.println(e);
+		}
+		signedIntoStore = restoredSignIns;
+	}
+	
+	public void saveStoreSignIns(ArrayList<Member> signIns) {
+		FileOutputStream fos = null;
+		ObjectOutputStream oos = null;
+		try {
+			fos = new FileOutputStream("StoreSignIns.ser");
+			oos = new ObjectOutputStream(fos);
+			oos.writeObject(signIns);
+			fos.close();
+			oos.close();
+		}
+		catch (IOException e) {
+			System.out.println(e);
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void restoreKitchenSignIns()
+	{
+		FileInputStream fis = null;
+		ObjectInputStream ois = null;
+		ArrayList<Member> restoredSignIns = new ArrayList<Member>();
+		try {
+			fis = new FileInputStream("KitchenSignIns.ser");
+			ois = new ObjectInputStream(fis);
+			restoredSignIns = (ArrayList<Member>) ois.readObject();
+			fis.close();
+			ois.close();
+			signedIntoKitchen = restoredSignIns;
+		}
+		catch (ClassNotFoundException e) {
+			System.out.println(e);
+		}
+		catch (IOException e) {
+			System.out.println(e);
+		}
+		signedIntoKitchen =  restoredSignIns;
+	}
+	
+	public void saveKitchenSignIns(ArrayList<Member> signIns) {
+		FileOutputStream fos = null;
+		ObjectOutputStream oos = null;
+		try {
+			fos = new FileOutputStream("KitchenSignIns.ser");
+			oos = new ObjectOutputStream(fos);
+			oos.writeObject(signIns);
+			fos.close();
+			oos.close();
+		}
+		catch (IOException e) {
+			System.out.println(e);
+		}
 	}
 }
 

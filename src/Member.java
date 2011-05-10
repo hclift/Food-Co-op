@@ -1,4 +1,5 @@
 import java.sql.Time;
+import java.io.Serializable;
 
 /**
  * Member.java
@@ -12,7 +13,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Member 
+public class Member implements Serializable
 {
 	// unique member id number 
 	private int id;

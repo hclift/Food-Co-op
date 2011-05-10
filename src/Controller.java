@@ -111,6 +111,8 @@ public class Controller
 			mainFrame.displayException(e.getMessage());
 		}
 		
+		model.saveKitchenSignIns(signedIntoKitchen);
+		
 		return signedIntoKitchen;
 	}
 	
@@ -135,7 +137,25 @@ public class Controller
 			mainFrame.displayException(e.getMessage());
 		}
 		
+		model.saveStoreSignIns(signedIntoStore);
+		
 		return signedIntoStore;
+	}
+	
+	public void restoreSignIns()
+	{
+		model.restoreStoreSignIns();
+		model.restoreKitchenSignIns();
+	}
+	
+	public ArrayList<Member> getSignedIntoStore()
+	{
+		return model.getSignedIntoStore();
+	}
+	
+	public ArrayList<Member> getSignedIntoKitchen()
+	{
+		return model.getSignedIntoKitchen();
 	}
 	
 	public boolean updateMember(Member member, String firstName, String lastName, String emailAddress, Date expirationDate, int yearInSchool, int membershipType, 
@@ -201,7 +221,9 @@ public class Controller
 	 */
 	public ArrayList<Member> signOutOfStore(final int index)
 	{
-		return model.signOutOfStore(index);
+		ArrayList<Member> storeList = model.signOutOfStore(index);
+		model.saveStoreSignIns(storeList);
+        return storeList;
 	}
 
 	/**
@@ -217,7 +239,9 @@ public class Controller
 
     public ArrayList<Member> signOutOfKitchen(final int index)
     {
-        return model.signOutOfKitchen(index);
+		ArrayList<Member> kitchenList = model.signOutOfKitchen(index);
+		model.saveKitchenSignIns(kitchenList);
+        return kitchenList;
     }
     
 	/**
