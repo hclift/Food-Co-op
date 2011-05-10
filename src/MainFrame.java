@@ -527,7 +527,7 @@ public class MainFrame extends JFrame {
 					JLabel label = new JLabel("Minuets worked:");
 					JButton button = new JButton("OK");
 					label.setBounds(10, 20, 100, 25);
-					textField.setBounds(100, 20, 80, 25);
+					textField.setBounds(110, 20, 80, 25);
 					button.setBounds(100, 60, 80, 25);
 					button.addActionListener(new ActionListener(){
 
@@ -573,7 +573,7 @@ public class MainFrame extends JFrame {
 					JLabel label = new JLabel("Minuets worked:");
 					JButton button = new JButton("OK");
 					label.setBounds(10, 20, 100, 25);
-					textField.setBounds(100, 20, 80, 25);
+					textField.setBounds(110, 20, 80, 25);
 					button.setBounds(100, 60, 80, 25);
 					button.addActionListener(new ActionListener(){
 
