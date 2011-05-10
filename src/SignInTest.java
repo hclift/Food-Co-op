@@ -17,7 +17,7 @@ public class SignInTest {
 	public void setUp() throws Exception 
 	{
 		testResults = new ArrayList<Member>();
-		testMember = new Member(13132, "John", "Doe", "jdoe@binghamton.edu", 
+		/*testMember = new Member(13132, "John", "Doe", "jdoe@binghamton.edu", 
 				new Date(1234567890), 1, 1,1,2, 1, true);
 		testResults.add(testMember);
 		testMember = new Member(13902, "Kevin", "Hannon", "kbh1@binghamton.edu", 
@@ -27,8 +27,9 @@ public class SignInTest {
 				new Date(1234567890), 1, 0,1,2, 1, true);
 		testResults.add(testMember);
 		model = new Model();
-		//model.setLastLookupMemberResults(testResults);
+		*///model.setLastLookupMemberResults(testResults);
 	}
+	
 	
 	@Test
 	public void testSetlastSignIn()
