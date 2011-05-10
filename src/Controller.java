@@ -2,6 +2,8 @@ import java.sql.Connection;
 import java.util.Date;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
+import java.text.DecimalFormat;
+
 
 /**
  * This class provides the controller portion of the MVC framework.
@@ -192,7 +194,10 @@ public class Controller
 			mainFrame.displayException(e.getMessage());
 			return oldAmount;
 		}
-		return newAmount;
+		
+		DecimalFormat df = new DecimalFormat("0.00");
+		
+		return Double.valueOf(df.format(newAmount));
 	}
 	
 	public double subtractFromIou(int currentYear, int membershipType, double oldAmount, double adjustment)
@@ -207,7 +212,10 @@ public class Controller
 			mainFrame.displayException(e.getMessage());
 			return oldAmount;
 		}
-		return newAmount;
+		
+		DecimalFormat df = new DecimalFormat("0.00");
+		
+		return Double.valueOf(df.format(newAmount));
 	}
 
 	/** @author Ashley Chin
