@@ -82,29 +82,15 @@ public class SignOutIntegrationTest {
 	@Test
 	public void testreconcileShiftLength()
 	{
-		
 		dummy = m.getSignedIntoKitchen().get(0);
 		dummy.setAvailableDiscounts(10);
+	
 		// Simulate Working for 72 minutes
 		dummy.setLastSignIn(System.currentTimeMillis() - 4320000);
 		searchResults = m.signOutOfKitchen(0);
-		assertEquals(11, dummy.getAvailableDiscounts());
+		assertEquals(11, dummy.getAvailableDiscounts());	
 		
-		
-		/**
-		int currentDiscounts = m.getSignedIntoKitchen().get(0).getAvailableDiscounts();
-		int newShiftLength = c.reconcileShiftLength(24);
-		if (newShiftLength >= 90)
-		{
-			m.getSignedIntoKitchen().get(0).setAvailableDiscounts(dummy.getAvailableDiscounts()+2);
-			assertEquals(currentDiscounts+2, m.getSignedIntoKitchen().get(0).getAvailableDiscounts());
-		}
-		else
-		{
-			m.getSignedIntoKitchen().get(0).setAvailableDiscounts(dummy.getAvailableDiscounts()+1);
-			assertEquals(currentDiscounts+1, dummy.getAvailableDiscounts());
-		}
-		**/
 	}
 	
+
 }
