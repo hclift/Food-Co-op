@@ -26,6 +26,7 @@ private JButton workHistoryButton, okButton;
 private JTextField currentYearBox, membershipTypeBox;
 private JCheckBox recieveEmailCheckBox;
 private MainFrame parentWindow;
+private Controller controller;
 
 
 	public ViewMember(MainFrame parentWindow, Member m){
@@ -215,6 +216,7 @@ private MainFrame parentWindow;
 			if(e.getSource().equals(okButton)){
 				mainFrame.dispose();
 				parentWindow.reenableButtons();
+				System.out.println("in here.....");
 			}else if(e.getSource().equals(workHistoryButton)){
 				//TODO: Implement methods for OKButton
 				
@@ -225,63 +227,63 @@ private MainFrame parentWindow;
 		
 		
 	}
-	void PopulateCalendar(Member member, int month, int year){
-
-		//ArrayList containing shift lengths
-		ArrayList <ShiftInfo>  shiftsArray = new ArrayList <ShiftInfo> ();
-		//Variable to store day member worked
-		int day;
-		//Get minimum time member worked
-		int minWorked;
-		// make a controller object to call
-
-		shiftsArray = controller.getShifts(member, month, year);
-		//for each ShiftInfo object in arraylist
-		try{
-			for(int i = 0; i < shiftsArray.size; i++){
-				//extract arraylist objects
-				//map ShiftInfo day data member to calendar day
-				day = shiftsArray.get(i).getShiftDay();
-				minWorked = shiftsArray.get(i).getMinWorked();
-
-				//display shift length for that day (if more than 1 shift/day, sum the minutes for that day)
-				//Shift < 15 mins
-				if(minWorked < 60)
-				{
-					//Display in normal minutes
-				}
-				else if(minWorked % 60 == 0)
-				{
-					int hourDisplay = minWorked / 60;
-					//Display as 1 hour, 2 hours, 3 hours, etc
-					/*
-					 * Example: Worked 120 minutes:
-					 * 120 % 60 = 0
-					 * 120 / 60 = 2, so hourDisplay = 2
-					 */
-
-					//Display hours now
-				}
-				else
-				{
-					
-				///
-					int minuteDisplay = minWorked % 60;
-					int hourDisplay = minWorked / 60;
-					/*
-					 * Example: Worked 90 minutes:
-					 * 90 % 60 = 30 (minutes)
-					 * 90 / 60 = 1 (hour)
-					 */
-					//System.out.println(hourDisplay + "hours and " + minuteDisplay + "minutes");
-
-				}
-			}
-		}
-			catch(Exception e){
-				//maybe some error
-			}
-	}
+//	void PopulateCalendar(Member member, int month, int year){
+//
+//		//ArrayList containing shift lengths
+//		ArrayList <ShiftInfo>  shiftsArray = new ArrayList <ShiftInfo> ();
+//		//Variable to store day member worked
+//		int day;
+//		//Get minimum time member worked
+//		int minWorked;
+//		// make a controller object to call
+//
+//		shiftsArray = controller.getShifts(member, month, year);
+//		//for each ShiftInfo object in arraylist
+//		try{
+//			for(int i = 0; i < shiftsArray.size; i++){
+//				//extract arraylist objects
+//				//map ShiftInfo day data member to calendar day
+//				day = shiftsArray.get(i).getShiftDay();
+//				minWorked = shiftsArray.get(i).getMinWorked();
+//
+//				//display shift length for that day (if more than 1 shift/day, sum the minutes for that day)
+//				//Shift < 15 mins
+//				if(minWorked < 60)
+//				{
+//					//Display in normal minutes
+//				}
+//				else if(minWorked % 60 == 0)
+//				{
+//					int hourDisplay = minWorked / 60;
+//					//Display as 1 hour, 2 hours, 3 hours, etc
+//					/*
+//					 * Example: Worked 120 minutes:
+//					 * 120 % 60 = 0
+//					 * 120 / 60 = 2, so hourDisplay = 2
+//					 */
+//
+//					//Display hours now
+//				}
+//				else
+//				{
+//					
+//				///
+//					int minuteDisplay = minWorked % 60;
+//					int hourDisplay = minWorked / 60;
+//					/*
+//					 * Example: Worked 90 minutes:
+//					 * 90 % 60 = 30 (minutes)
+//					 * 90 / 60 = 1 (hour)
+//					 */
+//					//System.out.println(hourDisplay + "hours and " + minuteDisplay + "minutes");
+//
+//				}
+//			}
+//		}
+//			catch(Exception e){
+//				//maybe some error
+//			}
+//	}
 	
 }
 
