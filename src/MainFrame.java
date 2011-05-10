@@ -582,8 +582,15 @@ public class MainFrame extends JFrame {
 				JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
 
 			}else if(e.getSource().equals(signOutOfStoreButton)){
+				
+				int memberIndex = generalLookup.getSelectedIndex();	// Ashley---------------------
+				
 				ArrayList<Member> members = controller.signOutOfStore(store.getSelectedIndex());
-				if(model.getShiftLength() < 2700000 || model.getShiftLength() > 7200000){
+				if(model.getShiftLength(memberIndex) < 2700000 || model.getShiftLength(memberIndex) > 7200000){
+					
+					// Ashley ---------------------------------------------------
+					
+					
 					str = "Worker has worked an undeterminable amount of time.\n You must manually enter the amount of hours worked.";
 					JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
 					final JFrame fixShiftLengthFrame = new JFrame("Fix shift length");
@@ -593,7 +600,7 @@ public class MainFrame extends JFrame {
 					JPanel mainPanel = new JPanel();
 					mainPanel.setLayout(null);
 					final JTextField textField = new JTextField();
-					JLabel label = new JLabel("Minuets worked:");
+					JLabel label = new JLabel("Minutes worked:");
 					JButton button = new JButton("OK");
 					label.setBounds(10, 20, 100, 25);
 					textField.setBounds(100, 20, 80, 25);
@@ -628,8 +635,15 @@ public class MainFrame extends JFrame {
 				}
 				printStore(members);
 			}else if(e.getSource().equals(signOutOfKitchenButton)){
+				
+				int memberIndex = generalLookup.getSelectedIndex(); //Ashley------------------------------------------
+				
+				
 				ArrayList<Member> members = controller.signOutOfKitchen(kitchen.getSelectedIndex());
-				if(model.getShiftLength() < 2700000 || model.getShiftLength() > 7200000){
+				
+				//=-----------------------------------
+				
+				if(model.getShiftLength(memberIndex) < 2700000 || model.getShiftLength(memberIndex) > 7200000){
 					str = "Worker has worked an undeterminable amount of time.\n You must manually enter the amount of hours worked.";
 					JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.INFORMATION_MESSAGE);
 					final JFrame fixShiftLengthFrame = new JFrame("Fix shift length");
