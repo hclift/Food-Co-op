@@ -90,9 +90,8 @@ public class UpdateMemberFrame {
 			{
 				if (verifyClosing())
 				{
-					mainFrame.dispose();
 					UpdateMemberFrame.this.parentWindow.setEnabled(true);
-					UpdateMemberFrame.this.parentWindow.requestFocus();
+					mainFrame.dispose();
 				}
 			}
 		});
@@ -584,22 +583,21 @@ public class UpdateMemberFrame {
 			{
 				parentWindow.clearSearchResults();
 				
-				mainFrame.dispose();
-				
 				parentWindow.setEnabled(true);
-				parentWindow.requestFocus();
+				mainFrame.dispose();
+
 			}
 			else
 			{
 				int choice = JOptionPane.showConfirmDialog(null,
-						"Results not saved to the database, would you " +
-						"like to quit?", "", JOptionPane.YES_NO_OPTION);
+						"Nothing was saved to the database.  " +
+						"Would you like to quit?", "", 
+						JOptionPane.YES_NO_OPTION);
+				
 				if(choice == 0)
 				{
-					
-					mainFrame.dispose();
 					parentWindow.setEnabled(true);
-					parentWindow.requestFocus();
+					mainFrame.dispose();
 				}
 			}
 		}		
@@ -611,9 +609,8 @@ public class UpdateMemberFrame {
 		{
 			if (verifyClosing())
 			{
-				mainFrame.dispose();
 				parentWindow.setEnabled(true);
-				parentWindow.requestFocus();
+				mainFrame.dispose();
 			}
 		}		
 	}

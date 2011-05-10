@@ -43,7 +43,7 @@ private MainFrame parentWindow;
 			public void windowClosing(WindowEvent e)
 			{
 				ViewMember.this.parentWindow.setEnabled(true);
-				ViewMember.this.parentWindow.requestFocus();
+				
 			}
 		});
 		
@@ -272,10 +272,8 @@ private MainFrame parentWindow;
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			if(e.getSource().equals(okButton)){
-				mainFrame.dispose();
-				//parentWindow.reenableButtons();
 				parentWindow.setEnabled(true);
-				parentWindow.requestFocus();
+				mainFrame.dispose();
 			}else if(e.getSource().equals(workHistoryButton)){
 				//TODO: Implement methods for OKButton
 				

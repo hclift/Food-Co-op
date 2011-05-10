@@ -534,6 +534,7 @@ public class MainFrame extends JFrame {
 		//This will clear the previous Search Result automatically to prevent an event from happening.
 		generalLookup.clearSelection();
 		generalLookupModel.clear();
+		disableSelectionButtons();
 		
 		if (searchResult.size() < 1)
 		{

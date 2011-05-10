@@ -68,7 +68,6 @@ public class AddMember
 			public void windowClosing(WindowEvent e)
 			{
 				AddMember.this.parentWindow.setEnabled(true);
-				AddMember.this.parentWindow.requestFocus();
 			}
 		});
 		
@@ -339,9 +338,8 @@ public class AddMember
 			if(e.getSource().equals(cancelButton))
 			{
 				// closes the window
-				mainFrame.dispose();
 				parentWindow.setEnabled(true);
-				parentWindow.requestFocus();
+				mainFrame.dispose();
 			}
 			else if(e.getSource().equals(okButton))
 			{
@@ -369,9 +367,8 @@ public class AddMember
 					// add member to database and close window
 					controller.addMember(fn, ln, em, convertMemDur(sy),
 					convertMemType(mt), convertYear(cy), 1);
-				mainFrame.dispose();
 				parentWindow.setEnabled(true);
-				parentWindow.requestFocus();
+				mainFrame.dispose();
 			}else{
 				System.exit(0);
 			}
