@@ -179,17 +179,11 @@ public class UpdateMemberFrame {
 	private void addPanel(Member m)
 	{		
 		firstNameLabel = new JLabel("First Name: ");
-		
 		lastNameLabel = new JLabel("Last Name: ");
-		
 		emailLabel = new JLabel("E-Mail: ");
-		
 		yearLabel = new JLabel("Current Year: ");
-		
 		membershipTypeLabel = new JLabel("Membership Type: ");
-		
 		expirationLabel = new JLabel("Expiration Date: ");
-		
 		discountsLabel = new JLabel("Discounts Available: ");
 		
 		discountsTextField = new JTextField(""+member.getAvailableDiscounts());
@@ -265,31 +259,6 @@ public class UpdateMemberFrame {
 		
 		createPanel();
 		
-		/*mainPanel.add(firstNameLabel);
-		mainPanel.add(firstNameTextField);
-		mainPanel.add(lastNameLabel);
-		mainPanel.add(lastNameTextField);
-		mainPanel.add(emailLabel);
-		mainPanel.add(emailTextField);
-		mainPanel.add(yearLabel);
-		mainPanel.add(currentYearBox);
-		mainPanel.add(membershipTypeLabel);
-		mainPanel.add(membershipTypeBox);
-		mainPanel.add(expirationLabel);
-		mainPanel.add(expirationTextField);
-		mainPanel.add(addIOUButton);
-		mainPanel.add(applyDiscountButton);
-		mainPanel.add(discountsLabel);
-		mainPanel.add(discountsTextField);
-		mainPanel.add(IOULabel);
-		mainPanel.add(IOUTextField);
-		//mainPanel.add(recieveEmailCheckBox);
-		mainPanel.add(activeMemberLabel);
-		mainPanel.add(saveButton);
-		mainPanel.add(cancelButton);
-		mainPanel.add(activeMemberCheckBox);
-		mainPanel.setVisible(true);
-		mainFrame.add(mainPanel, BorderLayout.CENTER);*/
 	}
 	
 	/**
@@ -345,18 +314,18 @@ public class UpdateMemberFrame {
 		c.gridx = 1;
 		c.gridy = 3;
 		c.gridwidth = 1;
-		c.ipadx = 175;
+		c.ipadx = 75;
 		mainPanel.add(currentYearBox, c);
 		
-		c.gridx = 0;
-		c.gridy = 4;
+		c.gridx = 2;
+		c.gridy = 3;
 		c.gridwidth = 1;
 		c.ipadx = 0;
 		c.anchor = GridBagConstraints.LINE_END;
 		mainPanel.add(membershipTypeLabel, c);
 		
-		c.gridx = 1;
-		c.gridy = 4;
+		c.gridx = 3;
+		c.gridy = 3;
 		c.gridwidth = 1;
 		c.anchor = GridBagConstraints.LINE_START;
 		mainPanel.add(membershipTypeBox, c);
@@ -388,10 +357,10 @@ public class UpdateMemberFrame {
 		
 		c.gridx = 1;
 		c.gridy = 6;
-		c.gridwidth = 2;
+		c.gridwidth = 1;
 		mainPanel.add(discountsTextField, c);
 		
-		c.gridx = 3;
+		c.gridx = 2;
 		c.gridy = 6;
 		c.gridwidth = 1;
 		mainPanel.add(applyDiscountButton, c);

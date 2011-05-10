@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.Calendar;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -77,123 +80,168 @@ private MainFrame parentWindow;
 		mainPanel.setLayout(null);
 		
 		firstNameLabel = new JLabel("First Name: ");
-		firstNameLabel.setBounds(5, 5, 80, 20);
-		
 		lastNameLabel = new JLabel("Last Name: ");
-		lastNameLabel.setBounds(5, 35, 80, 20);
-		
 		emailLabel = new JLabel("E-Mail: ");
-		emailLabel.setBounds(5, 63, 80, 20);
-		
 		yearLabel = new JLabel("Current Year: ");
-		yearLabel.setBounds(5, 100, 110, 20);
-		
 		membershipTypeLabel = new JLabel("Membership Type: ");
-		membershipTypeLabel.setBounds(200, 100, 150, 20);
-		
 		expirationLabel = new JLabel("Expiration Date: ");
-		expirationLabel.setBounds(5, 140, 130, 20);
-		
 		discountsLabel = new JLabel("Discounts Available: ");
-		discountsLabel.setBounds(5, 180, 150, 20);
 		
 		discountsTextField = new JTextField();
-		discountsTextField.setBounds(130, 180, 80, 25);
 		discountsTextField.setEditable(false);
 		discountsTextField.setText(Integer.toString(m.getAvailableDiscounts()));
 		
-		
 		IOULabel = new JLabel("IOU Amount: $");
-		IOULabel.setBounds(230, 180, 100, 20);
 		
 		DecimalFormat df = new DecimalFormat("0.00");
 		IOUTextField = new JTextField();
-		IOUTextField.setBounds(320, 180, 80, 25);
 		IOUTextField.setEditable(false);
 		IOUTextField.setText(df.format(m.getIouAmount()));
 		
 		firstNameTextField = new JTextField();
-		firstNameTextField.setBounds(80, 5, 350, 25);
 		firstNameTextField.setEditable(false);
 		firstNameTextField.setText(m.getFirstName());
 		
 		lastNameTextField = new JTextField();
-		lastNameTextField.setBounds(80, 35, 350, 25);
 		lastNameTextField.setEditable(false);
 		lastNameTextField.setText(m.getLastName());
 		
 		emailTextField = new JTextField();
-		emailTextField.setBounds(80, 65, 350, 25);
 		emailTextField.setEditable(false);
 		emailTextField.setText(m.getEmailAddress());
 		
-		
 		currentYearBox = new JTextField();
-		currentYearBox.setBounds(85, 100, 100, 25);
 		currentYearBox.setEditable(false);
 		currentYearBox.setText(m.getYearsInSchoolString());
 		
 		membershipTypeBox = new JTextField();
-		membershipTypeBox.setBounds(310, 100, 100, 25);
 		membershipTypeBox.setEditable(false);
 		membershipTypeBox.setText(m.getMembershipTypeString());
 		
 		expirationTextField = new JTextField();
-		expirationTextField.setBounds(100, 140, 100, 25);
 		expirationTextField.setEditable(false);
-		
-		//	Calculate expiration date
-		
+				
 		handleExpiration(m.getExpirationDate(), 3, expirationTextField);
-		/*SimpleDateFormat formattedExpirationDate  = new SimpleDateFormat("MM/dd/yyyy");
-		if (membershipLength == 0)
-		{
-			//	183 is 365 / 2
-			expirationDate = lastSignupDate.getTime() + 183 * 24 * 60 * 60;
-		}
-		else if (membershipLength == 1)
-		{
-			// 365 is one year
-			expirationDate = lastSignupDate.getTime() + 365 * 24 * 60 * 60;
-		}
-		expirationTextField.setText(formattedExpirationDate.format(expirationDate));
-		*/
-		
-		
+
 		workHistoryButton = new JButton("Display Work History");
-		workHistoryButton.setBounds(230, 140, 180, 25);
-		
 		
 		okButton = new JButton("OK");
-		okButton.setBounds(340, 240, 80, 30);
-		
-		
 		okButton.addActionListener(new ButtonListener());
-		
-		
-		mainPanel.add(firstNameLabel);
-		mainPanel.add(firstNameTextField);
-		mainPanel.add(lastNameLabel);
-		mainPanel.add(lastNameTextField);
-		mainPanel.add(emailLabel);
-		mainPanel.add(emailTextField);
-		mainPanel.add(yearLabel);
-		mainPanel.add(currentYearBox);
-		mainPanel.add(membershipTypeLabel);
-		mainPanel.add(membershipTypeBox);
-		mainPanel.add(expirationLabel);
-		mainPanel.add(expirationTextField);
-		mainPanel.add(workHistoryButton);
-		mainPanel.add(discountsLabel);
-		mainPanel.add(discountsTextField);
-		mainPanel.add(IOULabel);
-		mainPanel.add(IOUTextField);
-		mainPanel.add(okButton);
-		
+
+		createPanel();		
+	}
+	
+	private void createPanel()
+	{
+		GridBagLayout gbl = new GridBagLayout();
+		mainPanel = new JPanel(gbl);	
 		mainPanel.setVisible(true);
-		mainFrame.add(mainPanel, BorderLayout.CENTER);
+		mainPanel.validate();
+		GridBagConstraints c = new GridBagConstraints();	
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 3;
+		c.insets = new Insets(2,2,2,2);
+		mainPanel.add(firstNameLabel, c);
 		
+		c.gridx = 1;
+		c.gridy = 0;
+		c.gridwidth = 3;
+		mainPanel.add(firstNameTextField, c);
 		
+		c.gridx = 0;
+		c.gridy = 1;
+		c.gridwidth = 1;
+		mainPanel.add(lastNameLabel, c);
+		
+		c.gridx = 1;
+		c.gridy = 1;
+		c.gridwidth = 3;
+		mainPanel.add(lastNameTextField, c);
+		
+		c.gridx = 0;
+		c.gridy = 2;
+		c.gridwidth = 1;
+		mainPanel.add(emailLabel, c);
+		
+		c.gridx = 1;
+		c.gridy = 2;
+		c.gridwidth = 3;
+		mainPanel.add(emailTextField, c);
+		
+		c.gridx = 0;
+		c.gridy = 3;
+		c.gridwidth = 1;
+		mainPanel.add(yearLabel, c);
+		
+		c.gridx = 1;
+		c.gridy = 3;
+		c.gridwidth = 1;
+		c.ipadx = 100;
+		mainPanel.add(currentYearBox, c);
+		
+		c.gridx = 2;
+		c.gridy = 3;
+		c.gridwidth = 1;
+		c.ipadx = 0;
+		c.anchor = GridBagConstraints.LINE_END;
+		mainPanel.add(membershipTypeLabel, c);
+		
+		c.gridx = 3;
+		c.gridy = 3;
+		c.gridwidth = 1;
+		c.ipadx = 50;
+		c.anchor = GridBagConstraints.LINE_START;
+		mainPanel.add(membershipTypeBox, c);
+		
+		c.gridx = 0;
+		c.gridy = 5;
+		c.gridwidth = 1;
+		c.ipadx = 0;
+		mainPanel.add(expirationLabel, c);
+		
+		c.gridx = 1;
+		c.gridy = 5;
+		c.gridwidth = 1;
+		mainPanel.add(expirationTextField, c);
+		
+		c.gridx = 2;
+		c.gridy = 5;
+		c.gridwidth = 2;
+		mainPanel.add(workHistoryButton, c);
+		
+		c.gridx = 0;
+		c.gridy = 6;
+		c.gridwidth = 1;
+		mainPanel.add(discountsLabel, c);
+		
+		c.gridx = 1;
+		c.gridy = 6;
+		c.gridwidth = 1;
+		mainPanel.add(discountsTextField, c);
+		
+		c.gridx = 2;
+		c.gridy = 6;
+		c.gridwidth = 1;
+		mainPanel.add(IOULabel, c);
+		
+		c.gridx = 3;
+		c.gridy = 6;
+		c.gridwidth = 1;
+		mainPanel.add(IOUTextField, c);
+		
+		c.gridx = 3;
+		c.gridy = 7;
+		c.gridwidth = 1;
+		mainPanel.add(okButton, c);
+		
+		mainFrame.add(mainPanel, BorderLayout.NORTH);
+		mainFrame.pack();
+		mainFrame.setLocation(350, 150);
+		mainFrame.setResizable(false);
+		mainFrame.setVisible(true);
+		mainFrame.validate();
 	}
 	
 	class ButtonListener implements ActionListener{
