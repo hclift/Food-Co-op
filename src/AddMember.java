@@ -61,6 +61,7 @@ public class AddMember
 		this.controller = c;
 		mainFrame = new JFrame("Add Member");
 		mainFrame.setBounds(275, 150, 450, 250);
+		mainFrame.setLocationRelativeTo(parentWindow);
 		//mainFrame.setFocusableWindowState(false);
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		mainFrame.addWindowListener(new WindowAdapter() {
