@@ -340,9 +340,10 @@ public class Model
 	public double subtractFromIou(int currentYear, int membershipType, double oldAmount, double adjustment) throws Exception
 	{
 		if(oldAmount - adjustment < 0)
-			throw new Exception("Can't subtract more than what is owed");
-		else if(membershipType == 0)
-			throw new Exception("Must be a working member");
+		{
+			throw new Exception("Amounts subtracted from the IOU cannot" 
+					+ " exceed what is owed.");
+		}
 		
 		return oldAmount - adjustment;
 	}
@@ -422,9 +423,8 @@ public class Model
 		{
 			lengthOfShift = controllerReference.reconcileShiftLength(lengthOfShift);
 		}
-
-		// TODO: ask
-		numberOfDiscounts = ((int)lengthOfShift) / 60;
+		
+		numberOfDiscounts = ((int)lengthOfShift) / 45;
 		
 		signedIntoKitchen.get(index).setAvailableDiscounts(
 				signedIntoKitchen.get(index).getAvailableDiscounts()
