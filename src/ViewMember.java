@@ -264,6 +264,8 @@ private MainFrame parentWindow;
 				}
 				else
 				{
+					
+				///
 					int minuteDisplay = minWorked % 60;
 					int hourDisplay = minWorked / 60;
 					/*
