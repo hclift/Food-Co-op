@@ -313,13 +313,13 @@ public class Model
 	public double addToIou(int currentYear, int membershipType, double oldAmount, double adjustment) throws Exception
 	{	
 		if(adjustment <= 0)
-			throw new Exception("Adjustment must be a positive number");
+			throw new Exception("The IOU adjustment must be a positive number.");
 		else if(membershipType < 2)
-			throw new Exception("Must be a core member or coordinator.");
-		else if(adjustment + oldAmount > 100)
-			throw new Exception("IOU cannot exceed $100");
+			throw new Exception("Only core members and coordinators can have IOUs.");
+		else if(currentYear == 6 && adjustment + oldAmount > 100)
+			throw new Exception("First semester seniors cannot owe more than $100.");
 		else if(currentYear == 7 && oldAmount + adjustment > 50)
-			throw new Exception("Second semester seniors cannot exceed an IOU of $50");
+			throw new Exception("Second semester seniors cannot owe more than $50.");
 		
 		return oldAmount + adjustment;
 	}
