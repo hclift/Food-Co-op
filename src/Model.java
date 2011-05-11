@@ -387,8 +387,11 @@ public class Model
 			lengthOfShift = controllerReference.reconcileShiftLength(lengthOfShift);
 		}
 
-		DatabaseAbstraction.updateMember(signedIntoStore.get(index));
-		signedIntoStore.remove(index);
+		if (lengthOfShift != -1)
+		{
+			DatabaseAbstraction.updateMember(signedIntoStore.get(index));
+			signedIntoStore.remove(index);
+		}
 		
 		return signedIntoStore;
 	}
@@ -424,15 +427,20 @@ public class Model
 			lengthOfShift = controllerReference.reconcileShiftLength(lengthOfShift);
 		}
 		
-		numberOfDiscounts = ((int)lengthOfShift) / 45;
+		if (lengthOfShift != -1)
+		{
+			// TODO: ask
+			numberOfDiscounts = ((int)lengthOfShift) / 60;
 		
-		signedIntoKitchen.get(index).setAvailableDiscounts(
+			signedIntoKitchen.get(index).setAvailableDiscounts(
 				signedIntoKitchen.get(index).getAvailableDiscounts()
 						+ numberOfDiscounts);
 		
-		DatabaseAbstraction.updateMember(signedIntoKitchen.get(index));
+					DatabaseAbstraction.updateMember(signedIntoKitchen.get(index));
 		
-		signedIntoKitchen.remove(index);
+					signedIntoKitchen.remove(index);
+					
+		}
 		return signedIntoKitchen;
 	}
 	

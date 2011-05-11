@@ -1,11 +1,4 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.LayoutManager;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -21,52 +14,26 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JMenu;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-
-
-/**
- *
- * @author Dave Wroblewski
- * @version 4/4/11
- * This is the GUI class for the main menu of the program
- * this class, all it's members, and all it's variables are completely
- * self explanatory
- * 
- * Code reviewed by Raanan Korinow
- * 
- */
-public class MainFrame extends JFrame {
-
-	public static Member CURRENT_MEMBER;
-	/**
-	 * Automatically generated serial ID 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 * Creates the panels for the main frame
-	 * 2 panels on the frame itself one BoarderLayout.EAST
-	 * the other BorderLayout.WEST, the latter will contain 3 additional panels
-	 * Top middle and bottom
-	 * 
-	 * 
-	 */
-	private JPanel eastPanel;
-	private JPanel westPanel;
-	private JPanel topWestPanel;
-	private JPanel middleWestPanel;
-	private JPanel bottomWestPanel;
-	private JPanel mainPanel;
-
-
+public class MainFrame extends JFrame{
+	
+	private Controller controller;
+	
+	private JButton searchButton;
+	private JButton viewMemberButton;
+	private JButton updateMemberButton;
+	private JButton addMemberButton;
+	private JButton signIntoStoreButton;
+	private JButton signIntoKitchenButton;
+	private JButton signOutOfStoreButton;
+	private JButton signOutOfKitchenButton;
+	
 	//JLabels
 	private JLabel firstNameLabel;
 	private JLabel lastNameLabel;
@@ -76,17 +43,12 @@ public class MainFrame extends JFrame {
 	private JLabel lastNameScrollLabel;
 	private JLabel membershipScrollLabel;
 	private JLabel emailScrollLabel;
-
-
-	//JTextFields
-	private JTextField firstNameTextField;
+    
+    
+    private JTextField firstNameTextField;
 	private JTextField lastNameTextField;
-
-	//JTextAreas and JScrollPanes
-	private JTextArea generalLookupTextArea;
-	private JScrollPane generalLookupScrollPane;
-
-	//JListLookup and JList Model
+	
+	
 	private JList generalLookup;
 	private DefaultListModel generalLookupModel;
 	private JScrollPane generalLookupPane;
@@ -98,32 +60,18 @@ public class MainFrame extends JFrame {
 	private JList kitchen;
 	private DefaultListModel kitchenModel;
 	private JScrollPane kitchenPane;
-
-	private JMenu menu;
-
-	//JButtons
-	private JButton searchButton;
-	private JButton viewMemberButton;
-	private JButton updateMemberButton;
-	private JButton addMemberButton;
-	private JButton signIntoStoreButton;
-	private JButton signIntoKitchenButton;
-	//private JButton viewScheduleButton;
-	private JButton signOutOfStoreButton;
-	private JButton signOutOfKitchenButton;
-
-	private Controller controller;
-
+	
+	private static Member CURRENT_MEMBER;
+	
 	public MainFrame(Controller c){
 		controller = c;
-	
+		
+		JFrame.setDefaultLookAndFeelDecorated(true);
+        JFrame frame = new JFrame("Main Menu");
 
-		setSize(new Dimension(1024, 768));
-		setResizable(false);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		
-		addWindowListener(new WindowAdapter() {
+		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e)
 			{
 				ArrayList<Member> kitchenSignIns = controller.getSignedIntoKitchen();
@@ -141,98 +89,169 @@ public class MainFrame extends JFrame {
 			}
 		});
 		
-		//setResizable(false);
-		setVisible(true);
-		setTitle("Main Menu");
-		Font buttonFont = new Font("Calibri", Font.BOLD, 12);
+        Font buttonFont = new Font("Calibri", Font.BOLD, 12);
 		Font f2 = new Font("Calibri", Font.PLAIN, 14);
-		eastPanel = new JPanel();
-		//eastPanel.setBackground(Color.GREEN);
-		westPanel = new JPanel();
-		topWestPanel = new JPanel();
-		//topWestPanel.setBackground(Color.CYAN);
-		middleWestPanel = new JPanel();
-		//middleWestPanel.setBackground(Color.YELLOW);
-		bottomWestPanel = new JPanel();
-		//bottomWestPanel.setBackground(Color.PINK);
-		mainPanel = new JPanel();
+        frame.setVisible(true);
+        //Set up the content pane.
+        addComponentsToPane(frame.getContentPane());
 
-		mainPanel.setLayout(null);
+        frame.pack();
+        frame.setVisible(true);
+        frame.setSize(new Dimension(1024,768));
+		restoreSignIns();
+	}
 
-		eastPanel.setLayout(null);
-		eastPanel.setBounds(800, 0, 300, 675);
-		westPanel.setLayout(new GridLayout(3, 1));
-		westPanel.setBounds(0, 0, 800, 675);
-		topWestPanel.setLayout(null);
-		middleWestPanel.setLayout(null);
-		bottomWestPanel.setLayout(null);
+    public void addComponentsToPane(Container pane) {       
+    	
+        
+        pane.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        
+        firstNameLabel = new JLabel("First Name:");
+        gbc.weightx = 0.5;
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        pane.add(firstNameLabel, gbc);
+       
+        firstNameTextField = new JTextField();
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        firstNameTextField.setEditable(true);
+        pane.add(firstNameTextField, gbc);
+        
+        lastNameLabel = new JLabel("Last Name:");
+        gbc.weightx = 0.5;
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        pane.add(lastNameLabel, gbc);
 
+        lastNameTextField = new JTextField();
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        gbc.gridwidth = 2;
+        lastNameTextField.setEditable(true);
+        pane.add(lastNameTextField, gbc);
+        
+        
 
-		//==============================================================
-		/**
-		 * Creates the area where the user enters
-		 * a members first and last name and can search
-		 * This is the top panel of the westPanel
-		 * 
-		 * 
-		 */
-		firstNameLabel = new JLabel("First Name:");
-		firstNameLabel.setFont(f2);
-		firstNameLabel.setBounds(125, 39, 70, 10);
+        storeLabel = new JLabel("Store");
+        gbc.gridx = 5;
+        gbc.gridy = 0;
+        //gbc.anchor = GridBagConstraints.PAGE_END;
+        pane.add(storeLabel, gbc);
+        
+        kitchenLabel = new JLabel("Kitchen");
+        gbc.gridx = 5;
+        gbc.gridy = 6;
+        //gbc.anchor = GridBagConstraints.PAGE_END;
+        pane.add(kitchenLabel, gbc);
+        
 
-		lastNameLabel = new JLabel("Last Name:");
-		lastNameLabel.setFont(f2);
-		lastNameLabel.setBounds(125, 99, 70, 10);
-
-		firstNameTextField = new JTextField();
-		firstNameTextField.setColumns(5);
-		firstNameTextField.setBounds(195, 33, 400, 30);
-
-		lastNameTextField = new JTextField();
-		lastNameTextField.setBounds(195, 93, 400, 30);
-
-		searchButton = new JButton("Search");
-		searchButton.setFont(buttonFont);
-		searchButton.setBounds(515, 146, 80, 25);
-		searchButton.setEnabled(true);
-
-		topWestPanel.add(firstNameLabel);
-		topWestPanel.add(lastNameLabel);
-		topWestPanel.add(firstNameTextField);
-		topWestPanel.add(lastNameTextField);
-		topWestPanel.add(searchButton);
-		//==============================================================
-		/**
-		 * Creates the main text area where
-		 * all the member information is placed
-		 * this is the middle panel of the westPanel
-		 * 
-		 * 
-		 */
-		firstNameScrollLabel = new JLabel("First Name");
-		lastNameScrollLabel = new JLabel("Last Name");
-		membershipScrollLabel = new JLabel("Membership");
-		emailScrollLabel = new JLabel("Email");
-
-		firstNameScrollLabel.setFont(f2);
-		lastNameScrollLabel.setFont(f2);
-		membershipScrollLabel.setFont(f2);
-		emailScrollLabel.setFont(f2);
-
-		firstNameScrollLabel.setBounds(5, 0, 70, 20);
-		lastNameScrollLabel.setBounds(182, 0, 70, 20);
-		membershipScrollLabel.setBounds(358, 0, 90, 20);
-		emailScrollLabel.setBounds(534, 0, 70, 20);
-
-		generalLookupModel = new DefaultListModel();
-		generalLookup = new JList(generalLookupModel);
-		Font displayFont = new Font(Font.MONOSPACED, Font.PLAIN, 14);
-		generalLookup.setFont(displayFont);
-
-		generalLookupPane = new JScrollPane(generalLookup);
-		//generalLookupPane.setBounds(15, 0, 410, 125);
-
-		/**
+        firstNameScrollLabel = new JLabel("First Name");
+        //gbc.ipady = 40;     //This component has more breadth compared to other button
+        gbc.gridwidth = 1;
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        pane.add(firstNameScrollLabel, gbc);
+        
+        lastNameScrollLabel = new JLabel("Last Name");
+        //gbc.ipady = 40;     //This component has more breadth compared to other button
+        gbc.gridwidth = 1;
+        gbc.gridx = 2;
+        gbc.gridy = 3;
+        pane.add(lastNameScrollLabel, gbc);
+        
+        searchButton = new JButton("Search");
+        //gbc.weightx = 0.5;
+        gbc.gridx = 3;
+        gbc.gridy = 2;
+        //gbc.gridwidth = 1;
+        pane.add(searchButton, gbc); 
+        
+        membershipScrollLabel = new JLabel("Membership");
+        //gbc.ipady = 40;     //This component has more breadth compared to other button
+        gbc.gridwidth = 1;
+        gbc.gridx = 3;
+        gbc.gridy = 3;
+        pane.add(membershipScrollLabel, gbc);
+        
+        emailScrollLabel = new JLabel("Email");
+        //gbc.ipady = 40;     //This component has more breadth compared to other button
+        gbc.gridwidth = 1;
+        gbc.gridx = 4;
+        gbc.gridy = 3;
+        pane.add(emailScrollLabel, gbc);
+        
+        
+        viewMemberButton = new JButton("View Member");
+        gbc.weightx = 0.5;
+        gbc.gridx = 1;
+        gbc.gridy = 6;
+        viewMemberButton.setEnabled(false);
+        pane.add(viewMemberButton, gbc);
+        
+        updateMemberButton = new JButton("Update");
+        gbc.weightx = 0.5;
+        gbc.gridx = 2;
+        gbc.gridy = 6;
+        updateMemberButton.setEnabled(false);
+        pane.add(updateMemberButton, gbc);
+        
+        addMemberButton = new JButton("Add Member");
+        gbc.weightx = 0.5;
+        gbc.gridx = 3;
+        gbc.gridy = 6;
+        pane.add(addMemberButton, gbc);
+        
+        signIntoStoreButton = new JButton("Sign into Store");
+        gbc.weightx = 0.5;
+        gbc.gridx = 1;
+        gbc.gridy = 7;
+        signIntoStoreButton.setEnabled(false);
+        pane.add(signIntoStoreButton, gbc);
+        
+        signIntoKitchenButton = new JButton("Sign into Kitchen");
+        gbc.weightx = 0.5;
+        gbc.gridx = 2;
+        gbc.gridy = 7;
+        signIntoKitchenButton.setEnabled(false);
+        pane.add(signIntoKitchenButton, gbc);
+        
+        
+        signOutOfStoreButton = new JButton("Sign Out");
+        gbc.weightx = 0.5;
+        gbc.gridx = 6;
+        gbc.gridy = 3;
+        signOutOfStoreButton.setEnabled(false);
+        pane.add(signOutOfStoreButton, gbc);
+        
+        
+        
+        signOutOfKitchenButton = new JButton("Sign Out");
+        gbc.weightx = 0.5;
+        gbc.gridx = 6;
+        gbc.gridy = 10;
+        signOutOfKitchenButton.setEnabled(false);
+        pane.add(signOutOfKitchenButton, gbc);
+        
+        
+        //general Lookup
+        generalLookupModel = new DefaultListModel();
+        generalLookup = new JList(generalLookupModel);
+        Font displayFont = new Font(Font.MONOSPACED, Font.PLAIN,14);
+        generalLookup.setFont(displayFont);
+        generalLookupPane = new JScrollPane(generalLookup);
+        generalLookup.setSelectedIndex(0);
+        generalLookup.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		gbc.gridx = 1;
+        gbc.gridy = 4;
+        gbc.gridwidth = 4;
+        gbc.gridheight = 2;
+        pane.add(generalLookupPane, gbc);
+        
+        /**
 		 * This listener will wait to see if a member has been looked up.
 		 */
 		generalLookup.addListSelectionListener(new ListSelectionListener(){
@@ -260,91 +279,23 @@ public class MainFrame extends JFrame {
 		        }
 		    }
 		});
-
-		generalLookupTextArea = new JTextArea();
-		generalLookupTextArea.setFont(f2);
-
-		middleWestPanel.add(firstNameScrollLabel);
-		middleWestPanel.add(lastNameScrollLabel);
-		middleWestPanel.add(membershipScrollLabel);
-		middleWestPanel.add(emailScrollLabel);
-		middleWestPanel.add(generalLookupPane);
-		
-		generalLookupPane.setBounds(5, 20, 795, 205);
-
-
-//==============================================================
-
-		/**
-		 * Creates the bottom panel of buttons
-		 * the bottom most panel on westPanel
-		 * 
-		 */
-		viewMemberButton = new JButton("View Member");
-		viewMemberButton.setBounds(65, 30, 150, 40);
-		viewMemberButton.setFont(buttonFont);
-		viewMemberButton.setEnabled(false);
-
-		updateMemberButton = new JButton("Update Member");
-		updateMemberButton.setBounds(325, 30, 150, 40);
-		updateMemberButton.setFont(buttonFont);
-		updateMemberButton.setEnabled(false);
-
-		addMemberButton = new JButton("Add Member");
-		addMemberButton.setBounds(565, 30, 150, 40);
-		addMemberButton.setFont(buttonFont);
-
-		signIntoStoreButton = new JButton("Sign Into Store");
-		signIntoStoreButton.setBounds(65, 100, 150, 40);
-		signIntoStoreButton.setFont(buttonFont);
-		signIntoStoreButton.setEnabled(false);
-
-		signIntoKitchenButton = new JButton("Sign Into Kitchen");
-		signIntoKitchenButton.setBounds(325, 100, 150, 40);
-		signIntoKitchenButton.setFont(buttonFont);
-		signIntoKitchenButton.setEnabled(false);
-/*
-		viewScheduleButton = new JButton("View Schedule");
-		viewScheduleButton.setBounds(565, 100, 150, 40);
-		viewScheduleButton.setFont(buttonFont);
-*/
-		bottomWestPanel.add(viewMemberButton);
-		bottomWestPanel.add(updateMemberButton);
-		bottomWestPanel.add(addMemberButton);
-		bottomWestPanel.add(signIntoStoreButton);
-		bottomWestPanel.add(signIntoKitchenButton);
-		//bottomWestPanel.add(viewScheduleButton);
-
-		//==============================================================
-		/**
-		 * Creates the view on the east panel
-		 * where the user can see who is logged
-		 * into the store and kitchen, and can also
-		 * log them out
-		 * 
-		 * 
-		 */
-		//Un-comment these 2 lines to add text to JTextAreas for testing
-		storeLabel = new JLabel("Store:");
-		storeLabel.setBounds(15, 15, 40, 10);
-		storeLabel.setFont(f2);
-
-		kitchenLabel = new JLabel("Kitchen:");
-		kitchenLabel.setBounds(15, 320, 80, 10);
-		kitchenLabel.setFont(f2);
-
-		signOutOfStoreButton = new JButton("Sign Out");
-		signOutOfStoreButton.setFont(buttonFont);
-		signOutOfStoreButton.setBounds(135, 290, 80, 25);
-		signOutOfStoreButton.setEnabled(false);
-		
-		storeModel = new DefaultListModel();
-		store = new JList(storeModel);
-
-		storePane = new JScrollPane(store);
-		storePane.setBounds(15, 30, 200, 250);
-		
-		/**
+        
+        
+      //signinstore Lookup
+        
+        
+        storeModel = new DefaultListModel();
+        store = new JList(storeModel);
+        storePane = new JScrollPane(store);
+        store.setSelectedIndex(0);
+        store.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		gbc.gridx = 6;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 2;
+        pane.add(storePane, gbc);
+        
+        /**
 		 * This listener will wait to see if a member has been looked up.
 		 */
 		store.addListSelectionListener(new ListSelectionListener(){
@@ -360,19 +311,23 @@ public class MainFrame extends JFrame {
 			}				
 		}
 		);
-
-		signOutOfKitchenButton = new JButton("Sign Out");
-		signOutOfKitchenButton.setFont(buttonFont);
-		signOutOfKitchenButton.setBounds(135, 600, 80, 25);
-		signOutOfKitchenButton.setEnabled(false);
-		
-		kitchenModel = new DefaultListModel();
-		kitchen = new JList(kitchenModel);
-		
-		kitchenPane = new JScrollPane(kitchen);
-		kitchenPane.setBounds(15, 340, 200, 250);
-		
-		/**
+        
+        
+      //signinkitchen Lookup
+        
+        kitchenModel = new DefaultListModel();
+        kitchen = new JList(kitchenModel);
+        kitchenPane = new JScrollPane(kitchen);
+        kitchen.setSelectedIndex(0);
+        kitchen.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		gbc.gridx = 6;
+        gbc.gridy = 7;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 2;
+        pane.add(kitchenPane, gbc);
+        
+        
+        /**
 		 * This listener will wait to see if a member has been looked up.
 		 */
 		kitchen.addListSelectionListener(new ListSelectionListener(){
@@ -388,34 +343,13 @@ public class MainFrame extends JFrame {
 			}				
 		}
 		);
-
-		eastPanel.add(storeLabel);
-		eastPanel.add(kitchenLabel);
-		eastPanel.add(storePane);
-		eastPanel.add(kitchenPane);
-		eastPanel.add(signOutOfStoreButton);
-		eastPanel.add(signOutOfKitchenButton);
-
-		//==============================================================
-		//Sets the panels visible and adds them to the frame
-		topWestPanel.setVisible(true);
-		middleWestPanel.setVisible(true);
-		bottomWestPanel.setVisible(true);
-		westPanel.setVisible(true);
-		eastPanel.setVisible(true);
-		westPanel.add(topWestPanel);
-		westPanel.add(middleWestPanel);
-		westPanel.add(bottomWestPanel);
-
-		add(mainPanel);
-		mainPanel.add(westPanel);
-		mainPanel.add(eastPanel);
-		addListeners();
-		validate();
-		restoreSignIns();
-	}
-
-	 /**
+        
+        
+        addListeners();    
+        validate();
+    }
+    
+    /**
 	 * Adds the listeners to the buttons
 	 */
 	private void addListeners(){
@@ -433,7 +367,6 @@ public class MainFrame extends JFrame {
 		firstNameTextField.addKeyListener(enterListener);
 		lastNameTextField.addKeyListener(enterListener);
 	}
-	
 	/** 
 	 * 
 	 * Enable View Member, Update Member, Sign Into Store, and Sign Into Kitchen Button
@@ -459,13 +392,6 @@ public class MainFrame extends JFrame {
 			signIntoStoreButton.setEnabled(false);
 			signIntoKitchenButton.setEnabled(false);
 		}
-	}
-
-	public void restoreSignIns()
-	{
-		controller.restoreSignIns();
-		printStore(controller.getSignedIntoStore());
-		printKitchen(controller.getSignedIntoKitchen());
 	}
 
 	/**
@@ -508,6 +434,14 @@ public class MainFrame extends JFrame {
 			}
 		}
 	}
+	
+	public void showViewMember()
+	{
+		CURRENT_MEMBER = controller.getMember(generalLookup.getSelectedIndex());
+//FIXME UNCOMMENT		
+		new ViewMember(this, CURRENT_MEMBER);
+	}
+	
 
 	public void printKitchen(ArrayList<Member> members)
 	{
@@ -546,9 +480,9 @@ public class MainFrame extends JFrame {
 		{
 			for(int j = 0; j < searchResult.size(); j++){
 				String membershipType = MembershipTypes.class.getEnumConstants()[searchResult.get(j).getMembershipType()].getStrVal();
-				String string  = new String((String.format("%-22.21s", searchResult.get(j).getFirstName()) + 
-											 String.format("%-21.20s", searchResult.get(j).getLastName()) + " " + 
-											 String.format("%-22.21s", membershipType) + 
+				String string  = new String((String.format("%-25.24s", searchResult.get(j).getFirstName()) + 
+											 String.format("%-26.25s", searchResult.get(j).getLastName()) + " " + 
+											 String.format("%-23.22s", membershipType) + 
 												searchResult.get(j).getEmailAddress())); 
 				generalLookupModel.addElement(string);
 			}
@@ -563,89 +497,11 @@ public class MainFrame extends JFrame {
 	 * 
 	 * displays a given string as an error message
 	 */
-
-
 	public void displayException(String errorMessage)
 	{
 		JOptionPane.showMessageDialog(null, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 	}
-	
-	public void showViewMember()
-	{
-		CURRENT_MEMBER = controller.getMember(generalLookup.getSelectedIndex());
-		new ViewMember(this, CURRENT_MEMBER);
-	}
-	
-	/**
-	 * 
-	 * @author Dave Wroblewski
-	 * @version 4/4/11
-	 * 
-	 * This is the inner ActionListener class
-	 * 
-	 * 
-	 * 
-	 */
-	/*class ButtonListener implements ActionListener{
-
-		String str;
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-
-			if(e.getSource().equals(searchButton))
-				printSearchResult(controller.lookUpMember(firstNameTextField.getText(), lastNameTextField.getText()));
-
-			else if(e.getSource().equals(viewMemberButton)){
-				showViewMember();
-
-			}else if(e.getSource().equals(updateMemberButton)){
-				CURRENT_MEMBER = controller.getMember(generalLookup.getSelectedIndex());
-				//disableButtons();
-				new UpdateMemberFrame(MainFrame.this, controller, CURRENT_MEMBER);
-			}else if(e.getSource().equals(addMemberButton)){
-				new AddMember(controller, MainFrame.this);
-			}else if(e.getSource().equals(signIntoStoreButton)){
-				int memberIndex = generalLookup.getSelectedIndex();
-				ArrayList<Member> members = controller.signIntoStore(memberIndex);
-				printStore(members);
-				signIntoStoreButton.setEnabled(false);
-				signIntoKitchenButton.setEnabled(false);
-			}else if(e.getSource().equals(signIntoKitchenButton)){
-				int memberIndex = generalLookup.getSelectedIndex();
-				ArrayList<Member> members = controller.signIntoKitchen(memberIndex);
-				printKitchen(members);
-				signIntoStoreButton.setEnabled(false);
-				signIntoKitchenButton.setEnabled(false);
-				
-			}else if(e.getSource().equals(signOutOfStoreButton)){
-				printStore(controller.signOutOfStore(store.getSelectedIndex()));
-//				if (controller.getMember(generalLookup.getSelectedIndex()).canSignIn())
-//				{
-//					signIntoStoreButton.setEnabled(true);
-//					signIntoKitchenButton.setEnabled(true);
-//				}
-//				else
-//				{
-//					signIntoStoreButton.setEnabled(false);
-//					signIntoKitchenButton.setEnabled(false);
-//				}
-			}else if(e.getSource().equals(signOutOfKitchenButton)){
-				printKitchen(controller.signOutOfKitchen(kitchen.getSelectedIndex()));
-//				if (controller.getMember(generalLookup.getSelectedIndex()).canSignIn())
-//				{
-//					signIntoStoreButton.setEnabled(true);
-//					signIntoKitchenButton.setEnabled(true);
-//				}
-//				else
-//				{
-//					signIntoStoreButton.setEnabled(false);
-//					signIntoKitchenButton.setEnabled(false);
-//				}
-			}
-		}		
-	}
-*/
+    
 	/**
 	 * 
 	 * @author Chun Hung Tseng
@@ -680,14 +536,8 @@ public class MainFrame extends JFrame {
 		public void keyTyped(KeyEvent e) {
 		}
 	}
-
-	/**
-	 *	TODO: Write method to allow the user to reconcile the shift length,
-	 * and then	return the resulting length. 
-	 *@param shiftLengthInput the actual shift length worked
-	 *@return the reconciled shift length
-	 **/
-
+	
+	
 	/**
 	 * @author Ashley Chin
 	 * @version 4/28/11
@@ -709,6 +559,10 @@ public class MainFrame extends JFrame {
 					+ "been working for " + actualShiftLength + 
 					" minutes.  Enter the number of minutes that " +
 					"they deserve.");
+			if (value == null)
+			{
+				return -1;
+			}
 			try
 			{
 				reconciledShiftLength = Integer.parseInt(value);
@@ -744,6 +598,21 @@ public class MainFrame extends JFrame {
 		signIntoKitchenButton.setEnabled(false);
 	}
 	
+	public void restoreSignIns()
+	{
+		controller.restoreSignIns();
+		printStore(controller.getSignedIntoStore());
+		printKitchen(controller.getSignedIntoKitchen());
+	}
+
+   /* public static void main(String[] args) {
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                createAndShowGUI();
+            }
+        });
+    }*/
+	
 	class SearchButtonListener implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e) 
@@ -765,6 +634,7 @@ public class MainFrame extends JFrame {
 		public void actionPerformed(ActionEvent e) 
 		{
 			CURRENT_MEMBER = controller.getMember(generalLookup.getSelectedIndex());
+//FIXME UNCOMMENT
 			new UpdateMemberFrame(MainFrame.this, controller, CURRENT_MEMBER);
 		}		
 	}
@@ -773,7 +643,8 @@ public class MainFrame extends JFrame {
 	{
 		public void actionPerformed(ActionEvent e) 
 		{
-			new AddMember(controller, MainFrame.this);
+//FIXME UNCOMMENT			
+		new AddMember(controller, MainFrame.this);
 		}		
 	}
 	
@@ -807,15 +678,21 @@ public class MainFrame extends JFrame {
 		public void actionPerformed(ActionEvent e) 
 		{
 			printStore(controller.signOutOfStore(store.getSelectedIndex()));
-			if (controller.getMember(generalLookup.getSelectedIndex()).canSignIn())
+			store.clearSelection();
+			signOutOfStoreButton.setEnabled(false);
+			
+			if (generalLookup.getSelectedIndex() != -1)
 			{
-				signIntoStoreButton.setEnabled(true);
-				signIntoKitchenButton.setEnabled(true);
-			}
-			else
-			{
-				signIntoStoreButton.setEnabled(false);
-				signIntoKitchenButton.setEnabled(false);
+				if (controller.getMember(generalLookup.getSelectedIndex()).canSignIn())
+				{
+					signIntoStoreButton.setEnabled(true);
+					signIntoKitchenButton.setEnabled(true);
+				}
+				else
+				{
+					signIntoStoreButton.setEnabled(false);
+					signIntoKitchenButton.setEnabled(false);
+				}
 			}
 		}		
 	}
@@ -825,15 +702,20 @@ public class MainFrame extends JFrame {
 		public void actionPerformed(ActionEvent e) 
 		{
 			printKitchen(controller.signOutOfKitchen(kitchen.getSelectedIndex()));
-			if (controller.getMember(generalLookup.getSelectedIndex()).canSignIn())
+			kitchen.clearSelection();
+			signOutOfKitchenButton.setEnabled(false);
+			if (generalLookup.getSelectedIndex() != -1)
 			{
-				signIntoStoreButton.setEnabled(true);
-				signIntoKitchenButton.setEnabled(true);
-			}
-			else
-			{
-				signIntoStoreButton.setEnabled(false);
-				signIntoKitchenButton.setEnabled(false);
+				if (controller.getMember(generalLookup.getSelectedIndex()).canSignIn())
+				{
+					signIntoStoreButton.setEnabled(true);
+					signIntoKitchenButton.setEnabled(true);
+				}
+				else
+				{
+					signIntoStoreButton.setEnabled(false);
+					signIntoKitchenButton.setEnabled(false);
+				}
 			}
 		}		
 	}
