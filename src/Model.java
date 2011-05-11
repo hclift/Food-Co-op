@@ -462,5 +462,9 @@ public class Model
 		}
 		return ret;
 	}
+	
+	public ArrayList<ShiftInfo> getShifts(Member member, int desiredMonth, int desiredYear){
+		return DatabaseAbstraction.getShifts(member, desiredMonth, desiredYear);
+	}
 }
 

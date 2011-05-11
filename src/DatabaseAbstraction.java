@@ -108,6 +108,64 @@ public class DatabaseAbstraction
 		return memberList;
 	}
 	
+//	getShifts(Member member, int desiredMonth, int desiredYear){
+//		DB query (Select day, minWorked From Shifts where member.id, desiredMonth, and 
+//		desiredYear match)
+//		For each shifts that match{
+//		Extract day, minWorked from DB
+//		Create ShiftInfo object with desiredMonth, day, desiredYear, minWorked
+//		Place ShiftInfo object in arraylist
+//		{
+//		return arraylist
+	public static ArrayList<ShiftInfo> getShifts(Member member, int desiredMonth,int desiredYear){
+	ArrayList<ShiftInfo> arrayList = new ArrayList<ShiftInfo>();
+	
+	try{
+		Connection connection = connectToDatabase();
+		PreparedStatement ps = connection.prepareStatement(
+				"SELECT day, minWorked" +
+				"FROM shifts" +
+				" WHERE id LIKE  ?" +
+				" AND desiredMonth  LIKE ?" +
+				" AND desiredYear LIKE ?;"
+		);
+
+		ps.setInt(1, member.getId());
+		ps.setInt(2, desiredMonth);
+		ps.setInt(3, desiredYear);
+		
+		ResultSet rs = ps.executeQuery();
+		
+		
+		while (rs.next())
+		{
+			
+			ShiftInfo shiftInfo = new ShiftInfo(
+				rs.getInt("id"),
+				rs.getInt("day"),
+				rs.getInt("year"),
+				rs.getInt("minWorked")
+			);
+			arrayList.add(shiftInfo);
+		}
+		
+		ps.close();
+		connection.close();
+	} 
+	catch (Exception e)
+	{
+		e.printStackTrace();
+		System.exit(1);
+	}
+	
+	return arrayList;
+}
+
+
+	
+	
+	
+	
 	/**
 	* Updates a member in the database. Uses a PreparedStatement.
 	* @param m updated Member object.

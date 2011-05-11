@@ -263,4 +263,8 @@ public class Controller
     public ArrayList<MembershipTypes> getMembershipTypes(){
 		return model.getMembershipTypes();
 	}
+    
+    public ArrayList<ShiftInfo> getShifts(Member member, int desiredMonth, int desiredYear){
+    	return model.getShifts(member, desiredMonth, desiredYear);
+    }
 }

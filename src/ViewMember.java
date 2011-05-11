@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.text.DecimalFormat;
@@ -240,7 +241,7 @@ private Controller controller;
 		shiftsArray = controller.getShifts(member, month, year);
 		//for each ShiftInfo object in arraylist
 		try{
-			for(int i = 0; i < shiftsArray.size; i++){
+			for(int i = 0; i < shiftsArray.size(); i++){
 				//extract arraylist objects
 				//map ShiftInfo day data member to calendar day
 				day = shiftsArray.get(i).getShiftDay();
