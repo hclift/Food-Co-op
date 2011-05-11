@@ -28,12 +28,14 @@ private JTextField currentYearBox, membershipTypeBox;
 private JCheckBox recieveEmailCheckBox;
 private MainFrame parentWindow;
 private Controller controller;
+private Member t;
 
 
 	public ViewMember(MainFrame parentWindow, Member m){
 		this.parentWindow = parentWindow;
 		parentWindow.disableButtons();
 		
+		t = m;
 		mainFrame = new JFrame("View Member");
 		mainFrame.setBounds(275, 200, 450, 310);
 		//mainFrame.setFocusableWindowState(false);
@@ -176,6 +178,8 @@ private Controller controller;
 		workHistoryButton = new JButton("Display Work History");
 		workHistoryButton.setBounds(230, 140, 180, 25);
 		
+		workHistoryButton.addActionListener(new ButtonListener());
+		
 		
 		okButton = new JButton("OK");
 		okButton.setBounds(340, 240, 80, 30);
@@ -214,13 +218,21 @@ private Controller controller;
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
+			
+			System.out.println(e.getSource());
+			System.out.println(e.getActionCommand());
 			if(e.getSource().equals(okButton)){
 				mainFrame.dispose();
 				parentWindow.reenableButtons();
-				System.out.println("in here.....");
+
 			}else if(e.getSource().equals(workHistoryButton)){
-				//TODO: Implement methods for OKButton
-				
+				controller = new Controller(new Model());
+				String sh = PopulateCalendar(t,2,2011);
+			JOptionPane.showMessageDialog(mainPanel,
+					    sh,
+				    t.getFirstName() + " " + t.getLastName(),
+				    JOptionPane.PLAIN_MESSAGE);
+		
 			}else{
 				System.exit(0);
 			}
@@ -228,8 +240,8 @@ private Controller controller;
 		
 		
 	}
-	void PopulateCalendar(Member member, int month, int year){
-
+	String PopulateCalendar(Member member, int month, int year){
+		String shifts = "";
 		//ArrayList containing shift lengths
 		ArrayList <ShiftInfo>  shiftsArray = new ArrayList <ShiftInfo> ();
 		//Variable to store day member worked
@@ -245,17 +257,21 @@ private Controller controller;
 				//extract arraylist objects
 				//map ShiftInfo day data member to calendar day
 				day = shiftsArray.get(i).getShiftDay();
-				minWorked = shiftsArray.get(i).getMinWorked();
+				shifts += day + " ";
+				minWorked = shiftsArray.get(i).getshiftLength();
+				System.out.println(minWorked + " min worked");
 
 				//display shift length for that day (if more than 1 shift/day, sum the minutes for that day)
 				//Shift < 15 mins
 				if(minWorked < 60)
 				{
 					//Display in normal minutes
+					shifts += minWorked + "\n";
 				}
 				else if(minWorked % 60 == 0)
 				{
 					int hourDisplay = minWorked / 60;
+					shifts += hourDisplay + "\n";
 					//Display as 1 hour, 2 hours, 3 hours, etc
 					/*
 					 * Example: Worked 120 minutes:
@@ -271,6 +287,7 @@ private Controller controller;
 				///
 					int minuteDisplay = minWorked % 60;
 					int hourDisplay = minWorked / 60;
+					shifts += hourDisplay + " " + minuteDisplay + "\n";
 					/*
 					 * Example: Worked 90 minutes:
 					 * 90 % 60 = 30 (minutes)
@@ -284,6 +301,7 @@ private Controller controller;
 			catch(Exception e){
 				//maybe some error
 			}
+		return shifts;
 	}
 	
 }

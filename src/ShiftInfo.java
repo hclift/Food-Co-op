@@ -1,15 +1,15 @@
 public class ShiftInfo {
 	private int day;
 	private int month;
-	private int minWorked;
+	private int shiftLength;
 	private int year;
 	
-	public ShiftInfo(int month, int day, int year, int minWorked) {
+	public ShiftInfo(int month, int day, int year, int shiftLength) {
 		super();
 		this.day = day;
 		this.month = month;
 		this.year = year;
-		this.minWorked = minWorked;
+		this.shiftLength = shiftLength;
 	}
 
 	public int getShiftDay() {
@@ -20,8 +20,8 @@ public class ShiftInfo {
 		return month;
 	}
 
-	public int getMinWorked() {
-		return minWorked;
+	public int getshiftLength() {
+		return shiftLength;
 	}
 
 	public int getShiftYear() {

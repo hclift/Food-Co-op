@@ -123,11 +123,7 @@ public class DatabaseAbstraction
 	try{
 		Connection connection = connectToDatabase();
 		PreparedStatement ps = connection.prepareStatement(
-				"SELECT day, minWorked" +
-				"FROM shifts" +
-				" WHERE id LIKE  ?" +
-				" AND desiredMonth  LIKE ?" +
-				" AND desiredYear LIKE ?;"
+			"SELECT day, shift_length FROM shifts where id LIKE ? AND month LIKE ? AND year Like?;" 
 		);
 
 		ps.setInt(1, member.getId());
@@ -144,7 +140,7 @@ public class DatabaseAbstraction
 				rs.getInt("id"),
 				rs.getInt("day"),
 				rs.getInt("year"),
-				rs.getInt("minWorked")
+				rs.getInt("shift_length")
 			);
 			arrayList.add(shiftInfo);
 		}
