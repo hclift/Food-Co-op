@@ -35,7 +35,6 @@ private ScheduleGUI sg;
 
 	public ViewMember(MainFrame parentWindow, Member m){
 		this.parentWindow = parentWindow;
-		controller = new Controller(new Model());
 		parentWindow.disableButtons();
 		
 		t = m;
@@ -229,7 +228,7 @@ private ScheduleGUI sg;
 				parentWindow.reenableButtons();
 
 			}else if(e.getSource().equals(workHistoryButton)){
-				
+				controller = new Controller(new Model());
 				String sh = PopulateCalendar(t,2,2011);
 //			JOptionPane.showMessageDialog(mainPanel,
 //					    sh,
