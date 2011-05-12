@@ -250,6 +250,19 @@ private ScheduleGUI sg;
 		
 		
 	}
+	
+	/**
+	 * @author Kevin Urrutia, Joe Zammito, Nick Cox
+	 * 
+	 * @param member
+	 * @param month we want to get 
+	 * @param year the year desired
+	 * 
+	 * This gets the shifts that the current member has worked 
+	 * 
+	 * @return it returns a string that show has the days and hours worked
+	 * 
+	 */
 	String PopulateCalendar(Member member, int month, int year){
 		String shifts = "";
 		//ArrayList containing shift lengths
