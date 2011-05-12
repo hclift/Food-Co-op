@@ -145,27 +145,37 @@ public class UpdateMemberFrame {
 	{
 		
 		Calendar c = Calendar.getInstance();
-		c.setTime(dIn);
-		
-		// new expiration date calculated from current date if
-		// already expired
-		if (dIn.before(new Date()))
-		{
-			dIn = new Date();
-		}
 		
 		//0 means add semester
 		if (iIn == 0) 
 		{
+			// new expiration date calculated from current date if
+			// already expired
+			if (dIn.before(new Date()))
+			{
+				dIn = new Date();
+			}
+			
+			c.setTime(dIn);
+			
 			c.add(Calendar.MONTH, 5);
+			expirationDate = c.getTime();
 		}
 		//1 means add year
 		else if (iIn == 1)
 		{
+			// new expiration date calculated from current date if
+			// already expired
+			if (dIn.before(new Date()))
+			{
+				dIn = new Date();
+			}
+			
+			c.setTime(dIn);
+			
 			c.add(Calendar.MONTH, 12);
+			expirationDate = c.getTime();
 		}
-				
-		expirationDate = c.getTime();
 		
 		jtfIn.setText((expirationDate.getMonth()+1) + "/" + expirationDate.getDate() + "/" + (expirationDate.getYear()+1900));
 							
