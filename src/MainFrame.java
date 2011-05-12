@@ -448,6 +448,21 @@ public class MainFrame extends JFrame {
 		printStore(controller.getSignedIntoStore());
 		printKitchen(controller.getSignedIntoKitchen());
 	}
+	
+	private String convertMemberType(int memberTypeIn){
+		String status = "";
+		if(memberTypeIn==0){
+			status = "Ordinary";
+		}else if(memberTypeIn==1){
+			status = "Working";
+		}else if(memberTypeIn==2){
+			status = "Core";
+		}else if(memberTypeIn==3){
+			status = "Coordinator";
+		}
+		
+		return status;
+	}
 
 	/**
 	 * 
