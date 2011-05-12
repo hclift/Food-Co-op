@@ -30,6 +30,8 @@ private MainFrame parentWindow;
 private Controller controller;
 private Member t;
 
+private ScheduleGUI sg;
+
 
 	public ViewMember(MainFrame parentWindow, Member m){
 		this.parentWindow = parentWindow;
@@ -228,11 +230,18 @@ private Member t;
 			}else if(e.getSource().equals(workHistoryButton)){
 				controller = new Controller(new Model());
 				String sh = PopulateCalendar(t,2,2011);
-			JOptionPane.showMessageDialog(mainPanel,
-					    sh,
-				    t.getFirstName() + " " + t.getLastName(),
-				    JOptionPane.PLAIN_MESSAGE);
-		
+//			JOptionPane.showMessageDialog(mainPanel,
+//					    sh,
+//				    t.getFirstName() + " " + t.getLastName(),
+//				    JOptionPane.PLAIN_MESSAGE);
+		    	int month = 8;
+		    	String shift = "11 2\n20 3\n";
+		      // ScheduleGUI sg = new ScheduleGUI(month,shift);
+		    	sg = new ScheduleGUI(month, shift);
+		    	sg.scheduleGUI(month, shift);
+		    	//scheduleGUI(month,shift);
+		       
+		       System.out.println("shift here");
 			}else{
 				System.exit(0);
 			}
