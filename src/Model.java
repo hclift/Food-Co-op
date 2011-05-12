@@ -1,8 +1,11 @@
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.io.*;
+
+import javax.swing.JOptionPane;
 
 /**
  * Model.java:
@@ -72,6 +75,55 @@ public class Model
 		this.controllerReference = controllerIn;
 	}
 
+	/**
+	 * Model Constructor
+	 * Calls Database abstraction if the user wants to do an update
+	 */
+	public Model()
+	{
+		try {
+			
+			BufferedReader br = new BufferedReader(new FileReader("updateDate.txt"));
+			
+			String lastUpdate = br.readLine();
+			if(lastUpdate != null && lastUpdate.length() == 10)
+			{
+				int month = Integer.parseInt(lastUpdate.substring(0, 2));
+				int day = Integer.parseInt(lastUpdate.substring(3, 5));
+				int year = Integer.parseInt(lastUpdate.substring(6));
+				
+				GregorianCalendar gcLastUpdate = new GregorianCalendar(year,month,day);
+				GregorianCalendar gcCurrentDate = new GregorianCalendar();
+				
+				if((gcCurrentDate.get(GregorianCalendar.MONTH) < GregorianCalendar.AUGUST && gcLastUpdate.get(GregorianCalendar.MONTH) >= GregorianCalendar.AUGUST) ||
+						(gcCurrentDate.get(GregorianCalendar.MONTH) >= GregorianCalendar.AUGUST && gcLastUpdate.get(GregorianCalendar.MONTH) < GregorianCalendar.AUGUST))
+				{
+				
+				int result = JOptionPane.showConfirmDialog(null, "There is an update available.\nWould you like to update now?");
+					
+				if(result == 0)
+				{
+					FileWriter fw = new FileWriter("updateDate.txt");
+					String newUpdateDate = (gcCurrentDate.get(GregorianCalendar.MONTH) < 10) ? "0" + gcCurrentDate.get(GregorianCalendar.MONTH) + "/":"" + gcCurrentDate.get(GregorianCalendar.MONTH) + "/";
+					newUpdateDate += gcCurrentDate.get(GregorianCalendar.DAY_OF_MONTH) + "/";
+					newUpdateDate += gcCurrentDate.get(GregorianCalendar.YEAR);
+					fw.write(newUpdateDate);
+					fw.close();
+					DatabaseAbstraction.updateYearInSchool();
+				}
+			}	
+				                                                           
+			}
+			
+			
+		}
+		catch (Exception e) 
+		{
+			JOptionPane.showMessageDialog(null, "There is a problem with the updateDate.txt file");
+		} 
+	}
+	
+	
 	/**
 	 * This method provides functionality for looking up members based on name.
 	 * It services requests from the view. It does this by calling the

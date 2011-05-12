@@ -28,6 +28,30 @@ public class DatabaseAbstraction
 	}
 
 	/**
+	 * Connects to the database and adds a semester of school to each member
+	 */
+	
+	public static int updateYearInSchool()
+	{
+		int rs = 0;
+		try
+		{
+			Connection connection = connectToDatabase();
+			PreparedStatement ps = connection.prepareStatement("UPDATE members SET year_in_school = year_in_school + 1 WHERE is_active = 1 and year_in_school < 7");
+			rs = ps.executeUpdate();
+			
+			ps.close();
+			connection.close();
+		} 
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			System.exit(1);
+		}
+		return rs;
+	}
+	
+	/**
 	* Connects to the queries the database and then queries it given the input
 	* parameters
 	* @param first_name		First name of the member to look for
