@@ -123,7 +123,7 @@ public class DatabaseAbstraction
 	try{
 		Connection connection = connectToDatabase();
 		PreparedStatement ps = connection.prepareStatement(
-			"SELECT day, shift_length, month, year FROM shifts WHERE id = ? AND month = ? AND year = ? " 
+			"SELECT day, shift_length, month, year FROM shifts WHERE member_id = ? AND month = ? AND year = ?;" 
 		);
 
 		ps.setInt(1, member.getId());
@@ -135,9 +135,6 @@ public class DatabaseAbstraction
 		
 		while (rs.next())
 		{
-//			System.out.println("something");
-//			System.out.println(rs.getInt("year"));
-//			System.out.println("something");
 			ShiftInfo shiftInfo = new ShiftInfo(
 				rs.getInt("month"),
 				rs.getInt("day"),

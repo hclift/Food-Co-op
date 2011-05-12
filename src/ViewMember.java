@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.text.DecimalFormat;
@@ -221,28 +222,22 @@ private ScheduleGUI sg;
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			
-			System.out.println(e.getSource());
-			System.out.println(e.getActionCommand());
 			if(e.getSource().equals(okButton)){
 				mainFrame.dispose();
 				parentWindow.reenableButtons();
 
 			}else if(e.getSource().equals(workHistoryButton)){
 				//controller = new Controller(new Model());
-				String sh = PopulateCalendar(t,2,2011);
-//			JOptionPane.showMessageDialog(mainPanel,
-//					    sh,
-//				    t.getFirstName() + " " + t.getLastName(),
-//				    JOptionPane.PLAIN_MESSAGE);
-		    	int month = 8;
-		    	String shift = "11 2\n20 3\n";
-		      // ScheduleGUI sg = new ScheduleGUI(month,shift);
-		    	sg = new ScheduleGUI(month, shift);
-		    	sg.scheduleGUI(month, shift);
-		    	//scheduleGUI(month,shift);
-		       
-		       System.out.println("shift here");
+				Calendar cal = Calendar.getInstance();
+				int month = cal.get(Calendar.MONTH) + 1;
+				int year = cal.get(Calendar.YEAR);
+//				System.out.println(month + " " + (month -1) + " " + (month -2));
+				String shift = populateCalendar(t,month,year);
+				String shift2 = populateCalendar(t,month-1,year);
+				String shift3 = populateCalendar(t,month-2,year);
+				System.out.println(month-2 + " and string " + shift3);
+		    	sg = new ScheduleGUI(month-1, shift, shift2, shift3);
+		    	ScheduleGUI.calendarGUI(month, shift, shift2, shift3);
 			}else{
 				System.exit(0);
 			}
@@ -263,7 +258,12 @@ private ScheduleGUI sg;
 	 * @return it returns a string that show has the days and hours worked
 	 * 
 	 */
-	String PopulateCalendar(Member member, int month, int year){
+	String populateCalendar(Member member, int month, int year){
+		
+//		System.out.println(month);
+//		System.out.println(year);
+//		System.out.println(member.getId());
+//		System.out.println("--input data before");
 		String shifts = "";
 		//ArrayList containing shift lengths
 		ArrayList <ShiftInfo>  shiftsArray = new ArrayList <ShiftInfo> ();
@@ -271,21 +271,20 @@ private ScheduleGUI sg;
 		int day;
 		//Get minimum time member worked
 		int minWorked;
-		// make a controller object to call
-
 		shiftsArray = controller.getShifts(member, month, year);
 		//for each ShiftInfo object in arraylist
+		//System.out.println(shiftsArray.size() + " the size is");
 		try{
 			for(int i = 0; i < shiftsArray.size(); i++){
 				//extract arraylist objects
 				//map ShiftInfo day data member to calendar day
 				day = shiftsArray.get(i).getShiftDay();
+				//System.out.println(day + " day");
 				shifts += day + " ";
 				minWorked = shiftsArray.get(i).getshiftLength();
-				System.out.println(minWorked + " min worked");
+				//System.out.println(minWorked + " min worked");
 
 				//display shift length for that day (if more than 1 shift/day, sum the minutes for that day)
-				//Shift < 15 mins
 				if(minWorked < 60)
 				{
 					//Display in normal minutes
@@ -310,7 +309,7 @@ private ScheduleGUI sg;
 				///
 					int minuteDisplay = minWorked % 60;
 					int hourDisplay = minWorked / 60;
-					shifts += hourDisplay + " " + minuteDisplay + "\n";
+					shifts += Integer.toString(hourDisplay) + "" + Integer.toString(minuteDisplay) + "\n";
 					/*
 					 * Example: Worked 90 minutes:
 					 * 90 % 60 = 30 (minutes)
