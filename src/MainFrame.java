@@ -99,6 +99,7 @@ public class MainFrame extends JFrame{
         frame.setVisible(true);
         frame.setSize(new Dimension(1024,768));
 		restoreSignIns();
+		deactivateExpiredMembers();
 	}
 
     public void addComponentsToPane(Container pane) {       
@@ -718,5 +719,10 @@ public class MainFrame extends JFrame{
 				}
 			}
 		}		
+	}
+	
+	public void deactivateExpiredMembers()
+	{
+		controller.deactivateExpiredMembers();
 	}
 }

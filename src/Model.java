@@ -553,5 +553,22 @@ public class Model
 			System.out.println(e);
 		}
 	}
+	
+	public void deactivateExpiredMembers()
+	{
+		matches = DatabaseAbstraction.lookupMember("","");
+		
+		for (Member m : matches)
+		{
+		    Date currentDate = new Date();
+		        
+		    if (currentDate.after(m.getExpirationDate()))
+		    {
+		        m.setActive(false);
+		    }
+		    
+		    DatabaseAbstraction.updateMember(m);
+		}
+	}
 }
 

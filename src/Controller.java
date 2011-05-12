@@ -279,4 +279,9 @@ public class Controller
     {
     	return model.isSignedIn(m);
     }
+    
+    public void deactivateExpiredMembers()
+    {
+    	model.deactivateExpiredMembers();
+    }
 }
