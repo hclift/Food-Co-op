@@ -541,7 +541,7 @@ public class MainFrame extends JFrame {
 					JPanel mainPanel = new JPanel();
 					mainPanel.setLayout(null);
 					final JTextField textField = new JTextField();
-					JLabel label = new JLabel("Hours worked:");
+					JLabel label = new JLabel("Minuets worked:");
 					JButton button = new JButton("OK");
 					label.setBounds(10, 20, 100, 25);
 					textField.setBounds(100, 20, 80, 25);
@@ -587,7 +587,7 @@ public class MainFrame extends JFrame {
 					JPanel mainPanel = new JPanel();
 					mainPanel.setLayout(null);
 					final JTextField textField = new JTextField();
-					JLabel label = new JLabel("Hours worked:");
+					JLabel label = new JLabel("Minuets worked:");
 					JButton button = new JButton("OK");
 					label.setBounds(10, 20, 100, 25);
 					textField.setBounds(100, 20, 80, 25);
