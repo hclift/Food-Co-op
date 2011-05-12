@@ -7,6 +7,7 @@ import java.awt.event.WindowEvent;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -30,11 +31,19 @@ private JButton workHistoryButton, okButton;
 private JTextField currentYearBox, membershipTypeBox;
 private JCheckBox recieveEmailCheckBox;
 private MainFrame parentWindow;
+private Controller controller;
+private Member t;
 
-	public ViewMember(MainFrame parentWindow, Member m){
+private ScheduleGUI sg;
+
+	public ViewMember(MainFrame parentWindow, Member m, Controller controller)
+	{
+		this.controller = controller;
 		this.parentWindow = parentWindow;
 
 		parentWindow.setEnabled(false);
+		
+		t = m;
 		mainFrame = new JFrame("View Member");
 
 		//mainFrame.setFocusableWindowState(false);
@@ -136,6 +145,10 @@ private MainFrame parentWindow;
 		handleExpiration(m.getExpirationDate(), 3, expirationTextField);
 
 		workHistoryButton = new JButton("Display Work History");
+
+		workHistoryButton.setBounds(230, 140, 180, 25);
+		
+		workHistoryButton.addActionListener(new ButtonListener());
 		
 		okButton = new JButton("OK");
 		okButton.addActionListener(new ButtonListener());
@@ -275,8 +288,17 @@ private MainFrame parentWindow;
 				parentWindow.setEnabled(true);
 				mainFrame.dispose();
 			}else if(e.getSource().equals(workHistoryButton)){
-				//TODO: Implement methods for OKButton
-				
+				//controller = new Controller(new Model());
+				Calendar cal = Calendar.getInstance();
+				int month = cal.get(Calendar.MONTH) + 1;
+				int year = cal.get(Calendar.YEAR);
+//				System.out.println(month + " " + (month -1) + " " + (month -2));
+				String shift = populateCalendar(t,month,year);
+				String shift2 = populateCalendar(t,month-1,year);
+				String shift3 = populateCalendar(t,month-2,year);
+				System.out.println(month-2 + " and string " + shift3);
+		    	sg = new ScheduleGUI(month-1, shift, shift2, shift3);
+		    	ScheduleGUI.calendarGUI(month, shift, shift2, shift3);
 			}else{
 				System.exit(0);
 			}
@@ -285,6 +307,85 @@ private MainFrame parentWindow;
 		
 	}
 	
+	/**
+	 * @author Kevin Urrutia, Joe Zammito, Nick Cox
+	 * 
+	 * @param member
+	 * @param month we want to get 
+	 * @param year the year desired
+	 * 
+	 * This gets the shifts that the current member has worked 
+	 * 
+	 * @return it returns a string that show has the days and hours worked
+	 * 
+	 */
+	String populateCalendar(Member member, int month, int year){
+		
+//		System.out.println(month);
+//		System.out.println(year);
+//		System.out.println(member.getId());
+//		System.out.println("--input data before");
+		String shifts = "";
+		//ArrayList containing shift lengths
+		ArrayList <ShiftInfo>  shiftsArray = new ArrayList <ShiftInfo> ();
+		//Variable to store day member worked
+		int day;
+		//Get minimum time member worked
+		int minWorked;
+		shiftsArray = controller.getShifts(member, month, year);
+		//for each ShiftInfo object in arraylist
+		//System.out.println(shiftsArray.size() + " the size is");
+		try{
+			for(int i = 0; i < shiftsArray.size(); i++){
+				//extract arraylist objects
+				//map ShiftInfo day data member to calendar day
+				day = shiftsArray.get(i).getShiftDay();
+				//System.out.println(day + " day");
+				shifts += day + " ";
+				minWorked = shiftsArray.get(i).getMinWorked();
+				//System.out.println(minWorked + " min worked");
+
+				//display shift length for that day (if more than 1 shift/day, sum the minutes for that day)
+				if(minWorked < 60)
+				{
+					//Display in normal minutes
+					shifts += minWorked + "\n";
+				}
+				else if(minWorked % 60 == 0)
+				{
+					int hourDisplay = minWorked / 60;
+					shifts += hourDisplay + "\n";
+					//Display as 1 hour, 2 hours, 3 hours, etc
+					/*
+					 * Example: Worked 120 minutes:
+					 * 120 % 60 = 0
+					 * 120 / 60 = 2, so hourDisplay = 2
+					 */
+
+					//Display hours now
+				}
+				else
+				{
+					
+				///
+					int minuteDisplay = minWorked % 60;
+					int hourDisplay = minWorked / 60;
+					shifts += Integer.toString(hourDisplay) + "" + Integer.toString(minuteDisplay) + "\n";
+					/*
+					 * Example: Worked 90 minutes:
+					 * 90 % 60 = 30 (minutes)
+					 * 90 / 60 = 1 (hour)
+					 */
+					//System.out.println(hourDisplay + "hours and " + minuteDisplay + "minutes");
+
+				}
+			}
+		}
+			catch(Exception e){
+				//maybe some error
+			}
+		return shifts;
+	}
 	
 }
 

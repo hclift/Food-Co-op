@@ -66,7 +66,7 @@ public class MainFrame extends JFrame{
 	public MainFrame(Controller c){
 		controller = c;
 		
-		JFrame.setDefaultLookAndFeelDecorated(true);
+		//JFrame.setDefaultLookAndFeelDecorated(true);
         JFrame frame = new JFrame("Main Menu");
 
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -98,6 +98,7 @@ public class MainFrame extends JFrame{
         frame.pack();
         frame.setVisible(true);
         frame.setSize(new Dimension(1024,768));
+        frame.setResizable(false);
 		restoreSignIns();
 		deactivateExpiredMembers();
 	}
@@ -440,7 +441,7 @@ public class MainFrame extends JFrame{
 	{
 		CURRENT_MEMBER = controller.getMember(generalLookup.getSelectedIndex());
 //FIXME UNCOMMENT		
-		new ViewMember(this, CURRENT_MEMBER);
+		new ViewMember(this, CURRENT_MEMBER, controller);
 	}
 	
 
@@ -481,9 +482,9 @@ public class MainFrame extends JFrame{
 		{
 			for(int j = 0; j < searchResult.size(); j++){
 				String membershipType = MembershipTypes.class.getEnumConstants()[searchResult.get(j).getMembershipType()].getStrVal();
-				String string  = new String((String.format("%-25.24s", searchResult.get(j).getFirstName()) + 
-											 String.format("%-26.25s", searchResult.get(j).getLastName()) + " " + 
-											 String.format("%-23.22s", membershipType) + 
+				String string  = new String((String.format("%-24.23s", searchResult.get(j).getFirstName()) + 
+											 String.format("%-25.24s", searchResult.get(j).getLastName()) + " " + 
+											 String.format("%-22.21s", membershipType) + 
 												searchResult.get(j).getEmailAddress())); 
 				generalLookupModel.addElement(string);
 			}

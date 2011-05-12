@@ -1,4 +1,3 @@
-
 /**
  * The ShiftInfo class stores information about work shifts
  * in the Food Co-op.

@@ -284,4 +284,9 @@ public class Controller
     {
     	model.deactivateExpiredMembers();
     }
+
+    public ArrayList<ShiftInfo> getShifts(Member member, int desiredMonth, int desiredYear)
+    {
+    	return model.getShifts(member, desiredMonth, desiredYear);
+    }
 }
