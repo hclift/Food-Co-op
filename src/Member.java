@@ -347,6 +347,11 @@ public class Member implements Serializable
 	{
 		return (id == ((Member)o).id);
 	}
+
+	public String getMembershipLength() {
+		// TODO Auto-generated method stub
+		return MEMBERSHIP_LENGTHS[membershipLength];
+	}
 }
 
 // TODO: Sign in

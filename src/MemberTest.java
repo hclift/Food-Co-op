@@ -17,7 +17,7 @@ public class MemberTest {
 	@Test
 	public void testMemberIntStringStringStringDateIntIntIntBooleanBoolean() {
 		Member tmp = new Member(2, "Foo", "Bar", "fbar@example.com",
-				new Date(1234567890), 1, 3,1,2, 1, true
+				new Date(1234567890), 3,1,2, 1, true
 		);
 		assertEquals(2, tmp.getId());
 		assertEquals("Foo", tmp.getFirstName());
