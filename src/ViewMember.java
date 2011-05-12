@@ -20,10 +20,10 @@ public class ViewMember{
 private JFrame mainFrame;
 private JPanel mainPanel;
 private JLabel firstNameLabel, lastNameLabel, emailLabel, yearLabel, 
-	membershipTypeLabel, expirationLabel,discountsLabel, IOULabel, recieveEmailLabel;
+	membershipTypeLabel, expirationLabel,discountsLabel, IOULabel, activeLabel;
 
 private JTextField firstNameTextField, lastNameTextField, 
-	emailTextField, expirationTextField, discountsTextField, IOUTextField;
+	emailTextField, expirationTextField, discountsTextField, IOUTextField, activeTextField;
 
 private JButton workHistoryButton, okButton;
 
@@ -36,14 +36,14 @@ private MainFrame parentWindow;
 
 		parentWindow.setEnabled(false);
 		mainFrame = new JFrame("View Member");
-		mainFrame.setBounds(275, 200, 450, 310);
+
 		//mainFrame.setFocusableWindowState(false);
 		
 		mainFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e)
 			{
 				ViewMember.this.parentWindow.setEnabled(true);
-				ViewMember.this.parentWindow.requestFocus();
+				
 			}
 		});
 		
@@ -85,6 +85,17 @@ private MainFrame parentWindow;
 		membershipTypeLabel = new JLabel("Membership Type: ");
 		expirationLabel = new JLabel("Expiration Date: ");
 		discountsLabel = new JLabel("Discounts Available: ");
+		
+		if (m.isActive())
+		{
+			activeLabel = new JLabel("This member is active.");
+			activeLabel.setForeground(Color.green.darker().darker());
+		}
+		else
+		{
+			activeLabel = new JLabel("This member is inactive.");
+			activeLabel.setForeground(Color.red.darker());
+		}
 		
 		discountsTextField = new JTextField();
 		discountsTextField.setEditable(false);
@@ -222,6 +233,16 @@ private MainFrame parentWindow;
 		c.gridwidth = 1;
 		mainPanel.add(discountsTextField, c);
 		
+		c.gridx = 0;
+		c.gridy = 7;
+		c.gridwidth = 2;
+		mainPanel.add(activeLabel, c);
+		
+//		c.gridx = 1;
+//		c.gridy = 7;
+//		c.gridwidth = 1;
+//		mainPanel.add(activeTextField, c);
+		
 		c.gridx = 2;
 		c.gridy = 6;
 		c.gridwidth = 1;
@@ -239,7 +260,7 @@ private MainFrame parentWindow;
 		
 		mainFrame.add(mainPanel, BorderLayout.NORTH);
 		mainFrame.pack();
-		mainFrame.setLocation(350, 150);
+		mainFrame.setLocationRelativeTo(parentWindow);
 		mainFrame.setResizable(false);
 		mainFrame.setVisible(true);
 		mainFrame.validate();
@@ -251,10 +272,8 @@ private MainFrame parentWindow;
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			if(e.getSource().equals(okButton)){
-				mainFrame.dispose();
-				//parentWindow.reenableButtons();
 				parentWindow.setEnabled(true);
-				parentWindow.requestFocus();
+				mainFrame.dispose();
 			}else if(e.getSource().equals(workHistoryButton)){
 				//TODO: Implement methods for OKButton
 				

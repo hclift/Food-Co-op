@@ -340,9 +340,10 @@ public class Model
 	public double subtractFromIou(int currentYear, int membershipType, double oldAmount, double adjustment) throws Exception
 	{
 		if(oldAmount - adjustment < 0)
-			throw new Exception("Can't subtract more than what is owed");
-		else if(membershipType == 0)
-			throw new Exception("Must be a working member");
+		{
+			throw new Exception("Amounts subtracted from the IOU cannot" 
+					+ " exceed what is owed.");
+		}
 		
 		return oldAmount - adjustment;
 	}
@@ -386,8 +387,11 @@ public class Model
 			lengthOfShift = controllerReference.reconcileShiftLength(lengthOfShift);
 		}
 
-		DatabaseAbstraction.updateMember(signedIntoStore.get(index));
-		signedIntoStore.remove(index);
+		if (lengthOfShift != -1)
+		{
+			DatabaseAbstraction.updateMember(signedIntoStore.get(index));
+			signedIntoStore.remove(index);
+		}
 		
 		return signedIntoStore;
 	}
@@ -422,17 +426,21 @@ public class Model
 		{
 			lengthOfShift = controllerReference.reconcileShiftLength(lengthOfShift);
 		}
-
-		// TODO: ask
-		numberOfDiscounts = ((int)lengthOfShift) / 60;
 		
-		signedIntoKitchen.get(index).setAvailableDiscounts(
+		if (lengthOfShift != -1)
+		{
+			// TODO: ask
+			numberOfDiscounts = ((int)lengthOfShift) / 60;
+		
+			signedIntoKitchen.get(index).setAvailableDiscounts(
 				signedIntoKitchen.get(index).getAvailableDiscounts()
 						+ numberOfDiscounts);
 		
-		DatabaseAbstraction.updateMember(signedIntoKitchen.get(index));
+					DatabaseAbstraction.updateMember(signedIntoKitchen.get(index));
 		
-		signedIntoKitchen.remove(index);
+					signedIntoKitchen.remove(index);
+					
+		}
 		return signedIntoKitchen;
 	}
 	

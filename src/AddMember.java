@@ -61,13 +61,13 @@ public class AddMember
 		this.controller = c;
 		mainFrame = new JFrame("Add Member");
 		mainFrame.setBounds(275, 150, 450, 250);
+		mainFrame.setLocationRelativeTo(parentWindow);
 		//mainFrame.setFocusableWindowState(false);
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		mainFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e)
 			{
 				AddMember.this.parentWindow.setEnabled(true);
-				AddMember.this.parentWindow.requestFocus();
 			}
 		});
 		
@@ -338,9 +338,8 @@ public class AddMember
 			if(e.getSource().equals(cancelButton))
 			{
 				// closes the window
-				mainFrame.dispose();
 				parentWindow.setEnabled(true);
-				parentWindow.requestFocus();
+				mainFrame.dispose();
 			}
 			else if(e.getSource().equals(okButton))
 			{
@@ -368,9 +367,8 @@ public class AddMember
 					// add member to database and close window
 					controller.addMember(fn, ln, em, convertMemDur(sy),
 					convertMemType(mt), convertYear(cy), 1);
-				mainFrame.dispose();
 				parentWindow.setEnabled(true);
-				parentWindow.requestFocus();
+				mainFrame.dispose();
 			}else{
 				System.exit(0);
 			}

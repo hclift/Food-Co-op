@@ -5,8 +5,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
@@ -21,7 +19,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class MainFrame extends JFrame{
+public class MainFrame2 extends JFrame{
 	
 	private Controller controller;
 	
@@ -63,32 +61,16 @@ public class MainFrame extends JFrame{
 	
 	private static Member CURRENT_MEMBER;
 	
-	public MainFrame(Controller c){
+	public MainFrame2(Controller c){
 		controller = c;
+		//setSize(new Dimension(1024,768));
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setVisible(true);
+		//setTitle("Main Menu");
 		
 		JFrame.setDefaultLookAndFeelDecorated(true);
         JFrame frame = new JFrame("Main Menu");
-
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		
-		frame.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e)
-			{
-				ArrayList<Member> kitchenSignIns = controller.getSignedIntoKitchen();
-				ArrayList<Member> storeSignIns = controller.getSignedIntoStore();
-				if (kitchenSignIns.size() > 0 || storeSignIns.size() > 0)
-				{
-					JOptionPane.showConfirmDialog(null,
-						"The program cannot be closed until all members are signed out.", "Alert",
-					    JOptionPane.DEFAULT_OPTION);
-				}
-				else
-				{
-					System.exit(0);
-				}
-			}
-		});
-		
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Font buttonFont = new Font("Calibri", Font.BOLD, 12);
 		Font f2 = new Font("Calibri", Font.PLAIN, 14);
         frame.setVisible(true);
@@ -98,7 +80,6 @@ public class MainFrame extends JFrame{
         frame.pack();
         frame.setVisible(true);
         frame.setSize(new Dimension(1024,768));
-		restoreSignIns();
 	}
 
     public void addComponentsToPane(Container pane) {       
@@ -289,9 +270,9 @@ public class MainFrame extends JFrame{
         storePane = new JScrollPane(store);
         store.setSelectedIndex(0);
         store.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		gbc.gridx = 6;
+		gbc.gridx = 5;
         gbc.gridy = 1;
-        gbc.gridwidth = 1;
+        gbc.gridwidth = 2;
         gbc.gridheight = 2;
         pane.add(storePane, gbc);
         
@@ -320,7 +301,7 @@ public class MainFrame extends JFrame{
         kitchenPane = new JScrollPane(kitchen);
         kitchen.setSelectedIndex(0);
         kitchen.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		gbc.gridx = 6;
+		gbc.gridx = 5;
         gbc.gridy = 7;
         gbc.gridwidth = 2;
         gbc.gridheight = 2;
@@ -347,7 +328,30 @@ public class MainFrame extends JFrame{
         
         addListeners();    
         validate();
+        
+       //JComboBox jcmbSample = new JComboBox(new String[]{"ComboBox 1", "hi", "hello"});
+        //gbc.ipady = 0;
+        //gbc.weighty = 1.0;
+        //gbc.anchor = GridBagConstraints.PAGE_END;
+        //gbc.insets = new Insets(10,0,0,0);  //Padding
+        //gbc.gridx = 1;
+        //gbc.gridwidth = 1;
+        //gbc.gridy = 2;
+        //pane.add(jcmbSample, gbc); /**/
     }
+
+    /*public void createAndShowGUI() {
+
+    	JFrame.setDefaultLookAndFeelDecorated(true);
+        JFrame frame = new JFrame("Main Menu");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        //Set up the content pane.
+        addComponentsToPane(frame.getContentPane());
+
+        frame.pack();
+        frame.setVisible(true);
+    }*/
     
     /**
 	 * Adds the listeners to the buttons
@@ -439,7 +443,7 @@ public class MainFrame extends JFrame{
 	{
 		CURRENT_MEMBER = controller.getMember(generalLookup.getSelectedIndex());
 //FIXME UNCOMMENT		
-		new ViewMember(this, CURRENT_MEMBER);
+		//new ViewMember(this, CURRENT_MEMBER);
 	}
 	
 
@@ -480,9 +484,9 @@ public class MainFrame extends JFrame{
 		{
 			for(int j = 0; j < searchResult.size(); j++){
 				String membershipType = MembershipTypes.class.getEnumConstants()[searchResult.get(j).getMembershipType()].getStrVal();
-				String string  = new String((String.format("%-25.24s", searchResult.get(j).getFirstName()) + 
-											 String.format("%-26.25s", searchResult.get(j).getLastName()) + " " + 
-											 String.format("%-23.22s", membershipType) + 
+				String string  = new String((String.format("%-22.21s", searchResult.get(j).getFirstName()) + 
+											 String.format("%-21.20s", searchResult.get(j).getLastName()) + " " + 
+											 String.format("%-22.21s", membershipType) + 
 												searchResult.get(j).getEmailAddress())); 
 				generalLookupModel.addElement(string);
 			}
@@ -497,11 +501,84 @@ public class MainFrame extends JFrame{
 	 * 
 	 * displays a given string as an error message
 	 */
+
+
 	public void displayException(String errorMessage)
 	{
 		JOptionPane.showMessageDialog(null, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 	}
     
+    
+	/**
+	 * 
+	 * @author Dave Wroblewski
+	 * @version 4/4/11
+	 * 
+	 * This is the inner ActionListener class
+	 * 
+	 * 
+	 * 
+	
+	class ButtonListener implements ActionListener{
+
+		String str;
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			if(e.getSource().equals(searchButton))
+				printSearchResult(controller.lookUpMember(firstNameTextField.getText(), lastNameTextField.getText()));
+
+			else if(e.getSource().equals(viewMemberButton)){
+				showViewMember();
+
+			}else if(e.getSource().equals(updateMemberButton)){
+				CURRENT_MEMBER = controller.getMember(generalLookup.getSelectedIndex());
+				//disableButtons();
+				new UpdateMemberFrame(MainFrame.this, controller, CURRENT_MEMBER);
+			}else if(e.getSource().equals(addMemberButton)){
+				new AddMember(controller, MainFrame.this);
+			}else if(e.getSource().equals(signIntoStoreButton)){
+				int memberIndex = generalLookup.getSelectedIndex();
+				ArrayList<Member> members = controller.signIntoStore(memberIndex);
+				printStore(members);
+				signIntoStoreButton.setEnabled(false);
+				signIntoKitchenButton.setEnabled(false);
+			}else if(e.getSource().equals(signIntoKitchenButton)){
+				int memberIndex = generalLookup.getSelectedIndex();
+				ArrayList<Member> members = controller.signIntoKitchen(memberIndex);
+				printKitchen(members);
+				signIntoStoreButton.setEnabled(false);
+				signIntoKitchenButton.setEnabled(false);
+				
+			}else if(e.getSource().equals(signOutOfStoreButton)){
+				printStore(controller.signOutOfStore(store.getSelectedIndex()));
+				if (controller.getMember(generalLookup.getSelectedIndex()).canSignIn())
+				{
+					signIntoStoreButton.setEnabled(true);
+					signIntoKitchenButton.setEnabled(true);
+				}
+				else
+				{
+					signIntoStoreButton.setEnabled(false);
+					signIntoKitchenButton.setEnabled(false);
+				}
+			}else if(e.getSource().equals(signOutOfKitchenButton)){
+				printKitchen(controller.signOutOfKitchen(kitchen.getSelectedIndex()));
+				if (controller.getMember(generalLookup.getSelectedIndex()).canSignIn())
+				{
+					signIntoStoreButton.setEnabled(true);
+					signIntoKitchenButton.setEnabled(true);
+				}
+				else
+				{
+					signIntoStoreButton.setEnabled(false);
+					signIntoKitchenButton.setEnabled(false);
+				}
+			}
+		}		
+	}
+ */
 	/**
 	 * 
 	 * @author Chun Hung Tseng
@@ -559,10 +636,6 @@ public class MainFrame extends JFrame{
 					+ "been working for " + actualShiftLength + 
 					" minutes.  Enter the number of minutes that " +
 					"they deserve.");
-			if (value == null)
-			{
-				return -1;
-			}
 			try
 			{
 				reconciledShiftLength = Integer.parseInt(value);
@@ -597,13 +670,6 @@ public class MainFrame extends JFrame{
 		signIntoStoreButton.setEnabled(false);
 		signIntoKitchenButton.setEnabled(false);
 	}
-	
-	public void restoreSignIns()
-	{
-		controller.restoreSignIns();
-		printStore(controller.getSignedIntoStore());
-		printKitchen(controller.getSignedIntoKitchen());
-	}
 
    /* public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -635,7 +701,7 @@ public class MainFrame extends JFrame{
 		{
 			CURRENT_MEMBER = controller.getMember(generalLookup.getSelectedIndex());
 //FIXME UNCOMMENT
-			new UpdateMemberFrame(MainFrame.this, controller, CURRENT_MEMBER);
+			//new UpdateMemberFrame(MainFrame2.this, controller, CURRENT_MEMBER);
 		}		
 	}
 	
@@ -644,7 +710,7 @@ public class MainFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) 
 		{
 //FIXME UNCOMMENT			
-		new AddMember(controller, MainFrame.this);
+		//new AddMember(controller, MainFrame2.this);
 		}		
 	}
 	
@@ -678,21 +744,15 @@ public class MainFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) 
 		{
 			printStore(controller.signOutOfStore(store.getSelectedIndex()));
-			store.clearSelection();
-			signOutOfStoreButton.setEnabled(false);
-			
-			if (generalLookup.getSelectedIndex() != -1)
+			if (controller.getMember(generalLookup.getSelectedIndex()).canSignIn())
 			{
-				if (controller.getMember(generalLookup.getSelectedIndex()).canSignIn())
-				{
-					signIntoStoreButton.setEnabled(true);
-					signIntoKitchenButton.setEnabled(true);
-				}
-				else
-				{
-					signIntoStoreButton.setEnabled(false);
-					signIntoKitchenButton.setEnabled(false);
-				}
+				signIntoStoreButton.setEnabled(true);
+				signIntoKitchenButton.setEnabled(true);
+			}
+			else
+			{
+				signIntoStoreButton.setEnabled(false);
+				signIntoKitchenButton.setEnabled(false);
 			}
 		}		
 	}
@@ -702,21 +762,17 @@ public class MainFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) 
 		{
 			printKitchen(controller.signOutOfKitchen(kitchen.getSelectedIndex()));
-			kitchen.clearSelection();
-			signOutOfKitchenButton.setEnabled(false);
-			if (generalLookup.getSelectedIndex() != -1)
+			if (controller.getMember(generalLookup.getSelectedIndex()).canSignIn())
 			{
-				if (controller.getMember(generalLookup.getSelectedIndex()).canSignIn())
-				{
-					signIntoStoreButton.setEnabled(true);
-					signIntoKitchenButton.setEnabled(true);
-				}
-				else
-				{
-					signIntoStoreButton.setEnabled(false);
-					signIntoKitchenButton.setEnabled(false);
-				}
+				signIntoStoreButton.setEnabled(true);
+				signIntoKitchenButton.setEnabled(true);
+			}
+			else
+			{
+				signIntoStoreButton.setEnabled(false);
+				signIntoKitchenButton.setEnabled(false);
 			}
 		}		
 	}
+    
 }

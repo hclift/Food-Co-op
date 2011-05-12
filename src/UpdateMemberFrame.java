@@ -90,9 +90,8 @@ public class UpdateMemberFrame {
 			{
 				if (verifyClosing())
 				{
-					mainFrame.dispose();
 					UpdateMemberFrame.this.parentWindow.setEnabled(true);
-					UpdateMemberFrame.this.parentWindow.requestFocus();
+					mainFrame.dispose();
 				}
 			}
 		});
@@ -146,27 +145,37 @@ public class UpdateMemberFrame {
 	{
 		
 		Calendar c = Calendar.getInstance();
-		c.setTime(dIn);
-		
-		// new expiration date calculated from current date if
-		// already expired
-		if (dIn.before(new Date()))
-		{
-			dIn = new Date();
-		}
 		
 		//0 means add semester
 		if (iIn == 0) 
 		{
+			// new expiration date calculated from current date if
+			// already expired
+			if (dIn.before(new Date()))
+			{
+				dIn = new Date();
+			}
+			
+			c.setTime(dIn);
+			
 			c.add(Calendar.MONTH, 5);
+			expirationDate = c.getTime();
 		}
 		//1 means add year
 		else if (iIn == 1)
 		{
+			// new expiration date calculated from current date if
+			// already expired
+			if (dIn.before(new Date()))
+			{
+				dIn = new Date();
+			}
+			
+			c.setTime(dIn);
+			
 			c.add(Calendar.MONTH, 12);
+			expirationDate = c.getTime();
 		}
-				
-		expirationDate = c.getTime();
 		
 		jtfIn.setText((expirationDate.getMonth()+1) + "/" + expirationDate.getDate() + "/" + (expirationDate.getYear()+1900));
 							
@@ -408,7 +417,7 @@ public class UpdateMemberFrame {
 		
 		mainFrame.add(mainPanel, BorderLayout.NORTH);
 		mainFrame.pack();
-		mainFrame.setLocation(350, 150);
+		mainFrame.setLocationRelativeTo(parentWindow);
 		mainFrame.setResizable(false);
 		mainFrame.setVisible(true);
 		mainFrame.validate();
@@ -584,22 +593,21 @@ public class UpdateMemberFrame {
 			{
 				parentWindow.clearSearchResults();
 				
-				mainFrame.dispose();
-				
 				parentWindow.setEnabled(true);
-				parentWindow.requestFocus();
+				mainFrame.dispose();
+
 			}
 			else
 			{
 				int choice = JOptionPane.showConfirmDialog(null,
-						"Results not saved to the database, would you " +
-						"like to quit?", "", JOptionPane.YES_NO_OPTION);
+						"Nothing was saved to the database.  " +
+						"Would you like to quit?", "", 
+						JOptionPane.YES_NO_OPTION);
+				
 				if(choice == 0)
 				{
-					
-					mainFrame.dispose();
 					parentWindow.setEnabled(true);
-					parentWindow.requestFocus();
+					mainFrame.dispose();
 				}
 			}
 		}		
@@ -611,9 +619,8 @@ public class UpdateMemberFrame {
 		{
 			if (verifyClosing())
 			{
-				mainFrame.dispose();
 				parentWindow.setEnabled(true);
-				parentWindow.requestFocus();
+				mainFrame.dispose();
 			}
 		}		
 	}

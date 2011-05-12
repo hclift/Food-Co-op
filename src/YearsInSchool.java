@@ -15,7 +15,8 @@ public enum YearsInSchool {
 	SENIOR1(6, "Senior 1"), 
 	SENIOR2(7, "Senior 2"), 
 	GRADUATE(8, "Graduate"), 
-	FACULTY(9, "Faculty");
+	FACULTY(9, "Faculty"),
+	STAFF(10, "Staff");
 	
 	private int intVal;
 	private String strVal;
