@@ -218,7 +218,7 @@ public class ScheduleGUI extends JFrame {
     public static void calendarGUI(int month,String shift1,String shift2,String shift3) {
         //Create and set up the window.
         calendarframe = new ScheduleGUI(month,shift1,shift2,shift3);
-        calendarframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //calendarframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //calendarframe.setTitle(monthString);
         //Set Calendar GUI to the center
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
