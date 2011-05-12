@@ -559,7 +559,7 @@ public class MainFrame extends JFrame {
 	public void showViewMember()
 	{
 		CURRENT_MEMBER = controller.getMember(generalLookup.getSelectedIndex());
-		new ViewMember(this, CURRENT_MEMBER);
+		new ViewMember(this, CURRENT_MEMBER,controller);
 	}
 	
 	/**
