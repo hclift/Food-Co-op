@@ -233,11 +233,12 @@ private ScheduleGUI sg;
 				int year = cal.get(Calendar.YEAR);
 //				System.out.println(month + " " + (month -1) + " " + (month -2));
 				String shift = populateCalendar(t,month,year);
+				System.out.println(shift);
 				String shift2 = populateCalendar(t,month-1,year);
-				String shift3 = populateCalendar(t,month-2,year);
-				System.out.println(month-2 + " and string " + shift3);
-		    	sg = new ScheduleGUI(month-1, shift, shift2, shift3);
-		    	ScheduleGUI.calendarGUI(month, shift, shift2, shift3);
+				String shift3 = populateCalendar(t,month+1,year);
+				//System.out.println(month + " and string " + shift);
+		    	sg = new ScheduleGUI(month, shift3, shift, shift);
+		    	ScheduleGUI.calendarGUI(month, shift2, shift, shift3);
 			}else{
 				System.exit(0);
 			}
@@ -282,42 +283,42 @@ private ScheduleGUI sg;
 				//System.out.println(day + " day");
 				shifts += day + " ";
 				minWorked = shiftsArray.get(i).getshiftLength();
-				//System.out.println(minWorked + " min worked");
-
-				//display shift length for that day (if more than 1 shift/day, sum the minutes for that day)
-				if(minWorked < 60)
-				{
-					//Display in normal minutes
-					shifts += minWorked + "\n";
-				}
-				else if(minWorked % 60 == 0)
-				{
-					int hourDisplay = minWorked / 60;
-					shifts += hourDisplay + "\n";
-					//Display as 1 hour, 2 hours, 3 hours, etc
-					/*
-					 * Example: Worked 120 minutes:
-					 * 120 % 60 = 0
-					 * 120 / 60 = 2, so hourDisplay = 2
-					 */
-
-					//Display hours now
-				}
-				else
-				{
-					
-				///
-					int minuteDisplay = minWorked % 60;
-					int hourDisplay = minWorked / 60;
-					shifts += Integer.toString(hourDisplay) + "" + Integer.toString(minuteDisplay) + "\n";
-					/*
-					 * Example: Worked 90 minutes:
-					 * 90 % 60 = 30 (minutes)
-					 * 90 / 60 = 1 (hour)
-					 */
-					//System.out.println(hourDisplay + "hours and " + minuteDisplay + "minutes");
-
-				}
+				shifts += minWorked + "\n";
+//
+//				//display shift length for that day (if more than 1 shift/day, sum the minutes for that day)
+//				if(minWorked < 60)
+//				{
+//					//Display in normal minutes
+//					shifts += minWorked + "\n";
+//				}
+//				else if(minWorked % 60 == 0)
+//				{
+//					int hourDisplay = minWorked / 60;
+//					shifts += hourDisplay + "00\n";
+//					//Display as 1 hour, 2 hours, 3 hours, etc
+//					/*
+//					 * Example: Worked 120 minutes:
+//					 * 120 % 60 = 0
+//					 * 120 / 60 = 2, so hourDisplay = 2
+//					 */
+//
+//					//Display hours now
+//				}
+//				else
+//				{
+//					
+//				///
+//					int minuteDisplay = minWorked % 60;
+//					int hourDisplay = minWorked / 60;
+//					shifts += Integer.toString(hourDisplay) + "" + Integer.toString(minuteDisplay) + "\n";
+//					/*
+//					 * Example: Worked 90 minutes:
+//					 * 90 % 60 = 30 (minutes)
+//					 * 90 / 60 = 1 (hour)
+//					 */
+//					//System.out.println(hourDisplay + "hours and " + minuteDisplay + "minutes");
+//
+//				}
 			}
 		}
 			catch(Exception e){

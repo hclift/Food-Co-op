@@ -164,21 +164,24 @@ public class ScheduleGUI extends JFrame {
         boolean status=false;
         int startIndex=0;
         
-        for(int i=0;i<shiftList[currentIndex].length();i++)
-        {	if(shiftList[currentIndex].charAt(i)==' ')
-        	{	day = Integer.parseInt(shiftList[currentIndex].substring(startIndex, i));
+        for(int i=0;i<shiftList[realIndex].length();i++)
+        {	if(shiftList[realIndex].charAt(i)==' ')
+        	{	day = Integer.parseInt(shiftList[realIndex].substring(startIndex, i));
         		startIndex = i+1;
         	}
-        	else if(shiftList[currentIndex].charAt(i)=='\n')
-	    	{	workHr = Integer.parseInt(shiftList[currentIndex].substring(startIndex, i));
+        	else if(shiftList[realIndex].charAt(i)=='\n')
+	    	{	workHr = Integer.parseInt(shiftList[realIndex].substring(startIndex, i));
 	    		startIndex = i+1;
-	    		status =true;
+	    		status = true;
 	    	}
 	        if(status==true)
 	        {	int row = new Integer((day+som-2)/7);
 	        	int column  =  (day+som-2)%7;
-	        	String dayHr = day + "    " + workHr +"hr";
+	        	String dayHr = day + "    " + workHr +"";
+	        	
 	        	scheduleCal.setValueAt(dayHr, row, column);
+	        	//scheduleCal.setGridColor(Black);
+	        	
 	        	status=false;
 	        }
         }
