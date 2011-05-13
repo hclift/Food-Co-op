@@ -139,46 +139,15 @@ public class UpdateMemberFrame {
 		}
 	}
 	
-	
+	/**
+	 * Refreshes the expiration date text field.
+	 */
 	@SuppressWarnings("deprecation")
-	public void handleExpiration(Date dIn, int iIn, JTextField jtfIn)
+	private void refreshExpirationDate()
 	{
-		
-		Calendar c = Calendar.getInstance();
-		
-		//0 means add semester
-		if (iIn == 0) 
-		{
-			// new expiration date calculated from current date if
-			// already expired
-			if (dIn.before(new Date()))
-			{
-				dIn = new Date();
-			}
-			
-			c.setTime(dIn);
-			
-			c.add(Calendar.MONTH, 5);
-			expirationDate = c.getTime();
-		}
-		//1 means add year
-		else if (iIn == 1)
-		{
-			// new expiration date calculated from current date if
-			// already expired
-			if (dIn.before(new Date()))
-			{
-				dIn = new Date();
-			}
-			
-			c.setTime(dIn);
-			
-			c.add(Calendar.MONTH, 12);
-			expirationDate = c.getTime();
-		}
-		
-		jtfIn.setText((expirationDate.getMonth()+1) + "/" + expirationDate.getDate() + "/" + (expirationDate.getYear()+1900));
-							
+		expirationTextField.setText((expirationDate.getMonth()+1) + 
+				"/" + expirationDate.getDate() + "/" + 
+				(expirationDate.getYear()+1900));
 	}
 	
 	/**
@@ -235,7 +204,7 @@ public class UpdateMemberFrame {
 		
 		expirationTextField = new JTextField();
 		expirationTextField.setEditable(false);	
-		handleExpiration(expirationDate, 3, expirationTextField);
+		refreshExpirationDate();
 		
 		addSemesterButton = new JButton("Add Semester");
 		addSemesterButton.addActionListener(new AddSemesterActionListener());
@@ -444,7 +413,8 @@ public class UpdateMemberFrame {
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			handleExpiration(expirationDate, 0, expirationTextField);
+			expirationDate = controller.addSemester(expirationDate);
+			refreshExpirationDate();
 		}
 		
 	}
@@ -453,7 +423,8 @@ public class UpdateMemberFrame {
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			handleExpiration(expirationDate, 1, expirationTextField);
+			expirationDate = controller.addYear(expirationDate);
+			refreshExpirationDate();
 		}
 	}
 	

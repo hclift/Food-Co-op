@@ -289,4 +289,14 @@ public class Controller
     {
     	return model.getShifts(member, desiredMonth, desiredYear);
     }
+    
+    public Date addSemester(Date dIn)
+    {
+    	return model.addSemester(dIn);
+    }
+    
+    public Date addYear(Date dIn)
+    {
+    	return model.addYear(dIn);
+    }
 }

@@ -627,5 +627,45 @@ public class Model
 	{
 		return DatabaseAbstraction.getShifts(member, desiredMonth, desiredYear);
 	}
+	
+	/**
+	 * Adds a semester (5 months) to a date.
+	 * @param dIn the date
+	 * @return the new date
+	 */
+	public Date addSemester(Date dIn) // do not make 'final'
+	{
+		Calendar c = Calendar.getInstance();
+		
+		if (dIn.before(new Date()))
+		{
+			dIn = new Date();
+		}
+		
+		c.setTime(dIn);
+		c.add(Calendar.MONTH, 5);
+		
+		return c.getTime();
+	}
+	
+	/**
+	 * Adds a year (12 months) to a date.
+	 * @param dIn the date
+	 * @return the new date
+	 */
+	public Date addYear(Date dIn)
+	{
+		Calendar c = Calendar.getInstance();
+		
+		if (dIn.before(new Date()))
+		{
+			dIn = new Date();
+		}
+		
+		c.setTime(dIn);
+		c.add(Calendar.MONTH, 12);
+		
+		return c.getTime();
+	}
 }
 

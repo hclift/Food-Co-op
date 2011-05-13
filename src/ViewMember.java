@@ -76,13 +76,6 @@ private ScheduleGUI sg;
 	   long expirationDate = 0;
 	 */
 	
-	@SuppressWarnings("deprecation")
-	public void handleExpiration(Date dIn, int iIn, JTextField jtfIn)
-	{
-		jtfIn.setText((dIn.getMonth()+1) + "/" + dIn.getDate() + "/" + (dIn.getYear()+1900));
-							
-	}
-	
 	private void addPanel(Member m){
 		mainPanel = new JPanel();
 		mainPanel.setLayout(null);
@@ -142,7 +135,8 @@ private ScheduleGUI sg;
 		expirationTextField = new JTextField();
 		expirationTextField.setEditable(false);
 				
-		handleExpiration(m.getExpirationDate(), 3, expirationTextField);
+		Date expirationDate = m.getExpirationDate();
+		expirationTextField.setText((expirationDate.getMonth()+1) + "/" + expirationDate.getDate() + "/" + (expirationDate.getYear()+1900));
 
 		workHistoryButton = new JButton("Display Work History");
 
