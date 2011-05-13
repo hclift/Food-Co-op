@@ -481,8 +481,7 @@ public class Model
 		
 		if (lengthOfShift != -1)
 		{
-			// TODO: ask
-			numberOfDiscounts = ((int)lengthOfShift) / 60;
+			numberOfDiscounts = ((int)lengthOfShift) / 45;
 		
 			signedIntoKitchen.get(index).setAvailableDiscounts(
 				signedIntoKitchen.get(index).getAvailableDiscounts()
