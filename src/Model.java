@@ -441,6 +441,7 @@ public class Model
 
 		if (lengthOfShift != -1)
 		{
+			DatabaseAbstraction.addShift(signedIntoStore.get(index), (int)lengthOfShift);
 			DatabaseAbstraction.updateMember(signedIntoStore.get(index));
 			signedIntoStore.remove(index);
 		}
@@ -482,6 +483,8 @@ public class Model
 		if (lengthOfShift != -1)
 		{
 			numberOfDiscounts = ((int)lengthOfShift) / 45;
+			
+			DatabaseAbstraction.addShift(signedIntoKitchen.get(index), (int)lengthOfShift);
 		
 			signedIntoKitchen.get(index).setAvailableDiscounts(
 				signedIntoKitchen.get(index).getAvailableDiscounts()

@@ -90,14 +90,15 @@ public class ScheduleGUI extends JFrame {
         container.add(btnPrev,BorderLayout.WEST);
         container.add(btnNext,BorderLayout.EAST);
         container.add(monthLabel,BorderLayout.NORTH);
-        currentIndex = 1;
-        realIndex = 1;
+        currentIndex = 2;
+        realIndex = 2;
         refreshCalendar(currentMonth, currentYear, currentIndex);
     }
     static class btnPrev_Action implements ActionListener{
         public void actionPerformed (ActionEvent e){
             if (currentMonth == 1){ //Back one year
                 currentMonth = 12;
+                currentYear--;
             }
             else{ //Back one month
                 currentMonth -= 1;
@@ -108,10 +109,11 @@ public class ScheduleGUI extends JFrame {
     }
     static class btnNext_Action implements ActionListener{
         public void actionPerformed (ActionEvent e){
-            if (currentMonth == 12){ //Foward one year
+            if (currentMonth == 12){ //Forward one year
                 currentMonth = 1;
+                currentYear++;
             }
-            else{ //Foward one month
+            else{ //Forward one month
                 currentMonth += 1;
             }
             realIndex++;
@@ -148,9 +150,15 @@ public class ScheduleGUI extends JFrame {
                 scheduleCal.setValueAt(null, i, j);
             }
         }
-
+        int calMonth;
+        if(month-1 < 0)
+        {	calMonth = 11;
+        }
+        else
+        {	calMonth = month - 1;
+        }
         //Get first day of month and number of days
-        GregorianCalendar cal = new GregorianCalendar(year, month, 1);
+        GregorianCalendar cal = new GregorianCalendar(year, calMonth, 1);
         nod = cal.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
         som = cal.get(GregorianCalendar.DAY_OF_WEEK);
         //Draw calendar
@@ -164,21 +172,23 @@ public class ScheduleGUI extends JFrame {
         boolean status=false;
         int startIndex=0;
         
-        for(int i=0;i<shiftList[currentIndex].length();i++)
-        {	if(shiftList[currentIndex].charAt(i)==' ')
-        	{	day = Integer.parseInt(shiftList[currentIndex].substring(startIndex, i));
+        for(int i=0;i<shiftList[realIndex].length();i++)
+        {	if(shiftList[realIndex].charAt(i)==' ')
+        	{	day = Integer.parseInt(shiftList[realIndex].substring(startIndex, i));
         		startIndex = i+1;
         	}
-        	else if(shiftList[currentIndex].charAt(i)=='\n')
-	    	{	workHr = Integer.parseInt(shiftList[currentIndex].substring(startIndex, i));
+        	else if(shiftList[realIndex].charAt(i)=='\n')
+	    	{	workHr = Integer.parseInt(shiftList[realIndex].substring(startIndex, i));
 	    		startIndex = i+1;
-	    		status =true;
+	    		status = true;
 	    	}
 	        if(status==true)
 	        {	int row = new Integer((day+som-2)/7);
 	        	int column  =  (day+som-2)%7;
-	        	String dayHr = day + "    " + workHr +"hr";
+	        	String dayHr = day + "    " + workHr +"";
 	        	scheduleCal.setValueAt(dayHr, row, column);
+	        	//scheduleCal.setGridColor(Black);
+	        	
 	        	status=false;
 	        }
         }
@@ -193,14 +203,8 @@ public class ScheduleGUI extends JFrame {
 	static class CalRenderer extends DefaultTableCellRenderer{
 	    public Component getTableCellRendererComponent (JTable table, Object value, boolean selected, boolean focused, int row, int column){
 	        super.getTableCellRendererComponent(table, value, selected, focused, row, column);
-	        //Weekend
-	        if (column == 0 || column == 6){
-	             setBackground(Color.pink);
-	        }
-	        //Weekday
-	        else{
+	   
 	            setBackground(Color.white);
-	        }
 	        return this; 
 	    }
 	}
@@ -215,7 +219,7 @@ public class ScheduleGUI extends JFrame {
      * 
      * @param int month,string workHours
      */
-    public static void calendarGUI(int month,String shift1,String shift2,String shift3) {
+    static void calendarGUI(int month,String shift1,String shift2,String shift3) {
         //Create and set up the window.
         calendarframe = new ScheduleGUI(month,shift1,shift2,shift3);
         //calendarframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -232,14 +236,14 @@ public class ScheduleGUI extends JFrame {
         calendarframe.pack();
         calendarframe.setVisible(true);
     }
-
+//
 //    public static void main(String[] args) {
 //        //creating and showing this application's GUI.
-//    	int month = 2;
+//    	//Takes the month of shift three
+//    	int month = 1;
 //    	String shift1 = "1 2\n2 3\n";
 //    	String shift2 = "10 2\n20 3\n";
 //    	String shift3 = "20 2\n21 3\n";
 //        calendarGUI(month,shift1,shift2,shift3);
-//
 //    }
 }

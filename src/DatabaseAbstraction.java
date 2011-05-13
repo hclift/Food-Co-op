@@ -340,5 +340,61 @@ public class DatabaseAbstraction
 			System.out.println(e);
 		}
 	}
+	
+	public static void addShift(Member m, int numberOfMinutes)
+	{
+		if (numberOfMinutes == 0)
+			return;
+		
+		Calendar c = Calendar.getInstance();
+		c.setTime(new Date());
+		int month = c.get(Calendar.MONTH) + 1;
+		int day = c.get(Calendar.DAY_OF_MONTH);
+		int year = c.get(Calendar.YEAR);
+		
+		try
+		{
+			// CREATE TABLE shifts (id INTEGER PRIMARY KEY AUTOINCREMENT, member_id NUMERIC, month NUMERIC, day NUMERIC, year NUMERIC, shift_length NUMERIC);
+			Connection connection = connectToDatabase();
+			PreparedStatement ps = connection.prepareStatement("SELECT * FROM shifts WHERE member_id = ? AND month = ? AND day = ? AND year = ?");
+			ps.setInt(1, m.getId());
+			ps.setInt(2, month);
+			ps.setInt(3,day);
+			ps.setInt(4, year);
+			ResultSet rs = ps.executeQuery();
+			
+			if (rs.next())
+			{
+				int shiftLength = rs.getInt("shift_length");
+				shiftLength += numberOfMinutes;
+				ps.close();
+				
+				ps = connection.prepareStatement("UPDATE shifts SET shift_length = ? WHERE member_id = ? AND month = ? AND day = ? AND year = ?");
+				ps.setInt(1, shiftLength);
+				ps.setInt(2, m.getId());
+				ps.setInt(3, month);
+				ps.setInt(4, day);
+				ps.setInt(5, year);
+				ps.executeUpdate();
+				ps.close();
+			}
+			else
+			{
+				ps.close();
+				ps = connection.prepareStatement("INSERT INTO shifts VALUES (NULL,?,?,?,?,?)");
+				ps.setInt(1, m.getId());
+				ps.setInt(2, month);
+				ps.setInt(3, day);
+				ps.setInt(4, year);
+				ps.setInt(5, numberOfMinutes);
+				ps.executeUpdate();
+				ps.close();
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
 }
 
