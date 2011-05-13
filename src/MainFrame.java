@@ -63,11 +63,14 @@ public class MainFrame extends JFrame{
 	
 	private static Member CURRENT_MEMBER;
 	
+	// moved out here in order to fix enable/disable issue
+	private JFrame frame;
+	
 	public MainFrame(Controller c){
 		controller = c;
 		
 		//JFrame.setDefaultLookAndFeelDecorated(true);
-        JFrame frame = new JFrame("Main Menu");
+        frame = new JFrame("Main Menu");
 
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		
@@ -725,5 +728,23 @@ public class MainFrame extends JFrame{
 	public void deactivateExpiredMembers()
 	{
 		controller.deactivateExpiredMembers();
+	}
+	
+	/**
+	 * Enable the main frame to receive input.
+	 */
+	public void enable()
+	{
+		frame.setEnabled(true);
+	}
+	
+	/**
+	 * Disable the main frame and prevent it from receiving input.
+	 * Called by view member, update member, and add member windows
+	 * after launch.
+	 */
+	public void disable()
+	{
+		frame.setEnabled(false);
 	}
 }

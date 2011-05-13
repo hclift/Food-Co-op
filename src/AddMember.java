@@ -56,7 +56,7 @@ public class AddMember
 
 	public AddMember(Controller c, MainFrame parentWindow){
 		this.parentWindow = parentWindow;
-		parentWindow.setEnabled(false);
+		parentWindow.disable();
 		parentWindow.requestFocus();
 		this.controller = c;
 		mainFrame = new JFrame("Add Member");
@@ -67,7 +67,7 @@ public class AddMember
 		mainFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e)
 			{
-				AddMember.this.parentWindow.setEnabled(true);
+				AddMember.this.parentWindow.enable();
 			}
 		});
 		
@@ -338,7 +338,7 @@ public class AddMember
 			if(e.getSource().equals(cancelButton))
 			{
 				// closes the window
-				parentWindow.setEnabled(true);
+				parentWindow.enable();
 				mainFrame.dispose();
 			}
 			else if(e.getSource().equals(okButton))
@@ -367,7 +367,7 @@ public class AddMember
 					// add member to database and close window
 					controller.addMember(fn, ln, em, convertMemDur(sy),
 					convertMemType(mt), convertYear(cy), 1);
-				parentWindow.setEnabled(true);
+				parentWindow.enable();
 				mainFrame.dispose();
 			}else{
 				System.exit(0);

@@ -78,7 +78,7 @@ public class UpdateMemberFrame {
 	public UpdateMemberFrame(MainFrame parentWindow, Controller controller, Member member)
 	{
 		this.parentWindow = parentWindow;
-		parentWindow.setEnabled(false);
+		parentWindow.disable(); 
 		this.member = member;
 		this.controller = controller;
 		discountApplied = false;
@@ -94,7 +94,7 @@ public class UpdateMemberFrame {
 			{
 				if (verifyClosing())
 				{
-					UpdateMemberFrame.this.parentWindow.setEnabled(true);
+					UpdateMemberFrame.this.parentWindow.enable();
 					mainFrame.dispose();
 				}
 			}
@@ -569,7 +569,7 @@ public class UpdateMemberFrame {
 			{
 				parentWindow.clearSearchResults();
 				
-				parentWindow.setEnabled(true);
+				parentWindow.enable();
 				mainFrame.dispose();
 
 			}
@@ -582,7 +582,7 @@ public class UpdateMemberFrame {
 				
 				if(choice == 0)
 				{
-					parentWindow.setEnabled(true);
+					parentWindow.enable();
 					mainFrame.dispose();
 				}
 			}
@@ -595,7 +595,7 @@ public class UpdateMemberFrame {
 		{
 			if (verifyClosing())
 			{
-				parentWindow.setEnabled(true);
+				parentWindow.enable();
 				mainFrame.dispose();
 			}
 		}		

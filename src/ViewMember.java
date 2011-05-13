@@ -41,8 +41,9 @@ private ScheduleGUI sg;
 		this.controller = controller;
 		this.parentWindow = parentWindow;
 
-		parentWindow.setEnabled(false);
-		
+		System.err.println(parentWindow.isLightweight());
+		parentWindow.disable();
+
 		t = m;
 		mainFrame = new JFrame("View Member");
 
@@ -51,7 +52,7 @@ private ScheduleGUI sg;
 		mainFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e)
 			{
-				ViewMember.this.parentWindow.setEnabled(true);
+				ViewMember.this.parentWindow.enable();
 				
 			}
 		});
@@ -279,7 +280,7 @@ private ScheduleGUI sg;
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			if(e.getSource().equals(okButton)){
-				parentWindow.setEnabled(true);
+				parentWindow.enable();
 				mainFrame.dispose();
 			}else if(e.getSource().equals(workHistoryButton)){
 				//controller = new Controller(new Model());
