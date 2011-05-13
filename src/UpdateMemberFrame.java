@@ -64,6 +64,9 @@ public class UpdateMemberFrame {
 	int	tempAvailDiscounts;
 	Date expirationDate;
 	
+	// makes it so that only a single discount can be applied
+	private boolean discountApplied;
+	
 	
 	MainFrame parentWindow;
 	
@@ -78,6 +81,7 @@ public class UpdateMemberFrame {
 		parentWindow.setEnabled(false);
 		this.member = member;
 		this.controller = controller;
+		discountApplied = false;
 		tempIOU = member.getIouAmount();
 		tempAvailDiscounts = member.getAvailableDiscounts();
 		expirationDate = member.getExpirationDate();
@@ -129,7 +133,7 @@ public class UpdateMemberFrame {
 		addYearButton.setEnabled(enabled);
 		addSemesterButton.setEnabled(enabled);
 		
-		if (tempAvailDiscounts > 0)
+		if (tempAvailDiscounts > 0 && !discountApplied)
 		{
 			applyDiscountButton.setEnabled(enabled);
 		}
@@ -436,6 +440,7 @@ public class UpdateMemberFrame {
 			discountsTextField.setText("" + tempAvailDiscounts);
 		
 			applyDiscountButton.setEnabled(false);
+			discountApplied = true;
 		}		
 	}
 	
