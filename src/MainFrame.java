@@ -68,7 +68,7 @@ public class MainFrame extends JFrame{
 	public MainFrame(Controller c){
 		controller = c;
 		
-		JFrame.setDefaultLookAndFeelDecorated(true);
+		// JFrame.setDefaultLookAndFeelDecorated(true);
 		
 		//Why is this indented???
          frame = new JFrame("Binghamton University Food Co-op | Main Menu");
