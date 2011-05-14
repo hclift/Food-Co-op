@@ -55,7 +55,8 @@ public class ScheduleGUI extends JFrame {
         
         Object[][] data = new Object[6][7];
         GregorianCalendar calendar = new GregorianCalendar();
-        currentYear = calendar.YEAR;
+        currentYear = calendar.get(GregorianCalendar.YEAR);
+        System.err.println(currentYear);
         currentMonth = month;
         scheduleCal = new JTable(data, columnNames)
         {
