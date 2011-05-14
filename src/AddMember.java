@@ -59,7 +59,7 @@ public class AddMember
 		parentWindow.disable();
 		parentWindow.requestFocus();
 		this.controller = c;
-		mainFrame = new JFrame("Add Member");
+		mainFrame = new JFrame("Binghamton University Food Co-op | Add Member");
 		mainFrame.setBounds(275, 150, 450, 250);
 		mainFrame.setLocationRelativeTo(parentWindow);
 		//mainFrame.setFocusableWindowState(false);

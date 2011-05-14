@@ -45,7 +45,7 @@ private ScheduleGUI sg;
 		parentWindow.disable();
 
 		t = m;
-		mainFrame = new JFrame("View Member");
+		mainFrame = new JFrame("Binghamton University Food Co-op | View Member");
 
 		//mainFrame.setFocusableWindowState(false);
 		

@@ -85,7 +85,7 @@ public class UpdateMemberFrame {
 		tempIOU = member.getIouAmount();
 		tempAvailDiscounts = member.getAvailableDiscounts();
 		expirationDate = member.getExpirationDate();
-		mainFrame = new JFrame("Update Member");
+		mainFrame = new JFrame("Binghamton University Food Co-op | Update Member");
 		//mainFrame.setFocusableWindowState(false);
 		mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		

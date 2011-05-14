@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -45,7 +46,7 @@ public class MainFrame extends JFrame{
 	private JLabel emailScrollLabel;
     
     
-    private JTextField firstNameTextField;
+  private JTextField firstNameTextField;
 	private JTextField lastNameTextField;
 	
 	
@@ -62,15 +63,15 @@ public class MainFrame extends JFrame{
 	private JScrollPane kitchenPane;
 	
 	private static Member CURRENT_MEMBER;
-	
-	// moved out here in order to fix enable/disable issue
 	private JFrame frame;
 	
 	public MainFrame(Controller c){
 		controller = c;
 		
-		//JFrame.setDefaultLookAndFeelDecorated(true);
-        frame = new JFrame("Main Menu");
+		JFrame.setDefaultLookAndFeelDecorated(true);
+		
+		//Why is this indented???
+         frame = new JFrame("Binghamton University Food Co-op | Main Menu");
 
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		
@@ -92,154 +93,246 @@ public class MainFrame extends JFrame{
 			}
 		});
 		
-        Font buttonFont = new Font("Calibri", Font.BOLD, 12);
-		Font f2 = new Font("Calibri", Font.PLAIN, 14);
-        frame.setVisible(true);
-        //Set up the content pane.
-        addComponentsToPane(frame.getContentPane());
+		//What's with the funny indentation???
 
-        frame.pack();
+				//Are these unused???
+        Font buttonFont = new Font("Calibri", Font.BOLD, 12);
+        Font f2 = new Font("Calibri", Font.PLAIN, 14);
+        
+        Toolkit toolkit = Toolkit.getDefaultToolkit();  
+        Dimension dimension = toolkit.getScreenSize();
+        frame.setSize(dimension);
+        //frame.setExtendedState(JFrame.MAXIMIZED_BOTH); //Make it fill window to start
+        //Set up the content pane.
+        //addComponentsToPane(frame.getContentPane());
+		    frame.setResizable(true);
+		    JPanel panel = new JPanel(); //Use JPanel as our container
+		    
+		    frame.add(panel); //Add to frame
+		    addComponentsToPane(panel); //Lay out widgets and add to frame
+
+		    //Don't use!!  We DON'T want it to be as small as possible
+		    //frame.pack();  
+		frame.setExtendedState(Frame.MAXIMIZED_BOTH);
         frame.setVisible(true);
-        frame.setSize(new Dimension(1024,768));
-        frame.setResizable(false);
+        
+        //NOT a good idea for future maintenance!
+        //frame.setSize(new Dimension(1024,768));
 		restoreSignIns();
-		deactivateExpiredMembers();
 	}
 
+	//Why indented so far???
     public void addComponentsToPane(Container pane) {       
     	
         
         pane.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        GridBagConstraints gBC = new GridBagConstraints();
         
-        firstNameLabel = new JLabel("First Name:");
-        gbc.weightx = 0.5;
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        pane.add(firstNameLabel, gbc);
+        //make separate gridBag constraint object for EACH widget
+        //otherwise, can become debug/maintenance nightmare
+        GridBagConstraints fNLGBC = (GridBagConstraints)gBC.clone();
+        GridBagConstraints fNTFGBC = (GridBagConstraints)gBC.clone();
+        GridBagConstraints lNLGBC = (GridBagConstraints)gBC.clone();
+        GridBagConstraints lNTFGBC = (GridBagConstraints)gBC.clone();
+        GridBagConstraints sLGBC = (GridBagConstraints)gBC.clone();
+        GridBagConstraints kLGBC = (GridBagConstraints)gBC.clone();
+        GridBagConstraints fNSLGBC = (GridBagConstraints)gBC.clone();
+        GridBagConstraints lNSLGBC = (GridBagConstraints)gBC.clone();
+        GridBagConstraints mSLGBC = (GridBagConstraints)gBC.clone();     
+        GridBagConstraints sBGBC = (GridBagConstraints)gBC.clone();
+        GridBagConstraints eMSLGBC = (GridBagConstraints)gBC.clone();
+        GridBagConstraints vMBGBC = (GridBagConstraints)gBC.clone();
+        GridBagConstraints aMBGBC = (GridBagConstraints)gBC.clone();
+        GridBagConstraints uMBGBC = (GridBagConstraints)gBC.clone();
+        GridBagConstraints sISBGBC = (GridBagConstraints)gBC.clone();     
+        GridBagConstraints sIKBGBC = (GridBagConstraints)gBC.clone();   
+        GridBagConstraints sOSBGBC = (GridBagConstraints)gBC.clone();   
+        GridBagConstraints sOKBGBC = (GridBagConstraints)gBC.clone();  
+        GridBagConstraints gLJLGBC = (GridBagConstraints)gBC.clone();   
+        GridBagConstraints sJLGBC = (GridBagConstraints)gBC.clone();   
+        GridBagConstraints kJLGBC = (GridBagConstraints)gBC.clone();   
+        
+        //address issue for each widget, not all at once!
+        //gBC.fill = GridBagConstraints.HORIZONTAL;
+
+        //I've padded the first row with blank labels
+        //to insure that the layout is stable
+        JLabel [] blankLabel = new JLabel[7];
+        GridBagConstraints [] bLGBC = new GridBagConstraints[8];
+        String s = "                    ";
+        for (int i = 0; i<blankLabel.length; i++)
+        {
+          blankLabel[i] = new JLabel(s);
+          bLGBC[i] = new GridBagConstraints();
+          bLGBC[i].gridx = i;
+          bLGBC[i].gridy = 0;
+          bLGBC[i].anchor = GridBagConstraints.LINE_END;
+          pane.add(blankLabel[i], bLGBC[i]);
+        }
+        
+        
+        storeLabel = new JLabel("Store");
+        sLGBC.gridx = 8;
+        sLGBC.gridy = 0;
+        sLGBC.anchor = GridBagConstraints.LINE_START;
+        sLGBC.insets = new Insets(15, 20, 0, 0);
+        pane.add(storeLabel, sLGBC);        
+        
+        firstNameLabel = new JLabel("First Name");        
+        fNLGBC.gridx = 0;
+        fNLGBC.gridy = 1;
+        fNLGBC.insets = new Insets(0, 0, 0, 10);       
+        fNLGBC.anchor = GridBagConstraints.LINE_END;
+        pane.add(firstNameLabel, fNLGBC);
        
-        firstNameTextField = new JTextField();
-        gbc.gridx = 2;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
+        firstNameTextField = new JTextField();   
+        fNTFGBC.gridx = 1;
+        fNTFGBC.gridy = 1;
+        fNTFGBC.gridwidth = 4;
+        //fNTFGBC.insets = new Insets(0, 0, 0, 0);
+        fNTFGBC.fill = GridBagConstraints.HORIZONTAL;
+        fNTFGBC.anchor = GridBagConstraints.LINE_START;
         firstNameTextField.setEditable(true);
-        pane.add(firstNameTextField, gbc);
+        pane.add(firstNameTextField, fNTFGBC);
         
-        lastNameLabel = new JLabel("Last Name:");
-        gbc.weightx = 0.5;
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        pane.add(lastNameLabel, gbc);
+        lastNameLabel = new JLabel("Last Name");
+        lNLGBC.gridx = 0;
+        lNLGBC.gridy = 3;
+        lNLGBC.insets = new Insets(10, 0, 0, 10);     
+        lNLGBC.anchor = GridBagConstraints.LINE_END;
+        pane.add(lastNameLabel, lNLGBC);
 
         lastNameTextField = new JTextField();
-        gbc.gridx = 2;
-        gbc.gridy = 1;
-        gbc.gridwidth = 2;
+        lNTFGBC.gridx = 1;
+        lNTFGBC.gridy = 3;
+        lNTFGBC.gridwidth = 4;
+        lNTFGBC.insets = new Insets(10, 0, 0, 0);
+        lNTFGBC.fill = GridBagConstraints.HORIZONTAL;
+        lNTFGBC.anchor = GridBagConstraints.FIRST_LINE_START;
         lastNameTextField.setEditable(true);
-        pane.add(lastNameTextField, gbc);
+        pane.add(lastNameTextField, lNTFGBC);
         
         
+        //if you want the search button to line up properly,
+        //you need to pad it with a blank or invisible label
+        
+        JLabel invisibleLabelSearch = new JLabel("     ");
+        GridBagConstraints iLSGBC = new GridBagConstraints();
+        iLSGBC.gridx = 1;
+        iLSGBC.gridy = 5;
+        iLSGBC.insets = new Insets(10, 0, 0, 0);     
+        pane.add(invisibleLabelSearch, iLSGBC);
+ 
+        searchButton = new JButton("Search");
+        sBGBC.gridx = 4;
+        sBGBC.gridy = 5;
+        sBGBC.insets = new Insets(10, 0, 0, 0);     
+        sBGBC.anchor = GridBagConstraints.FIRST_LINE_END;
+        pane.add(searchButton, sBGBC);         
 
-        storeLabel = new JLabel("Store");
-        gbc.gridx = 5;
-        gbc.gridy = 0;
-        //gbc.anchor = GridBagConstraints.PAGE_END;
-        pane.add(storeLabel, gbc);
+
         
         kitchenLabel = new JLabel("Kitchen");
-        gbc.gridx = 5;
-        gbc.gridy = 6;
-        //gbc.anchor = GridBagConstraints.PAGE_END;
-        pane.add(kitchenLabel, gbc);
+        kLGBC.gridx = 8;
+        kLGBC.gridy = 10;
+        kLGBC.anchor = GridBagConstraints.LINE_START;
+        kLGBC.insets = new Insets(15, 20, 0, 0);
+        pane.add(kitchenLabel, kLGBC);
         
 
         firstNameScrollLabel = new JLabel("First Name");
-        //gbc.ipady = 40;     //This component has more breadth compared to other button
-        gbc.gridwidth = 1;
-        gbc.gridx = 1;
-        gbc.gridy = 3;
-        pane.add(firstNameScrollLabel, gbc);
+        fNSLGBC.gridx = 0;
+        fNSLGBC.gridy = 7;
+        //fNSLGBC.gridwidth = 2;
+        fNSLGBC.insets = new Insets(15, 15, 0, 0);
+        fNSLGBC.anchor = GridBagConstraints.LINE_START;
+        fNSLGBC.fill = GridBagConstraints.HORIZONTAL;
+        pane.add(firstNameScrollLabel, fNSLGBC);
         
         lastNameScrollLabel = new JLabel("Last Name");
-        //gbc.ipady = 40;     //This component has more breadth compared to other button
-        gbc.gridwidth = 1;
-        gbc.gridx = 2;
-        gbc.gridy = 3;
-        pane.add(lastNameScrollLabel, gbc);
+        //GBC.ipady = 40;     //This component has more breadth compared to other button
+        //lNSLGBC.gridwidth = 1;
+        lNSLGBC.gridx = 1;
+        lNSLGBC.gridy = 7;
+        lNSLGBC.insets = new Insets(15, 70, 0, 0);
+        //lNSLGBC.anchor = GridBagConstraints.LINE_END;
+        lNSLGBC.fill = GridBagConstraints.HORIZONTAL;
+        pane.add(lastNameScrollLabel, lNSLGBC);
         
-        searchButton = new JButton("Search");
-        //gbc.weightx = 0.5;
-        gbc.gridx = 3;
-        gbc.gridy = 2;
-        //gbc.gridwidth = 1;
-        pane.add(searchButton, gbc); 
+
         
         membershipScrollLabel = new JLabel("Membership");
-        //gbc.ipady = 40;     //This component has more breadth compared to other button
-        gbc.gridwidth = 1;
-        gbc.gridx = 3;
-        gbc.gridy = 3;
-        pane.add(membershipScrollLabel, gbc);
+        mSLGBC.gridx = 2;
+        mSLGBC.gridy = 7;
+        mSLGBC.insets = new Insets(15, 135, 0, 0);
+        mSLGBC.anchor = GridBagConstraints.LINE_START;
+        pane.add(membershipScrollLabel, mSLGBC);
         
         emailScrollLabel = new JLabel("Email");
-        //gbc.ipady = 40;     //This component has more breadth compared to other button
-        gbc.gridwidth = 1;
-        gbc.gridx = 4;
-        gbc.gridy = 3;
-        pane.add(emailScrollLabel, gbc);
+        eMSLGBC.gridx = 3;
+        eMSLGBC.gridy = 7;
+        eMSLGBC.insets = new Insets(15, 105, 0, 0);
+        eMSLGBC.anchor = GridBagConstraints.LINE_START;
+        pane.add(emailScrollLabel, eMSLGBC);
         
         
         viewMemberButton = new JButton("View Member");
-        gbc.weightx = 0.5;
-        gbc.gridx = 1;
-        gbc.gridy = 6;
+        //vMBGBC.weightx = 0.5;
+        vMBGBC.gridx = 0;
+        vMBGBC.gridy = 16;
+        vMBGBC.insets = new Insets(0, 20, 0, 0);
+        vMBGBC.fill = GridBagConstraints.HORIZONTAL;
         viewMemberButton.setEnabled(false);
-        pane.add(viewMemberButton, gbc);
+        pane.add(viewMemberButton, vMBGBC);
         
-        updateMemberButton = new JButton("Update");
-        gbc.weightx = 0.5;
-        gbc.gridx = 2;
-        gbc.gridy = 6;
+        updateMemberButton = new JButton("Update Member");
+        uMBGBC.gridx = 1;
+        uMBGBC.gridy = 16;
+        uMBGBC.insets = new Insets(0, 15, 0, 0);
+        uMBGBC.fill = GridBagConstraints.HORIZONTAL;
         updateMemberButton.setEnabled(false);
-        pane.add(updateMemberButton, gbc);
+        pane.add(updateMemberButton, uMBGBC);
         
         addMemberButton = new JButton("Add Member");
-        gbc.weightx = 0.5;
-        gbc.gridx = 3;
-        gbc.gridy = 6;
-        pane.add(addMemberButton, gbc);
+        aMBGBC.gridx = 2;
+        aMBGBC.gridy = 16;
+        aMBGBC.insets = new Insets(0, 15, 0, 0);
+        aMBGBC.fill = GridBagConstraints.HORIZONTAL;
+        pane.add(addMemberButton, aMBGBC);
         
         signIntoStoreButton = new JButton("Sign into Store");
-        gbc.weightx = 0.5;
-        gbc.gridx = 1;
-        gbc.gridy = 7;
+        sISBGBC.gridx = 0;
+        sISBGBC.gridy = 18;
+        sISBGBC.insets = new Insets(15, 20, 0, 0);
+        sISBGBC.fill = GridBagConstraints.HORIZONTAL;
         signIntoStoreButton.setEnabled(false);
-        pane.add(signIntoStoreButton, gbc);
+        pane.add(signIntoStoreButton, sISBGBC);
         
         signIntoKitchenButton = new JButton("Sign into Kitchen");
-        gbc.weightx = 0.5;
-        gbc.gridx = 2;
-        gbc.gridy = 7;
+        //sIKBGBC.weightx = 0.5;
+        sIKBGBC.gridx = 1;
+        sIKBGBC.gridy = 18;
+        sIKBGBC.insets = new Insets(15, 15, 0, 0);
+        sIKBGBC.fill = GridBagConstraints.HORIZONTAL;
         signIntoKitchenButton.setEnabled(false);
-        pane.add(signIntoKitchenButton, gbc);
+        pane.add(signIntoKitchenButton, sIKBGBC);
         
         
         signOutOfStoreButton = new JButton("Sign Out");
-        gbc.weightx = 0.5;
-        gbc.gridx = 6;
-        gbc.gridy = 3;
+        sOSBGBC.gridx = 8;
+        sOSBGBC.gridy = 9;
+        sOSBGBC.insets = new Insets(15, 15, 0, 15);
         signOutOfStoreButton.setEnabled(false);
-        pane.add(signOutOfStoreButton, gbc);
+        pane.add(signOutOfStoreButton, sOSBGBC);
         
         
         
         signOutOfKitchenButton = new JButton("Sign Out");
-        gbc.weightx = 0.5;
-        gbc.gridx = 6;
-        gbc.gridy = 10;
+        sOKBGBC.gridx = 8;
+        sOKBGBC.gridy = 20;
+        sOKBGBC.insets = new Insets(15, 15, 15, 15);
         signOutOfKitchenButton.setEnabled(false);
-        pane.add(signOutOfKitchenButton, gbc);
+        pane.add(signOutOfKitchenButton, sOKBGBC);
         
         
         //general Lookup
@@ -250,11 +343,16 @@ public class MainFrame extends JFrame{
         generalLookupPane = new JScrollPane(generalLookup);
         generalLookup.setSelectedIndex(0);
         generalLookup.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		gbc.gridx = 1;
-        gbc.gridy = 4;
-        gbc.gridwidth = 4;
-        gbc.gridheight = 2;
-        pane.add(generalLookupPane, gbc);
+        gLJLGBC.gridx = 0;
+        gLJLGBC.gridy = 8;
+        gLJLGBC.gridwidth = 7;
+        gLJLGBC.gridheight = 7;
+        gLJLGBC.weightx = 1.0;
+        gLJLGBC.weighty = 1.0;
+        gLJLGBC.insets = new Insets(5, 15, 15, 0);
+        gLJLGBC.anchor = GridBagConstraints.LINE_END;
+        gLJLGBC.fill = GridBagConstraints.BOTH;
+        pane.add(generalLookupPane, gLJLGBC);
         
         /**
 		 * This listener will wait to see if a member has been looked up.
@@ -294,11 +392,15 @@ public class MainFrame extends JFrame{
         storePane = new JScrollPane(store);
         store.setSelectedIndex(0);
         store.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		gbc.gridx = 6;
-        gbc.gridy = 1;
-        gbc.gridwidth = 1;
-        gbc.gridheight = 2;
-        pane.add(storePane, gbc);
+        sJLGBC.gridx = 8;
+        sJLGBC.gridy = 1;
+        sJLGBC.gridheight = 8;
+        sJLGBC.weightx = 1.0;
+        sJLGBC.weighty = 1.0;
+        sJLGBC.insets = new Insets(5, 15, 0, 15);
+        sJLGBC.anchor = GridBagConstraints.LINE_END;
+        sJLGBC.fill = GridBagConstraints.BOTH;
+        pane.add(storePane, sJLGBC);
         
         /**
 		 * This listener will wait to see if a member has been looked up.
@@ -325,11 +427,15 @@ public class MainFrame extends JFrame{
         kitchenPane = new JScrollPane(kitchen);
         kitchen.setSelectedIndex(0);
         kitchen.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		gbc.gridx = 6;
-        gbc.gridy = 7;
-        gbc.gridwidth = 2;
-        gbc.gridheight = 2;
-        pane.add(kitchenPane, gbc);
+        kJLGBC.gridx = 8;
+        kJLGBC.gridy = 11;
+        kJLGBC.gridheight = 8;
+        kJLGBC.weightx = 1.0;
+        kJLGBC.weighty = 1.0;
+        kJLGBC.insets = new Insets(5, 15, 0, 15);
+        kJLGBC.anchor = GridBagConstraints.LINE_END;
+        kJLGBC.fill = GridBagConstraints.BOTH;
+        pane.add(kitchenPane, kJLGBC);
         
         
         /**
