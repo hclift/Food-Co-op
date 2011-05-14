@@ -592,7 +592,7 @@ public class MainFrame extends JFrame{
 			for(int j = 0; j < searchResult.size(); j++){
 				String membershipType = MembershipTypes.class.getEnumConstants()[searchResult.get(j).getMembershipType()].getStrVal();
 				String string  = new String((String.format("%-24.23s", searchResult.get(j).getFirstName()) + 
-											 String.format("%-25.24s", searchResult.get(j).getLastName()) + " " + 
+											 String.format("%-25.25s", searchResult.get(j).getLastName()) + " " + 
 											 String.format("%-22.21s", membershipType) + 
 												searchResult.get(j).getEmailAddress())); 
 				generalLookupModel.addElement(string);
