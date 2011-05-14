@@ -7,8 +7,6 @@
  * 
  * WorkSchedule class has constructor that takes in int month,string workHours
  * update information on the GUI
- * 
- * @param int month, string workShift
  */
 
 import javax.swing.JButton;
@@ -39,7 +37,15 @@ public class ScheduleGUI extends JFrame
 	static String[] shiftList;
 	static private JLabel monthLabel;
     
-	public ScheduleGUI(int month,String shift1,String shift2,String shift3) 
+	/**
+	 * Creates the schedule calendar for a given month (current month)
+	 * 
+	 * @param month		month to be displayed in the calendar
+	 * @param shift1	shift worked by member
+	 * @param shift2	shift worked by member
+	 * @param shift3	shift worked by member
+	 */
+	public ScheduleGUI(int month, String shift1, String shift2, String shift3) 
     {
     	shiftList = new String[3];
     	shiftList[0] = shift1;
@@ -106,11 +112,8 @@ public class ScheduleGUI extends JFrame
         realIndex = 2;
         refreshCalendar(currentMonth, currentYear, currentIndex);
     }
-	
-	/**
-	 * 
-	 * 
-	 */
+
+	// Upon clicking button for previous month
     static class btnPrev_Action implements ActionListener
     {
     	public void actionPerformed (ActionEvent e)
@@ -131,6 +134,7 @@ public class ScheduleGUI extends JFrame
         }
     }
     
+    // Upon clicking button for next month
     static class btnNext_Action implements ActionListener
     {
         public void actionPerformed (ActionEvent e)
@@ -152,12 +156,15 @@ public class ScheduleGUI extends JFrame
     }
     
     /**
+     * Updates the schedule with appropriate data by first clearing the 
+     * calendar, then loading the date information and finally the work history
+     * of the member. 
      * 
-     * @param month		month to be
-     * @param year		year to be
-     * @param index		
+     * @param month		month to be shown in calendar
+     * @param year		year to be shown up in calendar
+     * @param index		index of the month
      */
-    public static void refreshCalendar(int month, int year,int index)
+    public static void refreshCalendar(int month, int year, int index)
     {
     	String monthString;
         switch (month) 
@@ -226,12 +233,14 @@ public class ScheduleGUI extends JFrame
         
         for(int i=0;i<shiftList[realIndex].length();i++)
         {	
+        	// Member did not work on given day
         	if(shiftList[realIndex].charAt(i)==' ')
         	{	
         		day = Integer.parseInt(shiftList[realIndex].
         				substring(startIndex, i));
         		startIndex = i+1;
         	}
+        	// Member did work on given day
         	else if(shiftList[realIndex].charAt(i)=='\n')
 	    	{	
         		workHr = Integer.parseInt(shiftList[realIndex].
@@ -239,6 +248,7 @@ public class ScheduleGUI extends JFrame
 	    		startIndex = i+1;
 	    		status = true;
 	    	}
+        	// Display minutes worked
 	        if(status==true)
 	        {	
 	        	int row = new Integer((day+som-2)/7);
@@ -281,13 +291,17 @@ public class ScheduleGUI extends JFrame
      * @author Chun Hung Tseng
      * @version May-11-2011
      * 
-     * scheduleGUI function takes in int month,string workHours
+     * scheduleGUI function takes in int month, string workHours
      * shows a calendar GUI and calls workSchedule
      * 
-     * @param month			
-     * @param workHours		
+     * @param month		month to be displayed in the calendar
+     * @param shift1	shift worked by member
+     * @param shift2	shift worked by member
+     * @param shift3	shift worked by member
      */
-    static void calendarGUI(int month,String shift1,String shift2,String shift3) {
+	
+    static void calendarGUI(int month, String shift1, String shift2,
+    		String shift3) {
 
     	// Create and set up the window.
         calendarframe = new ScheduleGUI(month,shift1,shift2,shift3);
